@@ -1,0 +1,17 @@
+{
+  "name": "Luac Akok Yieu Youth Association",
+  "short_name": "LAYYA",
+  "description": "Luac Akok Yieu Youth Association: Empowering youth and communities",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#10b981",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
+
