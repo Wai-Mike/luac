@@ -59,8 +59,8 @@ export default function AdminSidebar({ user, role, currentPath = '', onToggle, v
                 </svg>
             ),
             description: 'Manage healthcare professionals',
-            color: 'text-green-600',
-            bgColor: 'bg-green-50',
+            color: 'text-brand',
+            bgColor: 'bg-brand-surface',
         },
         {
             name: 'Content Management',
@@ -76,8 +76,8 @@ export default function AdminSidebar({ user, role, currentPath = '', onToggle, v
                 </svg>
             ),
             description: 'Manage educational content',
-            color: 'text-emerald-600',
-            bgColor: 'bg-emerald-50',
+            color: 'text-brand',
+            bgColor: 'bg-brand-surface',
         },
         {
             name: 'Analytics',

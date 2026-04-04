@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&display=swap');
-
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -23,7 +21,7 @@ html {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, rgb(210, 166, 73), rgb(246, 203, 110));
+    background: #2b3a28;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: width;
 }
@@ -65,12 +63,12 @@ a,
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(210, 166, 73);
+    background: #0f766e;
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgb(246, 203, 110);
+    background: #115e59;
 }
 
 /* Prevent body overflow when mobile menu is open */
@@ -178,8 +176,21 @@ a {
 
 
 @theme {
+    /* LAYYA logo: teal ribbon & navy lettering */
+    --color-brand: #0f766e;
+    --color-brand-dark: #115e59;
+    --color-brand-foreground: #ccfbf1;
+    --color-brand-muted: #94a3b8;
+    --color-brand-light: #14b8a6;
+    --color-brand-soft: #0d9488;
+    --color-brand-surface: #f0fdfa;
+
+    --color-navy: #1e293b;
+    --color-navy-light: #334155;
+
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Montserrat', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -233,7 +244,6 @@ a {
 :root {
     --main: rgb(4, 50, 75);
     --main2: rgb(29, 84, 114);
-    --gold: rgb(210, 166, 73);
     --background: #fff;
     /* --foreground: #555; */
     --card: oklch(1 0 0);

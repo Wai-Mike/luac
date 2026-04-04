@@ -45,8 +45,8 @@ export default function CoreValues() {
                             <h4 className="text-lg font-semibold text-gray-900">Youth Empowerment</h4>
                         </div>
                         <p className="text-gray-600">
-                            We value the leadership, creativity, and resilience of young people. We create spaces for youth voices to lead the SRHR
-                            movement.
+                            We value the leadership, creativity, and resilience of young people. We create spaces for youth voices to lead community
+                            change.
                         </p>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ export default function CoreValues() {
                             <h4 className="text-lg font-semibold text-gray-900">Innovation</h4>
                         </div>
                         <p className="text-gray-600">
-                            We harness the power of digital technology and forward-thinking ideas to revolutionize access to youth health, SRHR, and
+                            We harness the power of digital technology and forward-thinking ideas to expand access to youth-led learning and
                             supportive services.
                         </p>
                     </div>
@@ -78,7 +78,7 @@ export default function CoreValues() {
                 <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                     <div className="p-6">
                         <div className="mb-4 flex items-center space-x-4">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-600">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-brand to-brand-light">
                                 <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
@@ -124,7 +124,7 @@ export default function CoreValues() {
                 <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                     <div className="p-6">
                         <div className="mb-4 flex items-center space-x-4">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-teal-500 to-green-600">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-brand to-brand">
                                 <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"

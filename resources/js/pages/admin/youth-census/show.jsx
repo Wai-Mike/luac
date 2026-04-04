@@ -87,7 +87,7 @@ export default function YouthCensusShow({ member, user, role, currentPath }) {
                                     member.interests.map((interest) => (
                                         <span
                                             key={interest}
-                                            className="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-medium text-amber-800 ring-1 ring-amber-100"
+                                            className="inline-flex items-center rounded-full bg-brand-surface px-2 py-0.5 text-[11px] font-medium text-brand ring-1 ring-brand/20"
                                         >
                                             {interest}
                                         </span>

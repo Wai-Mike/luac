@@ -1,6 +1,6 @@
 export default function StrategicFocusAreaSection() {
     return (
-        <div className="rounded-3xl bg-gradient-to-r from-blue-50 to-teal-50 p-8">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-50 to-brand-light p-8">
             <div className="mb-8 text-center">
                 <h3 className="mb-4 text-3xl font-bold text-gray-900">Strategic Focus Areas</h3>
                 <p className="mx-auto max-w-3xl text-lg text-gray-600">
@@ -29,14 +29,14 @@ export default function StrategicFocusAreaSection() {
                 </div>
 
                 <div className="rounded-2xl bg-white p-6 shadow-lg">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-emerald-600">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r from-brand to-brand-light">
                         <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
                     <h4 className="mb-2 text-lg font-semibold text-gray-900">Youth Empowerment & Leadership</h4>
                     <p className="text-sm text-gray-600">
-                        As a youth-led organization, LAYYA equips young people to be SRHR advocates, peer educators, and health innovators in their
+                        As a youth-led organization, LAYYA equips young people to be peer educators, mentors, and community advocates in their
                         communities.
                     </p>
                 </div>

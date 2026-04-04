@@ -4,15 +4,15 @@ import { Head, Link } from '@inertiajs/react';
 
 export default function YouthCensusThankYou() {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-emerald-50 via-slate-50 to-amber-50">
+        <div className="min-h-screen bg-gradient-to-b from-brand via-slate-50 to-brand-surface">
             <Head title="Thank You - LAYYA Youth Census" />
             <GuestNavbar />
 
             <main className="mx-auto flex max-w-2xl flex-1 flex-col items-center justify-center px-4 py-16 text-center">
-                <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 shadow-lg">
+                <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand text-brand shadow-lg">
                     <span className="text-2xl">✓</span>
                 </div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
                     Luac Akok Yieu Youth Association
                 </p>
                 <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">Thank you for registering!</h1>
@@ -24,7 +24,7 @@ export default function YouthCensusThankYou() {
                 <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                     <Link
                         href={route('youth-census.overview')}
-                        className="inline-flex items-center rounded-full bg-emerald-700 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-300 transition hover:shadow-lg hover:brightness-105"
+                        className="inline-flex items-center rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white shadow-md shadow-brand/20 transition hover:shadow-lg hover:brightness-105"
                     >
                         View youth census overview
                     </Link>

@@ -10,7 +10,7 @@ export default function Users() {
             name: 'Anok Athor Deng',
             role: 'Founder & Executive Director',
             description:
-                'Clinical officer by profession, innovator, and entrepreneur. Extensive knowledge in youth and community health, with a passion for addressing local health issues through innovative solutions.',
+                'Clinical officer by profession and entrepreneur. Extensive knowledge in youth and community health, with a passion for addressing local challenges through practical, youth-led solutions.',
             image: '/images/team/anok-athor-deng.jpg',
         },
         {
@@ -24,7 +24,7 @@ export default function Users() {
             name: 'Dut Kulang',
             role: 'Software Engineer',
             description:
-                'Freelance software engineer with over 6 years of experience in API-driven systems and automation. He has developed a sexual reproductive health chatbot for AMREF and contributed code to the Brave Browser and Mozilla Developer Network.',
+                'Freelance software engineer with over 6 years of experience in API-driven systems and automation. He has built community health information tools for regional partners and contributed code to the Brave Browser and Mozilla Developer Network.',
             image: '/images/team/dut-kulang.jpg',
         },
         {
@@ -115,13 +115,13 @@ export default function Users() {
         {
             title: 'Youth Empowerment',
             description:
-                'We value the leadership, creativity, and resilience of young people. We create spaces for youth voices to lead the SRHR movement.',
+                'We value the leadership, creativity, and resilience of young people. We create spaces for youth voices to lead community change.',
             icon: '💬',
         },
         {
             title: 'Innovation',
             description:
-                'We harness the power of digital technology and forward-thinking ideas to revolutionize access to youth health and SRHR.',
+                'We harness the power of digital technology and forward-thinking ideas to expand access to youth-led learning and community programs.',
             icon: '🧠',
         },
         {
@@ -171,7 +171,7 @@ export default function Users() {
                 ></div>
 
                 {/* Dark Green Overlay */}
-                <div className="absolute inset-0 bg-green-900/85"></div>
+                <div className="absolute inset-0 bg-navy/90"></div>
 
                 {/* Content */}
                 <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -182,7 +182,7 @@ export default function Users() {
                         </h1>
 
                         {/* Sub-headline */}
-                        <p className="mx-auto mt-8 max-w-3xl text-xl text-green-100 sm:text-2xl">
+                        <p className="mx-auto mt-8 max-w-3xl text-xl text-slate-100 sm:text-2xl">
                             Empowering communities through digital innovation, youth leadership, and evidence-driven advocacy across South Sudan and
                             East Africa.
                         </p>
@@ -191,7 +191,7 @@ export default function Users() {
                         <div className="mt-12">
                             <a
                                 href="#about"
-                                className="inline-flex items-center rounded-lg bg-emerald-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-emerald-600 hover:shadow-xl"
+                                className="inline-flex items-center rounded-lg bg-brand px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-brand hover:shadow-xl"
                             >
                                 Learn More
                                 <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,18 +219,18 @@ export default function Users() {
             <div id="about" className="bg-white py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-                <div className="rounded-2xl bg-gradient-to-br from-green-50 to-emerald-100 p-8">
+                <div className="rounded-2xl bg-gradient-to-br from-brand-surface to-brand-light p-8">
                             <h2 className="mb-4 text-3xl font-bold text-gray-900">Our Vision</h2>
                                 <p className="text-lg leading-relaxed text-gray-700">
                                     To nurture an empowered generation of young people in Luac Akok Yieu through leadership, skills development,
                                     and equitable access to education and opportunities.
                                 </p>
                         </div>
-                        <div className="rounded-2xl bg-gradient-to-br from-emerald-50 to-green-100 p-8">
+                        <div className="rounded-2xl bg-gradient-to-br from-brand to-brand-surface p-8">
                             <h2 className="mb-4 text-3xl font-bold text-gray-900">Our Mission</h2>
                             <p className="text-lg leading-relaxed text-gray-700">
-                                To empower young people, women, and underserved communities with inclusive, tech-enabled reproductive health solutions
-                                through awareness, innovation, and collaboration.
+                                To empower young people, women, and underserved communities with inclusive, tech-enabled opportunities in education,
+                                leadership, and wellbeing through awareness, innovation, and collaboration.
                             </p>
                         </div>
                     </div>
@@ -238,10 +238,10 @@ export default function Users() {
             </div>
 
             {/* Core Values Section */}
-            <div className="bg-gradient-to-br from-green-50 via-white to-emerald-50 py-20">
+            <div className="bg-gradient-to-br from-brand-surface via-white to-brand-light py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-16 text-center">
-                        <div className="mb-4 inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-800">
+                        <div className="mb-4 inline-flex items-center rounded-full bg-brand-surface px-4 py-2 text-sm font-medium text-navy">
                             <span className="mr-2">💎</span>
                             Our Foundation
                         </div>
@@ -256,19 +256,19 @@ export default function Users() {
                         {coreValues.map((value, index) => (
                             <div
                                 key={index}
-                                className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:ring-green-200"
+                                className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:ring-brand/25"
                             >
                                 {/* Background Gradient */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-brand-surface to-brand-light opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
                                 <div className="relative">
                                     {/* Icon Container */}
-                                    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-100 to-emerald-100 transition-all duration-300 group-hover:scale-110 group-hover:from-green-200 group-hover:to-emerald-200">
+                                    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-surface to-brand-light transition-all duration-300 group-hover:scale-110 group-hover:from-brand-surface group-hover:to-brand-light">
                                         <span className="text-3xl transition-transform duration-300 group-hover:scale-110">{value.icon}</span>
                                     </div>
 
                                     {/* Content */}
-                                    <h3 className="mb-4 text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-green-700">
+                                    <h3 className="mb-4 text-xl font-bold text-gray-900 transition-colors duration-300 group-hover:text-brand">
                                         {value.title}
                                     </h3>
                                     <p className="leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-700">
@@ -276,29 +276,29 @@ export default function Users() {
                                     </p>
 
                                     {/* Decorative Element */}
-                                    <div className="mt-6 h-1 w-0 bg-gradient-to-r from-green-500 to-emerald-500 transition-all duration-300 group-hover:w-full"></div>
+                                    <div className="mt-6 h-1 w-0 bg-gradient-to-r from-brand to-brand-light transition-all duration-300 group-hover:w-full"></div>
                                 </div>
 
                                 {/* Floating Elements */}
-                                <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-green-200 opacity-0 transition-all duration-300 group-hover:scale-110 group-hover:opacity-60"></div>
-                                <div className="absolute -bottom-2 -left-2 h-6 w-6 rounded-full bg-emerald-200 opacity-0 transition-all duration-300 group-hover:scale-110 group-hover:opacity-60"></div>
+                                <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-brand-surface opacity-0 transition-all duration-300 group-hover:scale-110 group-hover:opacity-60"></div>
+                                <div className="absolute -bottom-2 -left-2 h-6 w-6 rounded-full bg-brand opacity-0 transition-all duration-300 group-hover:scale-110 group-hover:opacity-60"></div>
                             </div>
                         ))}
                     </div>
 
                     {/* Bottom CTA */}
                     <div className="mt-16 text-center">
-                        <div className="rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600 p-8 text-white shadow-xl">
+                        <div className="rounded-2xl bg-gradient-to-r from-brand to-brand-light p-8 text-white shadow-xl">
                             <h3 className="mb-4 text-2xl font-bold">Living Our Values Every Day</h3>
-                            <p className="mb-6 text-lg text-green-100">
+                            <p className="mb-6 text-lg text-slate-100">
                                 These values aren't just words on a page—they're the foundation of everything we do. From our daily interactions to
                                 our strategic decisions, we're committed to upholding these principles.
                             </p>
                             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-6">
-                                <button className="rounded-xl bg-white px-8 py-3 font-semibold text-green-600 shadow-lg transition-all duration-200 hover:scale-105 hover:bg-green-50">
+                                <button className="rounded-xl bg-white px-8 py-3 font-semibold text-brand shadow-lg transition-all duration-200 hover:scale-105 hover:bg-brand-surface">
                                     Learn More About Us
                                 </button>
-                                <button className="rounded-xl border-2 border-white px-8 py-3 font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white hover:text-green-600">
+                                <button className="rounded-xl border-2 border-white px-8 py-3 font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white hover:text-brand">
                                     Join Our Mission
                                 </button>
                             </div>
@@ -313,14 +313,14 @@ export default function Users() {
                     <div className="mb-12 text-center">
                         <h2 className="mb-4 text-3xl font-bold text-gray-900">Our Team</h2>
                         <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                            Guiding the mission of LAYYA in transforming youth empowerment and SRHR access in South Sudan and beyond.
+                            Guiding the mission of LAYYA in youth empowerment, skills, and community leadership in South Sudan and beyond.
                         </p>
                     </div>
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                         {teamMembers.map((member, index) => (
                             <div key={index} className="overflow-hidden rounded-xl bg-white shadow-lg transition-shadow hover:shadow-xl">
-                                <div className="flex h-48 items-center justify-center bg-gradient-to-br from-green-100 to-emerald-100">
-                                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-green-600 to-emerald-600">
+                                <div className="flex h-48 items-center justify-center bg-gradient-to-br from-brand-surface to-brand-light">
+                                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-brand to-brand-light">
                                         <span className="text-2xl font-bold text-white">
                                             {member.name
                                                 .split(' ')
@@ -331,7 +331,7 @@ export default function Users() {
                                 </div>
                                 <div className="p-6">
                                     <h3 className="mb-2 text-xl font-semibold text-gray-900">{member.name}</h3>
-                                    <p className="mb-3 text-sm font-medium text-green-600">{member.role}</p>
+                                    <p className="mb-3 text-sm font-medium text-brand">{member.role}</p>
                                     <p className="text-sm leading-relaxed text-gray-600">{member.description}</p>
                                 </div>
                             </div>
@@ -352,8 +352,8 @@ export default function Users() {
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                         {advisoryBoard.map((member, index) => (
                             <div key={index} className="overflow-hidden rounded-xl bg-white shadow-lg transition-shadow hover:shadow-xl">
-                                <div className="flex h-40 items-center justify-center bg-gradient-to-br from-emerald-100 to-green-100">
-                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-green-600">
+                                <div className="flex h-40 items-center justify-center bg-gradient-to-br from-brand to-brand-surface">
+                                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand to-brand">
                                         <span className="text-xl font-bold text-white">
                                             {member.name
                                                 .split(' ')
@@ -364,7 +364,7 @@ export default function Users() {
                                 </div>
                                 <div className="p-6">
                                     <h3 className="mb-2 text-lg font-semibold text-gray-900">{member.name}</h3>
-                                    <p className="mb-3 text-sm font-medium text-emerald-600">{member.role}</p>
+                                    <p className="mb-3 text-sm font-medium text-brand">{member.role}</p>
                                     <p className="text-sm leading-relaxed text-gray-600">{member.description}</p>
                                 </div>
                             </div>
@@ -386,7 +386,7 @@ export default function Users() {
                         {programs.map((program, index) => (
                             <div
                                 key={index}
-                                className="rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 p-6 transition-shadow hover:shadow-lg"
+                                className="rounded-xl bg-gradient-to-br from-brand-surface to-brand-light p-6 transition-shadow hover:shadow-lg"
                             >
                                 <div className="mb-4 text-4xl">{program.icon}</div>
                                 <h3 className="mb-3 text-xl font-semibold text-gray-900">{program.title}</h3>
@@ -398,7 +398,7 @@ export default function Users() {
             </div>
 
             {/* Achievements Section */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-100 py-16">
+            <div className="bg-gradient-to-br from-brand-surface to-brand-light py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-12 text-center">
                         <h2 className="mb-4 text-3xl font-bold text-gray-900">Awards & Recognition</h2>
@@ -409,7 +409,7 @@ export default function Users() {
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                         {achievements.map((achievement, index) => (
                             <div key={index} className="rounded-xl bg-white p-6 text-center shadow-lg">
-                                <div className="mb-2 text-3xl font-bold text-green-600">{achievement.year}</div>
+                                <div className="mb-2 text-3xl font-bold text-brand">{achievement.year}</div>
                                 <h3 className="mb-2 text-lg font-semibold text-gray-900">{achievement.title}</h3>
                                 <p className="text-sm text-gray-600">{achievement.category}</p>
                             </div>
@@ -429,19 +429,19 @@ export default function Users() {
                     </div>
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                         <div className="text-center">
-                            <div className="mb-2 text-4xl font-bold text-green-600">20,000+</div>
+                            <div className="mb-2 text-4xl font-bold text-brand">20,000+</div>
                             <p className="text-gray-600">Beneficiaries to be reached by 2027</p>
                         </div>
                         <div className="text-center">
-                            <div className="mb-2 text-4xl font-bold text-emerald-600">5</div>
+                            <div className="mb-2 text-4xl font-bold text-brand">5</div>
                             <p className="text-gray-600">States across South Sudan</p>
                         </div>
                         <div className="text-center">
-                            <div className="mb-2 text-4xl font-bold text-green-700">2023</div>
+                            <div className="mb-2 text-4xl font-bold text-brand">2023</div>
                             <p className="text-gray-600">Year of registration as NGO</p>
                         </div>
                         <div className="text-center">
-                            <div className="mb-2 text-4xl font-bold text-emerald-700">€15,000</div>
+                            <div className="mb-2 text-4xl font-bold text-brand">€15,000</div>
                             <p className="text-gray-600">Funding from GIZ</p>
                         </div>
                     </div>
@@ -459,17 +459,17 @@ export default function Users() {
                 />
 
             {/* Call to Action */}
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 py-16">
+            <div className="bg-gradient-to-r from-brand to-brand-light py-16">
                 <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                     <h2 className="mb-4 text-3xl font-bold text-white">Your voice, Your skills, Your future.</h2>
-                    <p className="mx-auto mb-8 max-w-2xl text-xl text-green-100">
+                    <p className="mx-auto mb-8 max-w-2xl text-xl text-slate-100">
                         Join us in building a vibrant youth movement in Luac Akok Yieu through leadership, skills training, and community action.
                     </p>
                     <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                        <button className="rounded-lg bg-white px-8 py-3 font-semibold text-green-600 transition-colors hover:bg-green-50">
+                        <button className="rounded-lg bg-white px-8 py-3 font-semibold text-brand transition-colors hover:bg-brand-surface">
                             Learn More About Our Work
                         </button>
-                        <button className="rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-green-600">
+                        <button className="rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-brand">
                             Partner With Us
                         </button>
                     </div>

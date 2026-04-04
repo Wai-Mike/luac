@@ -101,7 +101,7 @@ export default function GuestContact() {
     const getColorClasses = (color) => {
         const colors = {
             blue: 'bg-blue-100 text-blue-600 group-hover:bg-blue-200',
-            green: 'bg-green-100 text-green-600 group-hover:bg-green-200',
+            green: 'bg-brand-surface text-brand group-hover:bg-brand-surface',
             purple: 'bg-purple-100 text-purple-600 group-hover:bg-purple-200',
         };
         return colors[color] || colors.blue;
@@ -115,9 +115,9 @@ export default function GuestContact() {
             <GuestNavbar />
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-green-500 via-green-600 to-green-700 py-12">
+            <section className="relative overflow-hidden bg-gradient-to-br from-brand via-brand-soft to-brand-dark py-12">
                 {/* Background Pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-green-600/20 to-green-700/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 via-brand-soft/20 to-brand-dark/20"></div>
                 <div className="absolute -top-4 -right-4 h-32 w-32 rounded-full bg-white/10"></div>
                 <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-white/5"></div>
                 <div className="absolute top-1/2 right-1/4 h-16 w-16 rounded-full bg-white/5"></div>
@@ -127,7 +127,7 @@ export default function GuestContact() {
                         {/* Main Heading */}
                         <h1 className="mb-4 text-3xl font-extrabold text-white drop-shadow-2xl sm:text-4xl lg:text-6xl">
                             Get in Touch with
-                            <span className="block bg-gradient-to-r from-white via-green-50 to-green-100 bg-clip-text text-transparent drop-shadow-lg">
+                            <span className="block bg-gradient-to-r from-white via-brand-soft to-brand-surface bg-clip-text text-transparent drop-shadow-lg">
                                 LAYYA Team
                             </span>
                         </h1>
@@ -151,7 +151,7 @@ export default function GuestContact() {
 
                     <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                         <div className="group rounded-2xl border border-gray-200 bg-white p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg sm:p-8">
-                            <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-green-200 sm:h-16 sm:w-16">
+                            <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-surface text-brand transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-surface sm:h-16 sm:w-16">
                                 <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
@@ -165,14 +165,14 @@ export default function GuestContact() {
                             <p className="mb-4 text-sm text-gray-600 sm:text-base">We respond within 24 hours</p>
                             <a
                                 href="mailto:layya.youth@gmail.com"
-                                className="text-xs font-semibold break-all text-green-600 transition-colors hover:text-green-800 sm:text-sm"
+                                className="text-xs font-semibold break-all text-brand transition-colors hover:text-navy sm:text-sm"
                             >
                                 layya.youth@gmail.com
                             </a>
                         </div>
 
                         <div className="group rounded-2xl border border-gray-200 bg-white p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg sm:p-8">
-                            <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-green-200 sm:h-16 sm:w-16">
+                            <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-surface text-brand transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-surface sm:h-16 sm:w-16">
                                 <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
@@ -186,14 +186,14 @@ export default function GuestContact() {
                             <p className="mb-4 text-sm text-gray-600 sm:text-base">Mon-Fri 9AM-6PM EST</p>
                             <a
                                 href="tel:0927779952"
-                                className="text-xs font-semibold text-green-600 transition-colors hover:text-green-800 sm:text-sm"
+                                className="text-xs font-semibold text-brand transition-colors hover:text-navy sm:text-sm"
                             >
                                 0927 779 952
                             </a>
                         </div>
 
                         <div className="group rounded-2xl border border-gray-200 bg-white p-6 text-center transition-all duration-300 hover:scale-105 hover:shadow-lg sm:p-8">
-                            <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600 transition-all duration-300 group-hover:scale-110 group-hover:bg-green-200 sm:h-16 sm:w-16">
+                            <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-surface text-brand transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-surface sm:h-16 sm:w-16">
                                 <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
@@ -213,7 +213,7 @@ export default function GuestContact() {
             </section>
 
             {/* Contact Form & Information Section */}
-            <section id="contact-form" className="bg-gradient-to-br from-gray-50 via-white to-green-50 py-12 sm:py-16 lg:py-20">
+            <section id="contact-form" className="bg-gradient-to-br from-gray-50 via-white to-brand-surface py-12 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
                         {/* Contact Form */}
@@ -226,12 +226,12 @@ export default function GuestContact() {
                             </div>
 
                             {submitStatus === 'success' && (
-                                <div className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4">
+                                <div className="mb-6 rounded-xl border border-brand/20 bg-brand-surface p-4">
                                     <div className="flex items-center">
-                                        <svg className="mr-3 h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="mr-3 h-5 w-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
-                                        <p className="font-medium text-green-800">Message sent successfully! We'll get back to you soon.</p>
+                                        <p className="font-medium text-navy">Message sent successfully! We'll get back to you soon.</p>
                                     </div>
                                 </div>
                             )}
@@ -259,7 +259,7 @@ export default function GuestContact() {
                                             name="fullName"
                                             value={formData.fullName}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500 sm:px-4 sm:py-3 sm:text-base"
+                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30 sm:px-4 sm:py-3 sm:text-base"
                                             placeholder="Your full name"
                                             required
                                         />
@@ -275,7 +275,7 @@ export default function GuestContact() {
                                             name="email"
                                             value={formData.email}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500 sm:px-4 sm:py-3 sm:text-base"
+                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30 sm:px-4 sm:py-3 sm:text-base"
                                             placeholder="your.email@example.com"
                                             required
                                         />
@@ -293,7 +293,7 @@ export default function GuestContact() {
                                             name="phone"
                                             value={formData.phone}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500 sm:px-4 sm:py-3 sm:text-base"
+                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30 sm:px-4 sm:py-3 sm:text-base"
                                             placeholder="0927 779 952"
                                         />
                                     </div>
@@ -307,7 +307,7 @@ export default function GuestContact() {
                                             name="subject"
                                             value={formData.subject}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500 sm:px-4 sm:py-3 sm:text-base"
+                                            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30 sm:px-4 sm:py-3 sm:text-base"
                                             required
                                         >
                                             <option value="">Select a subject</option>
@@ -330,7 +330,7 @@ export default function GuestContact() {
                                         value={formData.message}
                                         onChange={handleInputChange}
                                         rows={4}
-                                        className="sm:rows-6 w-full resize-none rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500 sm:px-4 sm:py-3 sm:text-base"
+                                        className="sm:rows-6 w-full resize-none rounded-xl border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30 sm:px-4 sm:py-3 sm:text-base"
                                         placeholder="Tell us how we can help you..."
                                         required
                                     ></textarea>
@@ -339,7 +339,7 @@ export default function GuestContact() {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full rounded-xl bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-green-700 hover:to-green-800 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 sm:px-8 sm:py-4 sm:text-base"
+                                    className="w-full rounded-xl bg-gradient-to-r from-brand to-brand-dark px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-brand-dark hover:to-brand-dark hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 sm:px-8 sm:py-4 sm:text-base"
                                 >
                                     {isSubmitting ? (
                                         <span className="flex items-center justify-center">
@@ -373,7 +373,7 @@ export default function GuestContact() {
                             <div className="space-y-6">
                                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6">
                                     <div className="flex items-start space-x-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-surface text-brand">
                                             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     strokeLinecap="round"
@@ -394,7 +394,7 @@ export default function GuestContact() {
 
                                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6">
                                     <div className="flex items-start space-x-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-surface text-brand">
                                             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     strokeLinecap="round"
@@ -415,7 +415,7 @@ export default function GuestContact() {
 
                                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-6">
                                     <div className="flex items-start space-x-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600">
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-surface text-brand">
                                             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path
                                                     strokeLinecap="round"
@@ -441,7 +441,7 @@ export default function GuestContact() {
                                 <div className="flex space-x-4">
                                     <a
                                         href="#"
-                                        className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600 transition-all duration-300 hover:scale-110 hover:bg-green-200 hover:text-green-800"
+                                        className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-surface text-brand transition-all duration-300 hover:scale-110 hover:bg-brand-surface hover:text-navy"
                                     >
                                         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
@@ -449,7 +449,7 @@ export default function GuestContact() {
                                     </a>
                                     <a
                                         href="#"
-                                        className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600 transition-all duration-300 hover:scale-110 hover:bg-green-200 hover:text-green-800"
+                                        className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-surface text-brand transition-all duration-300 hover:scale-110 hover:bg-brand-surface hover:text-navy"
                                     >
                                         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -457,7 +457,7 @@ export default function GuestContact() {
                                     </a>
                                     <a
                                         href="#"
-                                        className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600 transition-all duration-300 hover:scale-110 hover:bg-green-200 hover:text-green-800"
+                                        className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-surface text-brand transition-all duration-300 hover:scale-110 hover:bg-brand-surface hover:text-navy"
                                     >
                                         <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -474,7 +474,7 @@ export default function GuestContact() {
             <section className="bg-gray-50 py-12 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-12 text-center sm:mb-16">
-                        <div className="mb-4 inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
+                        <div className="mb-4 inline-flex items-center rounded-full bg-brand-surface px-4 py-2 text-sm font-medium text-brand">
                             <span className="mr-2">❓</span>
                             Common Questions
                         </div>
@@ -486,8 +486,8 @@ export default function GuestContact() {
 
                     <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                         <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 sm:p-8">
-                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 transition-colors group-hover:bg-green-100 sm:h-12 sm:w-12">
-                                <svg className="h-5 w-5 text-green-600 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-surface transition-colors group-hover:bg-brand-surface sm:h-12 sm:w-12">
+                                <svg className="h-5 w-5 text-brand sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -504,8 +504,8 @@ export default function GuestContact() {
                         </div>
 
                         <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 sm:p-8">
-                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 transition-colors group-hover:bg-green-100 sm:h-12 sm:w-12">
-                                <svg className="h-5 w-5 text-green-600 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-surface transition-colors group-hover:bg-brand-surface sm:h-12 sm:w-12">
+                                <svg className="h-5 w-5 text-brand sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -522,8 +522,8 @@ export default function GuestContact() {
                         </div>
 
                         <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 sm:p-8">
-                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 transition-colors group-hover:bg-green-100 sm:h-12 sm:w-12">
-                                <svg className="h-5 w-5 text-green-600 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-surface transition-colors group-hover:bg-brand-surface sm:h-12 sm:w-12">
+                                <svg className="h-5 w-5 text-brand sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -532,10 +532,10 @@ export default function GuestContact() {
                                     />
                                 </svg>
                             </div>
-                            <h3 className="mb-4 text-lg font-bold text-gray-900 sm:text-xl">Can I access healthcare professionals?</h3>
+                            <h3 className="mb-4 text-lg font-bold text-gray-900 sm:text-xl">How do I hear about events and new activities?</h3>
                             <p className="text-sm text-gray-600 sm:text-base">
-                                Yes, through our FamWell App and various programs, you can connect with certified healthcare experts and SRHR
-                                specialists for consultations and guidance.
+                                Follow announcements on this site, subscribe to updates from our team, and join community outreach activities when they
+                                are announced in your area.
                             </p>
                         </div>
                     </div>

@@ -77,10 +77,10 @@ export default function GuestFAQ() {
             <Head title="FAQ — LAYYA" />
             <GuestNavbar />
 
-            <div className="relative bg-gradient-to-br from-teal-700 via-teal-800 to-emerald-900 py-16">
+            <div className="relative bg-gradient-to-br from-brand via-teal-800 to-brand-light py-16">
                 <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                     <h1 className="text-4xl font-extrabold text-white sm:text-5xl">Frequently asked questions</h1>
-                    <p className="mx-auto mt-4 max-w-2xl text-lg text-teal-100">
+                    <p className="mx-auto mt-4 max-w-2xl text-lg text-brand">
                         Quick answers about Luac Akok Yieu Youth Association (LAYYA) and this website.
                     </p>
                 </div>
@@ -107,7 +107,7 @@ export default function GuestFAQ() {
                                             >
                                                 <span className="pr-4 font-medium text-gray-900">{item.question}</span>
                                                 <svg
-                                                    className={`h-5 w-5 shrink-0 text-teal-600 transition ${isOpen ? 'rotate-180' : ''}`}
+                                                    className={`h-5 w-5 shrink-0 text-brand transition ${isOpen ? 'rotate-180' : ''}`}
                                                     fill="none"
                                                     stroke="currentColor"
                                                     viewBox="0 0 24 24"
@@ -129,14 +129,14 @@ export default function GuestFAQ() {
                 </div>
             </div>
 
-            <div className="bg-teal-900 py-12">
+            <div className="bg-brand py-12">
                 <div className="mx-auto max-w-4xl px-4 text-center">
                     <h2 className="text-2xl font-bold text-white">Still have a question?</h2>
-                    <p className="mt-2 text-teal-100">We are happy to hear from you.</p>
+                    <p className="mt-2 text-brand">We are happy to hear from you.</p>
                     <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
                         <a
                             href="mailto:layya.youth@gmail.com"
-                            className="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 font-semibold text-teal-900 shadow hover:bg-teal-50"
+                            className="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 font-semibold text-brand shadow hover:bg-brand"
                         >
                             Email layya.youth@gmail.com
                         </a>

@@ -12,13 +12,13 @@ export default function YouthCensusOverview({ total, byGender, byCounty }) {
     const countyCounts = (byCounty || []).map((c) => c.total);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-emerald-50/40 to-amber-50/40">
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 via-brand-surface/50 to-brand-surface/60">
             <Head title="Youth Census Overview - LAYYA" />
             <GuestNavbar />
 
             <main className="mx-auto max-w-5xl px-4 py-12">
                 <div className="mb-8 text-center">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
                         Luac Akok Yieu Youth Association
                     </p>
                     <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">Youth Census Overview</h1>
@@ -29,14 +29,14 @@ export default function YouthCensusOverview({ total, byGender, byCounty }) {
                 </div>
 
                 <div className="grid gap-6 sm:grid-cols-3">
-                    <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-emerald-100">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Total youth</p>
+                    <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-brand/20">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-brand">Total youth</p>
                         <p className="mt-3 text-3xl font-bold text-slate-900">{totalCount}</p>
                         <p className="mt-1 text-xs text-slate-500">Registered across Luac Akok Yieu</p>
                     </div>
 
                     <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">By gender</p>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-brand">By gender</p>
                         <ul className="mt-3 space-y-2 text-sm text-slate-700">
                             {genderLabels.length === 0 && <li className="text-xs text-slate-400">No data yet</li>}
                             {genderLabels.map((label, index) => (
@@ -49,7 +49,7 @@ export default function YouthCensusOverview({ total, byGender, byCounty }) {
                     </div>
 
                     <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Top counties</p>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-brand">Top counties</p>
                         <ul className="mt-3 space-y-2 text-sm text-slate-700">
                             {countyLabels.length === 0 && <li className="text-xs text-slate-400">No data yet</li>}
                             {countyLabels.map((label, index) => (

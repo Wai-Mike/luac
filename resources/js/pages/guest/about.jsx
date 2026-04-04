@@ -2,15 +2,15 @@ import GuestFooter from '@/components/GuestFooter';
 import GuestNavbar from '@/components/GuestNavbar';
 import { Link } from '@inertiajs/react';
 
-export default function AboutPage() {
+export default function AboutPage({ aboutGallery = [] }) {
     return (
         <div>
             <GuestNavbar />
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-teal-700 via-emerald-600 to-amber-500 py-12">
+            <section className="relative overflow-hidden bg-gradient-to-br from-brand via-brand-soft to-brand-light py-12">
                 {/* Background Pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-green-600/20 to-green-700/20"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/20 via-brand-soft/20 to-brand-dark/20"></div>
                 <div className="absolute -top-4 -right-4 h-32 w-32 rounded-full bg-white/10"></div>
                 <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-white/5"></div>
                 <div className="absolute top-1/2 right-1/4 h-16 w-16 rounded-full bg-white/5"></div>
@@ -33,7 +33,7 @@ export default function AboutPage() {
                         {/* Main Heading */}
                         <h1 className="mb-6 text-4xl font-extrabold text-white drop-shadow-2xl sm:text-5xl lg:text-7xl leading-tight">
                             <span className="block mb-2">About Luac Akok Yieu</span>
-                            <span className="block bg-gradient-to-r from-white via-teal-50 to-amber-100 bg-clip-text text-transparent drop-shadow-lg">
+                            <span className="block bg-gradient-to-r from-white via-teal-50 to-brand-surface bg-clip-text text-transparent drop-shadow-lg">
                                 Youth Association (LAYYA)
                             </span>
                         </h1>
@@ -48,7 +48,7 @@ export default function AboutPage() {
                         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                             <a
                                 href="#our-mission"
-                                className="group relative overflow-hidden rounded-full bg-white px-10 py-5 text-lg font-bold text-teal-800 transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-xl"
+                                className="group relative overflow-hidden rounded-full bg-white px-10 py-5 text-lg font-bold text-brand transition-all duration-300 hover:scale-110 hover:shadow-2xl shadow-xl"
                             >
                                 <span className="relative z-10 flex items-center justify-center gap-2">
                                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@ export default function AboutPage() {
                                     </svg>
                                     Our Mission
                                 </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-green-100 opacity-0 transition-opacity group-hover:opacity-100"></div>
+                                <div className="absolute inset-0 bg-gradient-to-r from-brand-surface to-brand-surface opacity-0 transition-opacity group-hover:opacity-100"></div>
                             </a>
                             <a
                                 href="#our-team"
@@ -88,7 +88,7 @@ export default function AboutPage() {
             <section id="our-mission" className="bg-white py-12 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-12 text-center sm:mb-16">
-                        <div className="mb-4 inline-flex items-center rounded-full bg-teal-50 px-4 py-2 text-sm font-medium text-teal-800">
+                        <div className="mb-4 inline-flex items-center rounded-full bg-brand px-4 py-2 text-sm font-medium text-brand">
                             <span className="mr-2">🎯</span>
                             Our Mission
                         </div>
@@ -108,21 +108,21 @@ export default function AboutPage() {
                             </p>
                             <div className="space-y-4">
                                 <div className="flex items-start space-x-3">
-                                    <div className="mt-2 h-2 w-2 rounded-full bg-teal-500"></div>
+                                    <div className="mt-2 h-2 w-2 rounded-full bg-brand"></div>
                                     <p className="text-gray-600">Youth-friendly spaces where young people feel seen, heard, and supported</p>
                                 </div>
                                 <div className="flex items-start space-x-3">
-                                    <div className="mt-2 h-2 w-2 rounded-full bg-emerald-500"></div>
+                                    <div className="mt-2 h-2 w-2 rounded-full bg-brand"></div>
                                     <p className="text-gray-600">Communities that trust and champion youth voices in local decision-making</p>
                                 </div>
                                 <div className="flex items-start space-x-3">
-                                    <div className="mt-2 h-2 w-2 rounded-full bg-amber-500"></div>
+                                    <div className="mt-2 h-2 w-2 rounded-full bg-brand-light"></div>
                                     <p className="text-gray-600">Young women and men leading projects in culture, peacebuilding, business, and innovation</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="rounded-xl border border-teal-100 bg-gradient-to-br from-teal-50 to-emerald-50 p-8">
+                        <div className="rounded-xl border border-teal-100 bg-gradient-to-br from-brand to-brand-light p-8">
                             <h3 className="mb-6 text-2xl font-bold text-gray-900">Our Mission</h3>
                             <p className="mb-6 text-lg text-gray-600">
                                 We support young people to design and lead activities that matter to them—from Tawus skills clubs to sports, arts, digital
@@ -131,8 +131,8 @@ export default function AboutPage() {
                             </p>
                             <div className="space-y-4">
                                 <div className="flex items-center space-x-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-50">
-                                        <svg className="h-5 w-5 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand">
+                                        <svg className="h-5 w-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
@@ -149,8 +149,8 @@ export default function AboutPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50">
-                                        <svg className="h-5 w-5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand">
+                                        <svg className="h-5 w-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
@@ -167,8 +167,8 @@ export default function AboutPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-50">
-                                        <svg className="h-5 w-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-surface">
+                                        <svg className="h-5 w-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path
                                                 strokeLinecap="round"
                                                 strokeLinejoin="round"
@@ -190,11 +190,40 @@ export default function AboutPage() {
                 </div>
             </section>
 
+            {aboutGallery.length > 0 && (
+                <section className="border-y border-stone-200 bg-stone-50 py-12 sm:py-14">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="mb-8 text-center">
+                            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Youth, girls &amp; community in focus</h2>
+                            <p className="mx-auto mt-3 max-w-2xl text-gray-600">
+                                A rotating selection from our photo library—including Tawus Hub, education, sports, and everyday moments from Luac Akok
+                                Yieu.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-6">
+                            {aboutGallery.map((src, i) => (
+                                <div key={`${src}-${i}`} className="relative aspect-square overflow-hidden rounded-xl shadow-md ring-1 ring-stone-200/80">
+                                    <img src={src} alt="" className="absolute inset-0 h-full w-full object-cover object-center" loading="lazy" />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="mt-8 text-center">
+                            <Link
+                                href={route('tawus-hub')}
+                                className="inline-flex items-center font-semibold text-brand hover:text-brand"
+                            >
+                                Learn about Tawus Hub →
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* Our Team Section */}
             <section id="our-team" className="bg-gray-50 py-12 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-12 text-center sm:mb-16">
-                        <div className="mb-4 inline-flex items-center rounded-full bg-teal-50 px-4 py-2 text-sm font-medium text-teal-800">
+                        <div className="mb-4 inline-flex items-center rounded-full bg-brand px-4 py-2 text-sm font-medium text-brand">
                             <span className="mr-2">👥</span>
                             Our Team
                         </div>
@@ -205,17 +234,17 @@ export default function AboutPage() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-green-300 hover:shadow-lg sm:p-8">
+                        <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-brand/25 hover:shadow-lg sm:p-8">
                             <div className="mb-6 text-center">
-                                <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-teal-50 to-emerald-100 ring-2 ring-teal-200">
+                                <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-brand-light ring-2 ring-teal-200">
                                     <img
                                         src="/images/teams/agnes-juan.jpeg"
                                         alt="Dr. Nyadak Suzan"
-                                        className="h-full w-full object-cover"
+                                        className="h-full w-full object-cover object-center"
                                     />
                                 </div>
                                 <h3 className="mb-2 text-xl font-bold text-gray-900">Nyadak Suzan</h3>
-                                <p className="mb-4 text-sm font-semibold text-teal-700">Youth Programs Lead</p>
+                                <p className="mb-4 text-sm font-semibold text-brand">Youth Programs Lead</p>
                                 <p className="text-sm text-gray-600">
                                     A passionate youth organizer with years of experience in mentoring, facilitation, and program design. Nyadak supports
                                     young people to turn community challenges into practical projects and youth-led solutions.
@@ -223,17 +252,17 @@ export default function AboutPage() {
                             </div>
                         </div>
 
-                        <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-green-300 hover:shadow-lg sm:p-8">
+                        <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-brand/25 hover:shadow-lg sm:p-8">
                             <div className="mb-6 text-center">
-                                <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-teal-50 to-emerald-100 ring-2 ring-teal-200">
+                                <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-brand-light ring-2 ring-teal-200">
                                     <img
                                         src="/images/teams/wai-micheal.jpg"
                                         alt="Eng. Wai Micheal"
-                                        className="h-full w-full object-cover"
+                                        className="h-full w-full object-cover object-center"
                                     />
                                 </div>
                                 <h3 className="mb-2 text-xl font-bold text-gray-900">Eng. Wai Michael</h3>
-                                <p className="mb-4 text-sm font-semibold text-teal-700">Head of Digital & Innovation</p>
+                                <p className="mb-4 text-sm font-semibold text-brand">Head of Digital & Innovation</p>
                                 <p className="text-sm text-gray-600">
                                     A skilled full-stack engineer passionate about using technology to amplify youth voices. Eng. Michael leads the
                                     development of LAYYA&apos;s digital platforms, connecting young people to stories, opportunities, and each other.
@@ -241,19 +270,19 @@ export default function AboutPage() {
                             </div>
                         </div>
 
-                        <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-green-300 hover:shadow-lg sm:p-8">
+                        <div className="group rounded-xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-brand/25 hover:shadow-lg sm:p-8">
                             <div className="mb-6 text-center">
-                                <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-teal-50 to-emerald-100 ring-2 ring-teal-200">
+                                <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand to-brand-light ring-2 ring-teal-200">
                                     <img
                                         src="/images/teams/anok.jpeg"
                                         alt="Mrs. Anok George Athor"
-                                        className="h-full w-full object-cover"
+                                        className="h-full w-full object-cover object-center"
                                     />
                                 </div>
                                 <h3 className="mb-2 text-xl font-bold text-gray-900">Mrs. Anok George Athor</h3>
-                                <p className="mb-4 text-sm font-semibold text-teal-700">Founder & Executive Director</p>
+                                <p className="mb-4 text-sm font-semibold text-brand">Founder & Executive Director</p>
                                 <p className="text-sm text-gray-600">
-                                    An innovator and entrepreneur with deep roots in Luac Akok Yieu. Anok leads LAYYA&apos;s vision, building partnerships
+                                    A community leader and entrepreneur with deep roots in Luac Akok Yieu. Anok leads LAYYA&apos;s vision, building partnerships
                                     and creating spaces where youth can dream bigger, organize together, and lead change in their communities.
                                 </p>
                             </div>
@@ -266,7 +295,7 @@ export default function AboutPage() {
             <section className="bg-white py-12 sm:py-16 lg:py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-12 text-center sm:mb-16">
-                        <div className="mb-4 inline-flex items-center rounded-full bg-teal-50 px-4 py-2 text-sm font-large text-teal-800">
+                        <div className="mb-4 inline-flex items-center rounded-full bg-brand px-4 py-2 text-sm font-large text-brand">
                             <span className="mr-2">🎯</span>
                             Our Impact
                         </div>
@@ -280,8 +309,8 @@ export default function AboutPage() {
 
                     <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
                         <div className="text-center">
-                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 sm:h-20 sm:w-20">
-                                <svg className="h-8 w-8 text-teal-700 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand sm:h-20 sm:w-20">
+                                <svg className="h-8 w-8 text-brand sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -295,8 +324,8 @@ export default function AboutPage() {
                         </div>
 
                         <div className="text-center">
-                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 sm:h-20 sm:w-20">
-                                <svg className="h-8 w-8 text-emerald-700 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand sm:h-20 sm:w-20">
+                                <svg className="h-8 w-8 text-brand sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -310,8 +339,8 @@ export default function AboutPage() {
                         </div>
 
                         <div className="text-center">
-                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-amber-50 sm:h-20 sm:w-20">
-                                <svg className="h-8 w-8 text-amber-700 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-surface sm:h-20 sm:w-20">
+                                <svg className="h-8 w-8 text-brand sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -325,8 +354,8 @@ export default function AboutPage() {
                         </div>
 
                         <div className="text-center">
-                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-teal-50 sm:h-20 sm:w-20">
-                                <svg className="h-8 w-8 text-teal-700 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand sm:h-20 sm:w-20">
+                                <svg className="h-8 w-8 text-brand sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -343,7 +372,7 @@ export default function AboutPage() {
             </section>
 
             {/* Call to Action */}
-            <section className="bg-gradient-to-r from-teal-700 via-emerald-600 to-amber-500 py-12 sm:py-16">
+            <section className="bg-gradient-to-r from-brand via-brand-soft to-brand-light py-12 sm:py-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl drop-shadow-lg">Join Us in Growing the LAYYA Movement</h2>
@@ -354,7 +383,7 @@ export default function AboutPage() {
                         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                             <Link
                                 href={route('contact')}
-                                className="inline-flex items-center rounded-full bg-white px-8 py-3 text-lg font-semibold text-teal-800 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                                className="inline-flex items-center rounded-full bg-white px-8 py-3 text-lg font-semibold text-brand transition-all duration-300 hover:scale-105 hover:shadow-xl"
                             >
                                 Get Involved
                             </Link>

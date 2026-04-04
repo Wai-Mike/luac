@@ -35,8 +35,8 @@
     <meta name="twitter:creator" content="@LAYYA">
 
     {{-- Additional SEO Meta Tags --}}
-    <meta name="theme-color" content="#166534">
-    <meta name="msapplication-TileColor" content="#166534">
+    <meta name="theme-color" content="#0f766e">
+    <meta name="msapplication-TileColor" content="#1e293b">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="LAYYA">
@@ -54,9 +54,8 @@
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
-    {{-- Fonts --}}
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    {{-- Fonts — clean sans to match logo & corporate reference sites --}}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{-- Inline script to detect system dark mode preference and apply it immediately --}}
     <script>

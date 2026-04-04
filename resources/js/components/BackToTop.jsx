@@ -3,7 +3,7 @@ export default function BackToTop() {
         <div className="fixed right-6 bottom-6 z-50">
             <a
                 href="#top"
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-green-600 text-white shadow-lg transition-all hover:bg-green-700 hover:shadow-xl"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lg transition-all hover:bg-brand-dark hover:shadow-xl"
                 aria-label="Back to top"
             >
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

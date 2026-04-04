@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-export default function BlogSection() {
+export default function BlogSection({ blogPostImages = [] }) {
     const [email, setEmail] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
@@ -11,9 +11,8 @@ export default function BlogSection() {
 
         setIsSubmitting(true);
 
-        // Simulate API call - replace with actual subscription logic
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             setIsSubscribed(true);
             setEmail('');
         } catch (error) {
@@ -22,178 +21,83 @@ export default function BlogSection() {
             setIsSubmitting(false);
         }
     };
-    const blogPosts = [
-        {
-            id: 1,
-            title: 'Digital Innovation in Youth Work: A Game Changer for South Sudan',
-            excerpt: 'Exploring how technology is transforming youth organizing, skills-building, and community projects across South Sudan and East Africa.',
-            image: '/images/founder-speaking.jpeg',
-            category: 'Digital Youth Work',
-            date: 'March 15, 2024',
-            readTime: '5 min read',
-            author: 'Anok Athor Deng',
-            featured: true,
-        },
-        {
-            id: 2,
-            title: 'Empowering Girls Through Technology: The Tawus Story',
-            excerpt: 'How the Tawus brand is using digital tools and safe spaces to support girls in braiding, decor, catering, and entrepreneurship.',
-            image: '/images/WhatsApp Image 2025-10-15 at 20.04.36(1).jpeg',
-            category: 'Girls Empowerment',
-            date: 'March 10, 2024',
-            readTime: '4 min read',
-            author: 'Masudio Gladys',
-            featured: false,
-        },
-        {
-            id: 3,
-            title: "Youth Leadership in Action: Building Tomorrow's Change-Makers",
-            excerpt: 'The importance of youth engagement in decision-making, community service, and local leadership.',
-            image: '/images/anok1.jpeg',
-            category: 'Youth Advocacy',
-            date: 'March 5, 2024',
-            readTime: '6 min read',
-            author: 'Anok Athor Deng',
-            featured: false,
-        },
-        {
-            id: 4,
-            title: 'Breaking Stigma: Youth Voices Changing Communities',
-            excerpt: 'How youth-led storytelling, art, and media are challenging harmful norms and inspiring hope in their communities.',
-            image: '/images/hero-group.jpeg',
-            category: 'Youth Stories',
-            date: 'February 28, 2024',
-            readTime: '7 min read',
-            author: 'Agnes Juan',
-            featured: false,
-        },
-    ];
+
+    const storyImage = useMemo(() => (blogPostImages.length ? blogPostImages[0] : null), [blogPostImages]);
 
     return (
-        <section className="bg-gradient-to-br from-gray-50 via-white to-green-50 py-20">
+        <section className="bg-brand-surface py-16 sm:py-20">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {/* Header */}
                 <div className="mb-16 text-center">
-                    <div className="mb-4 inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
-                        <span className="mr-2">📰</span>
-                        Latest Insights
+                    <div className="mb-4 inline-flex items-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-brand">
+                        Community story
                     </div>
-                    <h2 className="mb-6 text-4xl font-bold text-gray-900 sm:text-5xl lg:text-6xl">
-                        Stories of
-                        <span className="block bg-gradient-to-r from-green-600 via-green-700 to-green-800 bg-clip-text text-transparent">
-                            Impact & Innovation
-                        </span>
+                    <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                        Leadership behind
+                        <span className="block text-brand">Tawus Day</span>
                     </h2>
                     <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">
-                        Discover the latest insights, stories, and innovations in youth work, digital solutions, and community impact across
-                        South Sudan and East Africa.
+                        Meet Nyantet Chol Miyom—chairlady of the organizing committee that brought Tawus Day to life for our community.
                     </p>
                 </div>
 
-                {/* Featured Post */}
                 <div className="mb-16">
-                    {blogPosts
-                        .filter((post) => post.featured)
-                        .map((post) => (
-                            <div
-                                key={post.id}
-                                className="group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl"
-                            >
-                                <div className="grid grid-cols-1 lg:grid-cols-2">
-                                    {/* Image */}
-                                    <div className="relative h-80 lg:h-auto">
-                                        <img
-                                            src={post.image}
-                                            alt={post.title}
-                                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                                        <div className="absolute top-4 left-4">
-                                            <span className="inline-flex items-center rounded-full bg-green-600 px-3 py-1 text-xs font-medium text-white">
-                                                Featured
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="p-8 lg:p-12">
-                                        <div className="mb-4 flex items-center space-x-4 text-sm text-gray-500">
-                                            <span className="rounded-full bg-green-100 px-3 py-1 text-green-700">{post.category}</span>
-                                            <span>{post.date}</span>
-                                            <span>{post.readTime}</span>
-                                        </div>
-                                        <h3 className="mb-4 text-2xl font-bold text-gray-900 lg:text-3xl">{post.title}</h3>
-                                        <p className="mb-6 text-lg leading-relaxed text-gray-600">{post.excerpt}</p>
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-3">
-                                                <div className="h-10 w-10 rounded-full bg-gradient-to-r from-green-600 to-green-700"></div>
-                                                <div>
-                                                    <p className="text-sm font-medium text-gray-900">{post.author}</p>
-                                                    <p className="text-sm text-gray-500">Author</p>
-                                                </div>
-                                            </div>
-                                            <button className="rounded-full bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                                Read More
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                </div>
-
-                {/* Blog Grid */}
-                <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {blogPosts
-                        .filter((post) => !post.featured)
-                        .map((post) => (
-                            <div
-                                key={post.id}
-                                className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
-                            >
-                                {/* Image */}
-                                <div className="relative h-48 overflow-hidden">
+                    <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                        <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
+                            <div className="relative h-72 min-h-[240px] w-full sm:h-80 lg:h-full lg:min-h-[28rem]">
+                                {storyImage ? (
                                     <img
-                                        src={post.image}
-                                        alt={post.title}
-                                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        src={storyImage}
+                                        alt="Tawus Day community celebration"
+                                        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                                    <div className="absolute top-4 left-4">
-                                        <span className="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                                            {post.category}
-                                        </span>
-                                    </div>
+                                ) : (
+                                    <div className="absolute inset-0 bg-gradient-to-br from-brand via-brand-light to-brand-soft" />
+                                )}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                <div className="absolute top-4 left-4">
+                                    <span className="inline-flex items-center rounded-full bg-brand px-3 py-1 text-xs font-medium text-white">
+                                        Tawus Day
+                                    </span>
                                 </div>
+                            </div>
 
-                                {/* Content */}
-                                <div className="p-6">
-                                    <div className="mb-3 flex items-center space-x-3 text-sm text-gray-500">
-                                        <span>{post.date}</span>
-                                        <span>•</span>
-                                        <span>{post.readTime}</span>
-                                    </div>
-                                    <h3 className="mb-3 line-clamp-2 text-lg font-bold text-gray-900">{post.title}</h3>
-                                    <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-gray-600">{post.excerpt}</p>
-                                    <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-2">
-                                            <div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-600 to-green-700"></div>
-                                            <span className="text-sm font-medium text-gray-900">{post.author}</span>
-                                        </div>
-                                        <button className="text-sm font-medium text-green-600 transition-colors duration-200 hover:text-green-800">
-                                            Read →
-                                        </button>
+                            <div className="flex flex-col justify-center p-8 lg:p-12">
+                                <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                                    <span className="rounded-full bg-brand-surface px-3 py-1 text-brand">Organizing committee</span>
+                                </div>
+                                <h3 className="mb-2 text-2xl font-bold text-gray-900 lg:text-3xl">Nyantet Chol Miyom</h3>
+                                <p className="mb-6 text-lg font-medium text-brand">Chairlady, Tawus Day organizing committee</p>
+                                <div className="space-y-4 text-lg leading-relaxed text-gray-600">
+                                    <p>
+                                        When Tawus Day was planned, Nyantet stepped forward to chair the organizing committee—coordinating volunteers,
+                                        shaping the program, and making sure young people, families, and guests felt welcome from the first welcome to the
+                                        closing moments.
+                                    </p>
+                                    <p>
+                                        Her leadership kept logistics, culture, and safety aligned so the day could celebrate skills, creativity, and unity
+                                        without losing the warmth of a community gathering. Teammates describe her as steady under pressure: listening first,
+                                        deciding clearly, and encouraging others to take ownership of their roles.
+                                    </p>
+                                    <p>
+                                        Tawus Day is stronger because leaders like Nyantet build bridges between youth, mentors, and partners—proving that
+                                        thoughtful organizing is its own kind of innovation.
+                                    </p>
+                                </div>
+                                <div className="mt-8 flex items-center space-x-3 border-t border-gray-100 pt-8">
+                                    <div className="h-10 w-10 rounded-full bg-brand"></div>
+                                    <div>
+                                        <p className="text-sm font-medium text-gray-900">Nyantet Chol Miyom</p>
+                                        <p className="text-sm text-gray-500">Chairlady, Tawus Day organizing committee</p>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                    </div>
                 </div>
 
-                {/* Stay Updated Section */}
                 <div className="text-center">
-                    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-xl bg-gradient-to-br from-green-600 via-green-700 to-green-800 p-8 text-white shadow-2xl">
-                        {/* Background Pattern */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-green-600/20 to-green-700/20"></div>
+                    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-xl bg-brand p-8 text-white shadow-sm">
+                        <div className="absolute inset-0 bg-white/5"></div>
                         <div className="absolute -top-4 -right-4 h-32 w-32 rounded-full bg-white/10"></div>
                         <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-white/5"></div>
                         <div className="absolute top-1/2 right-1/4 h-16 w-16 rounded-full bg-white/5"></div>
@@ -213,22 +117,22 @@ export default function BlogSection() {
                                 </div>
                                 <h3 className="mb-4 text-3xl font-bold sm:text-4xl">Stay Updated</h3>
                                 <p className="mx-auto max-w-2xl text-lg opacity-90">
-                                    Get the latest stories about youth leadership, skills-building, digital innovation, and community impact delivered to your inbox.
+                                    Get news about Tawus Hub, youth programs, and community events from LAYYA.
                                 </p>
                             </div>
 
                             {isSubscribed ? (
-                                <div className="mb-8 rounded-2xl border border-green-400/30 bg-green-500/20 p-6 backdrop-blur-sm">
-                                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-500/30">
-                                        <svg className="h-8 w-8 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="mb-8 rounded-2xl border border-white/25 bg-white/10 p-6">
+                                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/15">
+                                        <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
-                                    <h4 className="mb-2 text-2xl font-bold text-green-100">Thank you for subscribing!</h4>
-                                    <p className="mb-4 text-green-200">You'll receive our latest updates and insights soon.</p>
+                                    <h4 className="mb-2 text-2xl font-bold text-white">Thank you for subscribing!</h4>
+                                    <p className="mb-4 text-brand-foreground">You'll receive our latest updates and insights soon.</p>
                                     <button
                                         onClick={() => setIsSubscribed(false)}
-                                        className="rounded-lg bg-green-500/30 px-6 py-2 font-medium text-green-100 backdrop-blur-sm transition-colors hover:bg-green-500/40"
+                                        className="rounded-md bg-white/15 px-6 py-2 font-medium text-white transition-colors hover:bg-white/25"
                                     >
                                         Subscribe Another Email
                                     </button>
@@ -251,9 +155,9 @@ export default function BlogSection() {
                                             <button
                                                 type="submit"
                                                 disabled={isSubmitting || !email}
-                                                className="group relative overflow-hidden rounded-xl bg-white px-8 py-4 text-lg font-semibold text-green-700 transition-all duration-300 hover:scale-105 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+                                                className="rounded-md bg-white px-8 py-4 text-base font-semibold text-brand transition-colors hover:bg-brand-surface disabled:cursor-not-allowed disabled:opacity-50"
                                             >
-                                                <span className="relative z-10 flex items-center justify-center">
+                                                <span className="flex items-center justify-center">
                                                     {isSubmitting ? (
                                                         <>
                                                             <svg className="mr-2 h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -287,7 +191,6 @@ export default function BlogSection() {
                                                         </>
                                                     )}
                                                 </span>
-                                                <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-green-100 opacity-0 transition-opacity group-hover:opacity-100"></div>
                                             </button>
                                         </div>
                                     </form>

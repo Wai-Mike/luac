@@ -69,7 +69,7 @@ export default function Chart({ data, type = 'line', height = 300 }) {
                 ctx.beginPath();
                 ctx.arc(x, y, 5, 0, 2 * Math.PI);
                 ctx.fill();
-                // Add gold accent ring
+                // Add brand accent ring
                 ctx.strokeStyle = 'rgb(210, 166, 73)';
                 ctx.lineWidth = 2;
                 ctx.beginPath();

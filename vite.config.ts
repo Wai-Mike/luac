@@ -24,7 +24,8 @@ export default defineConfig({
     },
     build: {
         outDir: 'public/build',
-        manifest: true,
+        // Vite 6 defaults to .vite/manifest.json; Laravel expects build/manifest.json
+        manifest: 'manifest.json',
         rollupOptions: {
             input: {
                 app: 'resources/js/app.jsx',

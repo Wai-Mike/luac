@@ -1,14 +1,14 @@
 export default function StatsCard({ title, value, change, changeType, icon, color = 'blue' }) {
     const colorClasses = {
         blue: 'bg-blue-50 text-blue-600',
-        green: 'bg-green-50 text-green-600',
+        green: 'bg-brand-surface text-brand',
         purple: 'bg-purple-50 text-purple-600',
         orange: 'bg-orange-50 text-orange-600',
         red: 'bg-red-50 text-red-600',
     };
 
     const changeColorClasses = {
-        positive: 'text-green-600',
+        positive: 'text-brand',
         negative: 'text-red-600',
         neutral: 'text-gray-600',
     };

@@ -1,21 +1,21 @@
 import GuestFooter from '@/components/GuestFooter';
 import GuestNavbar from '@/components/GuestNavbar';
 import BlogSection from './BlogSection';
+import CommunityPhotoStrip from './CommunityPhotoStrip';
 import ContactSection from './ContactSection';
 import HeroSection from './HeroSection';
-import ImpactSection from './ImpactSection';
 import PurposeSection from './PurposeSection';
-import TeamSection from './TeamSection';
+import TawusHubSection from './TawusHubSection';
 
-export default function index() {
+export default function index({ homeGallery = [], tawusStripImages = [], blogPostImages = [] }) {
     return (
         <div>
             <GuestNavbar />
             <HeroSection />
             <PurposeSection />
-            <ImpactSection />
-            <TeamSection />
-            <BlogSection />
+            <TawusHubSection stripImages={tawusStripImages} />
+            <CommunityPhotoStrip images={homeGallery} />
+            <BlogSection blogPostImages={blogPostImages} />
             <ContactSection />
             <GuestFooter />
         </div>

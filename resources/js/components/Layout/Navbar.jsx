@@ -70,8 +70,8 @@ export default function Navbar({ user, role, onToggleSidebar }) {
                                 />
                             </svg>
                         ),
-                        color: 'text-green-600',
-                        bgColor: 'bg-green-50',
+                        color: 'text-brand',
+                        bgColor: 'bg-brand-surface',
                     },
                 ];
             case 'expert':
@@ -122,8 +122,8 @@ export default function Navbar({ user, role, onToggleSidebar }) {
                                 />
                             </svg>
                         ),
-                        color: 'text-green-600',
-                        bgColor: 'bg-green-50',
+                        color: 'text-brand',
+                        bgColor: 'bg-brand-surface',
                     },
                     {
                         name: 'Moderation',

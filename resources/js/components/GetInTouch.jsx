@@ -86,7 +86,7 @@ export default function GetInTouch({
     const getColorClasses = (color) => {
         const colors = {
             blue: 'bg-blue-100 text-blue-600 group-hover:bg-blue-200',
-            green: 'bg-green-100 text-green-600 group-hover:bg-green-200',
+            green: 'bg-brand-surface text-brand group-hover:bg-brand-surface/80',
             purple: 'bg-purple-100 text-purple-600 group-hover:bg-purple-200',
         };
         return colors[color] || colors.blue;
@@ -94,10 +94,10 @@ export default function GetInTouch({
 
     if (variant === 'minimal') {
         return (
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 py-20">
+            <div className="bg-gradient-to-br from-brand-surface to-slate-50 py-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-16 text-center">
-                        <div className="mb-4 inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-800">
+                        <div className="mb-4 inline-flex items-center rounded-full bg-brand-surface px-4 py-2 text-sm font-medium text-navy">
                             <span className="mr-2">💬</span>
                             Contact Us
                         </div>
@@ -126,7 +126,7 @@ export default function GetInTouch({
                                         name="fullName"
                                         value={formData.fullName}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                        className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                         placeholder="Your full name"
                                         required
                                     />
@@ -142,7 +142,7 @@ export default function GetInTouch({
                                         name="email"
                                         value={formData.email}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                        className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                         placeholder="your.email@example.com"
                                         required
                                     />
@@ -158,7 +158,7 @@ export default function GetInTouch({
                                         value={formData.message}
                                         onChange={handleInputChange}
                                         rows={4}
-                                        className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                        className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                         placeholder="Tell us how we can help you..."
                                         required
                                     ></textarea>
@@ -166,7 +166,7 @@ export default function GetInTouch({
 
                                 <button
                                     type="submit"
-                                    className="w-full rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl"
+                                    className="w-full rounded-xl bg-brand px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:bg-brand-dark"
                                 >
                                     Send Message
                                 </button>
@@ -233,7 +233,7 @@ export default function GetInTouch({
                                             name="fullName"
                                             value={formData.fullName}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                            className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                             placeholder="Your full name"
                                             required
                                         />
@@ -249,7 +249,7 @@ export default function GetInTouch({
                                             name="email"
                                             value={formData.email}
                                             onChange={handleInputChange}
-                                            className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                            className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                             placeholder="your.email@example.com"
                                             required
                                         />
@@ -265,7 +265,7 @@ export default function GetInTouch({
                                             value={formData.message}
                                             onChange={handleInputChange}
                                             rows={6}
-                                            className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                            className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                             placeholder="Tell us how we can help you..."
                                             required
                                         ></textarea>
@@ -273,7 +273,7 @@ export default function GetInTouch({
 
                                     <button
                                         type="submit"
-                                        className="w-full rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl"
+                                        className="w-full rounded-xl bg-brand px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:bg-brand-dark"
                                     >
                                         Send Message
                                     </button>
@@ -295,7 +295,7 @@ export default function GetInTouch({
                                     <a
                                         key={index}
                                         href={method.action}
-                                        className="group flex items-start rounded-2xl bg-gradient-to-r from-gray-50 to-green-50 p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                                        className="group flex items-start rounded-2xl bg-gradient-to-r from-gray-50 to-brand-surface p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg"
                                     >
                                         <div
                                             className={`flex h-14 w-14 items-center justify-center rounded-2xl ${getColorClasses(method.color)} transition-all duration-300 group-hover:scale-110`}
@@ -350,10 +350,10 @@ export default function GetInTouch({
 
     // Default variant
     return (
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 py-20">
+        <div className="bg-gradient-to-br from-brand-surface to-slate-50 py-20">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mb-16 text-center">
-                    <div className="mb-4 inline-flex items-center rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-800">
+                    <div className="mb-4 inline-flex items-center rounded-full bg-brand-surface px-4 py-2 text-sm font-medium text-navy">
                         <span className="mr-2">💬</span>
                         Contact Us
                     </div>
@@ -382,7 +382,7 @@ export default function GetInTouch({
                                     name="fullName"
                                     value={formData.fullName}
                                     onChange={handleInputChange}
-                                    className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                     placeholder="Your full name"
                                     required
                                 />
@@ -398,7 +398,7 @@ export default function GetInTouch({
                                     name="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                     placeholder="your.email@example.com"
                                     required
                                 />
@@ -414,7 +414,7 @@ export default function GetInTouch({
                                     value={formData.message}
                                     onChange={handleInputChange}
                                     rows={4}
-                                    className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                                    className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/30"
                                     placeholder="Tell us how we can help you..."
                                     required
                                 ></textarea>
@@ -422,7 +422,7 @@ export default function GetInTouch({
 
                             <button
                                 type="submit"
-                                className="w-full rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl"
+                                className="w-full rounded-xl bg-brand px-8 py-4 font-semibold text-white shadow-lg transition-colors hover:bg-brand-dark"
                             >
                                 Send Message
                             </button>

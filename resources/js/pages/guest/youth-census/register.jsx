@@ -39,13 +39,13 @@ export default function YouthCensusRegister() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-amber-50 via-emerald-50 to-slate-50">
+        <div className="min-h-screen bg-gradient-to-b from-brand-surface via-brand-surface/60 to-slate-50">
             <Head title="LAYYA Youth Census Registration" />
             <GuestNavbar />
 
             <main className="mx-auto max-w-4xl px-4 py-12">
                 <div className="mb-8 text-center">
-                    <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-emerald-700">
+                    <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-brand">
                         Luac Akok Yieu Youth Association
                     </p>
                     <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
@@ -69,9 +69,9 @@ export default function YouthCensusRegister() {
                                 <div
                                     className={`flex h-9 w-9 items-center justify-center rounded-full border text-sm font-semibold ${
                                         isActive
-                                            ? 'border-emerald-600 bg-emerald-600 text-white shadow'
+                                            ? 'border-brand/30 bg-brand text-white shadow'
                                             : isCompleted
-                                              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                                              ? 'border-brand/30 bg-brand text-brand'
                                               : 'border-slate-300 bg-white text-slate-500'
                                     }`}
                                 >
@@ -79,7 +79,7 @@ export default function YouthCensusRegister() {
                                 </div>
                                 <span className="ml-2 text-xs font-medium text-slate-600">{label}</span>
                                 {index < 2 && (
-                                    <div className="mx-2 h-px w-10 bg-gradient-to-r from-slate-200 via-emerald-200 to-slate-200" />
+                                    <div className="mx-2 h-px w-10 bg-gradient-to-r from-slate-200 via-brand/20 to-slate-200" />
                                 )}
                             </div>
                         );
@@ -88,7 +88,7 @@ export default function YouthCensusRegister() {
 
                 <form
                     onSubmit={handleSubmit}
-                    className="rounded-2xl bg-white/90 p-6 shadow-xl shadow-emerald-100 ring-1 ring-slate-100 backdrop-blur"
+                    className="rounded-2xl bg-white/90 p-6 shadow-xl shadow-brand/10 ring-1 ring-slate-100 backdrop-blur"
                 >
                     {/* Step 1: Demographics */}
                     {step === 1 && (
@@ -101,7 +101,7 @@ export default function YouthCensusRegister() {
                                         type="text"
                                         value={data.first_name}
                                         onChange={(e) => setData('first_name', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.first_name && (
                                         <p className="mt-1 text-xs text-red-600">{errors.first_name}</p>
@@ -113,7 +113,7 @@ export default function YouthCensusRegister() {
                                         type="text"
                                         value={data.last_name}
                                         onChange={(e) => setData('last_name', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.last_name && <p className="mt-1 text-xs text-red-600">{errors.last_name}</p>}
                                 </div>
@@ -125,7 +125,7 @@ export default function YouthCensusRegister() {
                                     <select
                                         value={data.gender}
                                         onChange={(e) => setData('gender', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     >
                                         <option value="">Select gender</option>
                                         <option value="female">Female</option>
@@ -143,7 +143,7 @@ export default function YouthCensusRegister() {
                                         type="date"
                                         value={data.date_of_birth}
                                         onChange={(e) => setData('date_of_birth', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.date_of_birth && (
                                         <p className="mt-1 text-xs text-red-600">{errors.date_of_birth}</p>
@@ -159,7 +159,7 @@ export default function YouthCensusRegister() {
                                         value={data.phone}
                                         onChange={(e) => setData('phone', e.target.value)}
                                         placeholder="+211 ..."
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
                                 </div>
@@ -169,7 +169,7 @@ export default function YouthCensusRegister() {
                                         type="email"
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
                                 </div>
@@ -182,7 +182,7 @@ export default function YouthCensusRegister() {
                                         type="text"
                                         value={data.county}
                                         onChange={(e) => setData('county', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.county && <p className="mt-1 text-xs text-red-600">{errors.county}</p>}
                                 </div>
@@ -192,7 +192,7 @@ export default function YouthCensusRegister() {
                                         type="text"
                                         value={data.payam}
                                         onChange={(e) => setData('payam', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.payam && <p className="mt-1 text-xs text-red-600">{errors.payam}</p>}
                                 </div>
@@ -202,7 +202,7 @@ export default function YouthCensusRegister() {
                                         type="text"
                                         value={data.boma}
                                         onChange={(e) => setData('boma', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.boma && <p className="mt-1 text-xs text-red-600">{errors.boma}</p>}
                                 </div>
@@ -220,7 +220,7 @@ export default function YouthCensusRegister() {
                                     <select
                                         value={data.education_level}
                                         onChange={(e) => setData('education_level', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     >
                                         <option value="">Select level</option>
                                         <option value="none">No formal education</option>
@@ -242,7 +242,7 @@ export default function YouthCensusRegister() {
                                         type="text"
                                         value={data.current_school}
                                         onChange={(e) => setData('current_school', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     />
                                     {errors.current_school && (
                                         <p className="mt-1 text-xs text-red-600">{errors.current_school}</p>
@@ -256,7 +256,7 @@ export default function YouthCensusRegister() {
                                     <select
                                         value={data.employment_status}
                                         onChange={(e) => setData('employment_status', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                     >
                                         <option value="">Select status</option>
                                         <option value="student">Student</option>
@@ -283,13 +283,13 @@ export default function YouthCensusRegister() {
                                                 onClick={() => toggleArrayValue('skills', skill)}
                                                 className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition ${
                                                     data.skills.includes(skill)
-                                                        ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
-                                                        : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-200 hover:bg-white'
+                                                        ? 'border-brand/30 bg-brand text-brand'
+                                                        : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-brand/30 hover:bg-white'
                                                 }`}
                                             >
                                                 <span>{skill}</span>
                                                 {data.skills.includes(skill) && (
-                                                    <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-semibold text-white">
+                                                    <span className="ml-2 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">
                                                         Selected
                                                     </span>
                                                 )}
@@ -327,13 +327,13 @@ export default function YouthCensusRegister() {
                                             onClick={() => toggleArrayValue('interests', interest)}
                                             className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition ${
                                                 data.interests.includes(interest)
-                                                    ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
-                                                    : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-emerald-200 hover:bg-white'
+                                                    ? 'border-brand/30 bg-brand text-brand'
+                                                    : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-brand/30 hover:bg-white'
                                             }`}
                                         >
                                             <span>{interest}</span>
                                             {data.interests.includes(interest) && (
-                                                <span className="ml-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-semibold text-white">
+                                                <span className="ml-2 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">
                                                     Selected
                                                 </span>
                                             )}
@@ -350,7 +350,7 @@ export default function YouthCensusRegister() {
                                 <select
                                     value={data.heard_about_layya}
                                     onChange={(e) => setData('heard_about_layya', e.target.value)}
-                                    className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                                    className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
                                 >
                                     <option value="">Select an option</option>
                                     <option value="friend">Friend / Family</option>
@@ -388,7 +388,7 @@ export default function YouthCensusRegister() {
                             <button
                                 type="button"
                                 onClick={() => setStep((prev) => Math.min(3, prev + 1))}
-                                className="inline-flex items-center rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-amber-500 px-6 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:shadow-lg hover:brightness-105"
+                                className="inline-flex items-center rounded-full bg-gradient-to-r from-brand via-brand-soft to-brand-light px-6 py-2 text-sm font-semibold text-white shadow-md shadow-brand/15 transition hover:shadow-lg hover:brightness-105"
                             >
                                 Next
                             </button>
@@ -398,7 +398,7 @@ export default function YouthCensusRegister() {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex items-center rounded-full bg-gradient-to-r from-emerald-700 via-teal-700 to-amber-600 px-6 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-300 transition hover:shadow-lg hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
+                                className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-dark via-brand to-brand-light px-6 py-2 text-sm font-semibold text-white shadow-md shadow-brand/20 transition hover:shadow-lg hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
                             >
                                 {processing ? 'Submitting...' : 'Submit registration'}
                             </button>

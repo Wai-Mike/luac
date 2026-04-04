@@ -43,7 +43,7 @@ export default function UserProfile({ user, profile }) {
                     )}
                 </dl>
                 {!profile && (
-                    <p className="mt-6 text-sm text-amber-700">
+                    <p className="mt-6 text-sm text-brand">
                         Complete your profile setup to add more details.{' '}
                         <Link href="/user/profile/setup" className="font-medium underline">
                             Continue setup

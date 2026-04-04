@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Guest\YouthCensusController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
@@ -15,6 +15,8 @@ Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/team', [PageController::class, 'team'])->name('team');
 Route::get('/reports', [PageController::class, 'reports'])->name('reports');
+Route::get('/tawus-hub', [PageController::class, 'tawusHub'])->name('tawus-hub');
+Route::redirect('/tawus', '/tawus-hub');
 
 Route::get('/youth-census/register', [YouthCensusController::class, 'create'])->name('youth-census.register');
 Route::post('/youth-census', [YouthCensusController::class, 'store'])->name('youth-census.store');
