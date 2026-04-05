@@ -28,7 +28,7 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role ?? 'user',
+                'role' => $request->role ?? 'member',
             ]);
 
             // Fire the Registered event (this will trigger the welcome email listener)

@@ -1,22 +1,33 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function AdminLayout({ children, user, currentPath }) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { post } = useForm();
+    const page = usePage();
 
     const handleLogout = () => {
-        post('/admin/logout');
+        post(route('admin.logout'));
     };
 
-    const isActive = (href) => {
-        return currentPath === href || currentPath.startsWith(href + '/');
+    const isActiveRoute = (routeName) => {
+        if (typeof route === 'function' && typeof route().current === 'function') {
+            return route().current(routeName);
+        }
+        try {
+            const target = new URL(route(routeName), window.location.origin).pathname;
+            const current = (page.url || '/' + (currentPath || '')).split('?')[0];
+            return current === target || current.startsWith(target + '/');
+        } catch {
+            return false;
+        }
     };
 
     const navigationItems = [
         {
             name: 'Dashboard',
-            href: '/admin/dashboard',
+            routeName: 'admin.dashboard',
+            href: route('admin.dashboard'),
             icon: (
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -30,7 +41,8 @@ export default function AdminLayout({ children, user, currentPath }) {
         },
         {
             name: 'Users',
-            href: '/admin/users',
+            routeName: 'admin.users',
+            href: route('admin.users'),
             icon: (
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -44,7 +56,8 @@ export default function AdminLayout({ children, user, currentPath }) {
         },
         {
             name: 'Youth census',
-            href: '/admin/youth-members',
+            routeName: 'admin.youth-members.index',
+            href: route('admin.youth-members.index'),
             icon: (
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -58,7 +71,8 @@ export default function AdminLayout({ children, user, currentPath }) {
         },
         {
             name: 'Analytics',
-            href: '/admin/analytics',
+            routeName: 'admin.analytics',
+            href: route('admin.analytics'),
             icon: (
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -72,7 +86,8 @@ export default function AdminLayout({ children, user, currentPath }) {
         },
         {
             name: 'Settings',
-            href: '/admin/settings',
+            routeName: 'admin.settings',
+            href: route('admin.settings'),
             icon: (
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -97,7 +112,7 @@ export default function AdminLayout({ children, user, currentPath }) {
                     <div className="flex h-16 items-center justify-between">
                         {/* Logo and Brand */}
                         <div className="flex items-center">
-                            <Link href="/admin/dashboard" className="group flex items-center space-x-3">
+                            <Link href={route('admin.dashboard')} className="group flex items-center space-x-3">
                                 <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg transition-all duration-200 group-hover:scale-105 group-hover:shadow-xl group-hover:bg-white/20">
                                     <img
                                         src="/images/logo.jpg"
@@ -184,19 +199,19 @@ export default function AdminLayout({ children, user, currentPath }) {
                     <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-6">
                         {navigationItems.map((item) => (
                             <Link
-                                key={item.href}
+                                key={item.routeName}
                                 href={item.href}
                                 className={`group relative flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                                    isActive(item.href)
+                                    isActiveRoute(item.routeName)
                                         ? 'bg-gradient-to-r from-[rgb(210,166,73)] to-[rgb(220,180,90)] text-[rgb(4,50,75)] shadow-lg shadow-[rgb(210,166,73)]/30'
                                         : 'text-white/80 hover:bg-white/10 hover:text-white'
                                 }`}
                             >
-                                <div className={`flex-shrink-0 ${isActive(item.href) ? 'text-[rgb(4,50,75)]' : 'text-white/60 group-hover:text-white'}`}>
+                                <div className={`flex-shrink-0 ${isActiveRoute(item.routeName) ? 'text-[rgb(4,50,75)]' : 'text-white/60 group-hover:text-white'}`}>
                                     {item.icon}
                                 </div>
                                 <span className="flex-1 font-medium">{item.name}</span>
-                                {isActive(item.href) && <div className="h-2 w-2 rounded-full bg-[rgb(4,50,75)]"></div>}
+                                {isActiveRoute(item.routeName) && <div className="h-2 w-2 rounded-full bg-[rgb(4,50,75)]"></div>}
                             </Link>
                         ))}
                     </nav>
@@ -265,16 +280,16 @@ export default function AdminLayout({ children, user, currentPath }) {
                             <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-6">
                                 {navigationItems.map((item) => (
                                     <Link
-                                        key={item.href}
+                                        key={item.routeName}
                                         href={item.href}
                                         className={`flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                                            isActive(item.href)
+                                            isActiveRoute(item.routeName)
                                                 ? 'bg-gradient-to-r from-[rgb(210,166,73)] to-[rgb(220,180,90)] text-[rgb(4,50,75)] shadow-lg'
                                                 : 'text-white/80 hover:bg-white/10 hover:text-white'
                                         }`}
                                         onClick={() => setSidebarOpen(false)}
                                     >
-                                        <div className={`flex-shrink-0 ${isActive(item.href) ? 'text-[rgb(4,50,75)]' : 'text-white/60'}`}>{item.icon}</div>
+                                        <div className={`flex-shrink-0 ${isActiveRoute(item.routeName) ? 'text-[rgb(4,50,75)]' : 'text-white/60'}`}>{item.icon}</div>
                                         <span>{item.name}</span>
                                     </Link>
                                 ))}

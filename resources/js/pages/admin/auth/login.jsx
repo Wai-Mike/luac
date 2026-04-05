@@ -11,7 +11,7 @@ export default function AdminLogin() {
 
     const submit = (e) => {
         e.preventDefault();
-        post('/admin/login');
+        post(route('admin.login.submit'));
     };
 
     return (

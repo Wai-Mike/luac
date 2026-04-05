@@ -8,32 +8,41 @@ use Illuminate\Database\Seeder;
 class UserSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed default association and admin accounts.
      */
     public function run(): void
     {
-        // Create or update admin user
-        $user = User::updateOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
             [
-                'name' => 'admin',
+                'name' => 'LAYYA Admin',
                 'role' => 'admin',
-                'password' => bcrypt('Konsonak@github2'), // You should change this password
+                'password' => bcrypt('Konsonak@github2'),
             ]
         );
-        
-        // Set email as verified
-        $user->email_verified_at = now();
-        $user->save();
-    }
+        $admin->email_verified_at = now();
+        $admin->save();
 
-    /**
-     * Reverse the database seeds (rollback).
-     * This method will be called when running: php artisan db:seed:rollback --class=UserSeeder
-     */
-    public function down(): void
-    {
-        // Delete the admin user
-        User::where('email', 'admin@gmail.com')->delete();
+        $management = User::updateOrCreate(
+            ['email' => 'management@gmail.com'],
+            [
+                'name' => 'Management Demo',
+                'role' => 'management',
+                'password' => bcrypt('password'),
+            ]
+        );
+        $management->email_verified_at = now();
+        $management->save();
+
+        $member = User::updateOrCreate(
+            ['email' => 'member@gmail.com'],
+            [
+                'name' => 'Member Demo',
+                'role' => 'member',
+                'password' => bcrypt('password'),
+            ]
+        );
+        $member->email_verified_at = now();
+        $member->save();
     }
 }

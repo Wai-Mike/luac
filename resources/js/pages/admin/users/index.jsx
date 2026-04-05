@@ -22,7 +22,7 @@ export default function AdminUsers({ users, user: authUser }) {
             return;
         }
         router.put(
-            `/admin/users/${selectedUser.id}/role`,
+            route('admin.users.role', selectedUser.id),
             { role: newRole },
             {
                 preserveScroll: true,
@@ -38,7 +38,7 @@ export default function AdminUsers({ users, user: authUser }) {
         if (!selectedUser) {
             return;
         }
-        router.delete(`/admin/users/${selectedUser.id}`, {
+        router.delete(route('admin.users.delete', selectedUser.id), {
             preserveScroll: true,
             onSuccess: () => {
                 setShowDeleteModal(false);
@@ -51,7 +51,9 @@ export default function AdminUsers({ users, user: authUser }) {
         switch (role) {
             case 'admin':
                 return 'red';
-            case 'user':
+            case 'management':
+                return 'purple';
+            case 'member':
                 return 'blue';
             default:
                 return 'gray';
@@ -65,7 +67,7 @@ export default function AdminUsers({ users, user: authUser }) {
             <div className="space-y-6">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-                    <p className="mt-2 text-gray-600">Accounts and roles (user or admin).</p>
+                    <p className="mt-2 text-gray-600">Accounts and roles (member, management, or admin).</p>
                 </div>
 
                 <div className="overflow-hidden bg-white shadow sm:rounded-md">
@@ -148,7 +150,7 @@ export default function AdminUsers({ users, user: authUser }) {
                             <h3 className="text-lg font-medium text-gray-900">Change role</h3>
                             <p className="mt-2 text-sm text-gray-500">Update role for &quot;{selectedUser?.name}&quot;</p>
                             <div className="mt-4 flex justify-center space-x-2">
-                                {['user', 'admin'].map((role) => (
+                                {['member', 'management', 'admin'].map((role) => (
                                     <button
                                         key={role}
                                         type="button"

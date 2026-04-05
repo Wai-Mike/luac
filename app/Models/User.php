@@ -14,9 +14,13 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
+    public const ROLE_MEMBER = 'member';
+
+    public const ROLE_MANAGEMENT = 'management';
+
+    public const ROLE_ADMIN = 'admin';
+
     /**
-     * The attributes that are mass assignable.
-     *
      * @var list<string>
      */
     protected $fillable = [
@@ -29,8 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
      * @var list<string>
      */
     protected $hidden = [
@@ -39,8 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
@@ -56,8 +56,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Profile::class);
     }
 
+    public function member(): HasOne
+    {
+        return $this->hasOne(Member::class);
+    }
+
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isAssociationManagement(): bool
+    {
+        return $this->role === self::ROLE_MANAGEMENT;
+    }
+
+    public function isAssociationMember(): bool
+    {
+        return $this->role === self::ROLE_MEMBER;
     }
 }

@@ -45,7 +45,7 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         $validated = $request->validate([
-            'role' => 'required|in:user,admin',
+            'role' => 'required|in:member,management,admin',
         ]);
 
         $user->update($validated);

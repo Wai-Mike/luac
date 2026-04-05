@@ -25,23 +25,21 @@ export default function BlogSection({ blogPostImages = [] }) {
     const storyImage = useMemo(() => (blogPostImages.length ? blogPostImages[0] : null), [blogPostImages]);
 
     return (
-        <section className="bg-brand-surface py-16 sm:py-20">
+        <section className="bg-association-canvas py-16 sm:py-24">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mb-16 text-center">
-                    <div className="mb-4 inline-flex items-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-brand">
-                        Community story
-                    </div>
-                    <h2 className="mb-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
-                        Leadership behind
-                        <span className="block text-brand">Tawus Day</span>
+                <div className="mb-14 text-center lg:mb-16">
+                    <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.28em] text-brand">Community story</p>
+                    <h2 className="font-association text-3xl font-semibold tracking-tight text-association-ink sm:text-4xl md:text-[2.35rem]">
+                        Leadership behind Tawus Day
                     </h2>
-                    <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">
+                    <div className="mx-auto mt-5 h-px w-16 bg-brand/80" aria-hidden />
+                    <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
                         Meet Nyantet Chol Miyom—chairlady of the organizing committee that brought Tawus Day to life for our community.
                     </p>
                 </div>
 
                 <div className="mb-16">
-                    <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                    <div className="group relative overflow-hidden rounded-sm border border-slate-200/90 bg-white shadow-[0_12px_40px_-12px_rgba(15,23,42,0.12)]">
                         <div className="grid grid-cols-1 items-stretch lg:grid-cols-2">
                             <div className="relative h-72 min-h-[240px] w-full sm:h-80 lg:h-full lg:min-h-[28rem]">
                                 {storyImage ? (
@@ -61,13 +59,13 @@ export default function BlogSection({ blogPostImages = [] }) {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col justify-center p-8 lg:p-12">
-                                <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-                                    <span className="rounded-full bg-brand-surface px-3 py-1 text-brand">Organizing committee</span>
+                            <div className="flex flex-col justify-center border-l-4 border-brand p-8 lg:p-12">
+                                <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+                                    <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-brand">Organizing committee</span>
                                 </div>
-                                <h3 className="mb-2 text-2xl font-bold text-gray-900 lg:text-3xl">Nyantet Chol Miyom</h3>
-                                <p className="mb-6 text-lg font-medium text-brand">Chairlady, Tawus Day organizing committee</p>
-                                <div className="space-y-4 text-lg leading-relaxed text-gray-600">
+                                <h3 className="font-association mb-2 text-2xl font-semibold text-association-ink lg:text-3xl">Nyantet Chol Miyom</h3>
+                                <p className="mb-6 text-base font-semibold text-brand sm:text-lg">Chairlady, Tawus Day organizing committee</p>
+                                <div className="space-y-4 text-base leading-relaxed text-slate-600 sm:text-lg">
                                     <p>
                                         When Tawus Day was planned, Nyantet stepped forward to chair the organizing committee—coordinating volunteers,
                                         shaping the program, and making sure young people, families, and guests felt welcome from the first welcome to the
@@ -96,43 +94,32 @@ export default function BlogSection({ blogPostImages = [] }) {
                 </div>
 
                 <div className="text-center">
-                    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-xl bg-brand p-8 text-white shadow-sm">
-                        <div className="absolute inset-0 bg-white/5"></div>
-                        <div className="absolute -top-4 -right-4 h-32 w-32 rounded-full bg-white/10"></div>
-                        <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-white/5"></div>
-                        <div className="absolute top-1/2 right-1/4 h-16 w-16 rounded-full bg-white/5"></div>
+                    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-sm border border-white/10 bg-[#0a1628] p-8 text-white shadow-lg sm:p-10">
+                        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(15,118,110,0.2),transparent_50%)]" aria-hidden />
+                        <div className="absolute -top-4 -right-4 h-32 w-32 rounded-full bg-white/5" aria-hidden />
+                        <div className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-white/5" aria-hidden />
 
                         <div className="relative">
                             <div className="mb-8">
-                                <div className="mb-4 inline-flex items-center rounded-full bg-white/20 px-4 py-2 text-sm font-medium backdrop-blur-sm">
-                                    <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                    Newsletter
-                                </div>
-                                <h3 className="mb-4 text-3xl font-bold sm:text-4xl">Stay Updated</h3>
-                                <p className="mx-auto max-w-2xl text-lg opacity-90">
+                                <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.28em] text-teal-200/90">Newsletter</p>
+                                <h3 className="font-association mb-4 text-2xl font-semibold sm:text-3xl">Stay updated</h3>
+                                <p className="mx-auto max-w-2xl text-base text-slate-300 sm:text-lg">
                                     Get news about Tawus Hub, youth programs, and community events from LAYYA.
                                 </p>
                             </div>
 
                             {isSubscribed ? (
-                                <div className="mb-8 rounded-2xl border border-white/25 bg-white/10 p-6">
-                                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/15">
+                                <div className="mb-8 rounded-sm border border-white/20 bg-white/10 p-6">
+                                    <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
                                         <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                         </svg>
                                     </div>
-                                    <h4 className="mb-2 text-2xl font-bold text-white">Thank you for subscribing!</h4>
-                                    <p className="mb-4 text-brand-foreground">You'll receive our latest updates and insights soon.</p>
+                                    <h4 className="font-association mb-2 text-2xl font-semibold text-white">Thank you for subscribing!</h4>
+                                    <p className="mb-4 text-teal-100/90">You'll receive our latest updates and insights soon.</p>
                                     <button
                                         onClick={() => setIsSubscribed(false)}
-                                        className="rounded-md bg-white/15 px-6 py-2 font-medium text-white transition-colors hover:bg-white/25"
+                                        className="rounded-sm bg-white/10 px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-white/20"
                                     >
                                         Subscribe Another Email
                                     </button>
@@ -147,7 +134,7 @@ export default function BlogSection({ blogPostImages = [] }) {
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
                                                     placeholder="Enter your email address"
-                                                    className="w-full rounded-xl border-2 border-white/20 bg-white/10 px-6 py-4 text-lg text-white placeholder-white/70 backdrop-blur-sm transition-all duration-300 focus:border-white focus:bg-white/20 focus:outline-none"
+                                                    className="w-full rounded-sm border border-white/25 bg-white/10 px-5 py-3.5 text-base text-white placeholder-white/55 backdrop-blur-sm transition-all focus:border-brand-light focus:outline-none focus:ring-1 focus:ring-brand-light"
                                                     required
                                                     disabled={isSubmitting}
                                                 />
@@ -155,7 +142,7 @@ export default function BlogSection({ blogPostImages = [] }) {
                                             <button
                                                 type="submit"
                                                 disabled={isSubmitting || !email}
-                                                className="rounded-md bg-white px-8 py-4 text-base font-semibold text-brand transition-colors hover:bg-brand-surface disabled:cursor-not-allowed disabled:opacity-50"
+                                                className="rounded-sm bg-brand px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
                                             >
                                                 <span className="flex items-center justify-center">
                                                     {isSubmitting ? (

@@ -37,11 +37,10 @@ class VerifyEmailController extends Controller
         auth()->login($user);
 
         // Redirect based on user role
-        $redirectRoute = match($user->role) {
+        $redirectRoute = match ($user->role) {
             'admin' => 'admin.dashboard',
-            'expert' => 'expert.dashboard',
-            'user' => 'user.dashboard',
-            default => 'user.dashboard'
+            'management', 'member' => 'user.dashboard',
+            default => 'user.dashboard',
         };
 
         return redirect()->intended(route($redirectRoute, absolute: false).'?verified=1');

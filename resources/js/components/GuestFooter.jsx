@@ -1,8 +1,10 @@
 import { Link } from '@inertiajs/react';
 
-export default function GuestFooter() {
+export default function GuestFooter({ variant = 'default' }) {
+    const civic = variant === 'association';
+
     return (
-        <footer className="bg-navy py-12 text-slate-300">
+        <footer className={`py-12 text-slate-300 ${civic ? 'border-t-4 border-t-brand bg-[#0a1628]' : 'bg-navy'}`}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
                     <div>
@@ -13,7 +15,7 @@ export default function GuestFooter() {
                                 className="h-10 w-10 rounded-full object-cover ring-1 ring-slate-600"
                             />
                             <div>
-                                <h3 className="text-base font-bold text-white">LAYYA</h3>
+                                <h3 className={`text-base font-bold text-white ${civic ? 'font-association tracking-tight' : ''}`}>LAYYA</h3>
                                 <p className="text-xs text-slate-400">Juba, South Sudan</p>
                             </div>
                         </div>
@@ -22,7 +24,11 @@ export default function GuestFooter() {
                         </p>
                     </div>
                     <div>
-                        <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">Quick links</h4>
+                        <h4
+                            className={`mb-4 text-sm font-semibold uppercase tracking-wide text-white ${civic ? 'border-b border-white/10 pb-2' : ''}`}
+                        >
+                            Quick links
+                        </h4>
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <Link href={route('services')} className="transition-colors hover:text-brand-light">
@@ -52,7 +58,9 @@ export default function GuestFooter() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">About</h4>
+                        <h4 className={`mb-4 text-sm font-semibold uppercase tracking-wide text-white ${civic ? 'border-b border-white/10 pb-2' : ''}`}>
+                            About
+                        </h4>
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <Link href={route('about')} className="transition-colors hover:text-brand-light">
@@ -72,7 +80,9 @@ export default function GuestFooter() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white">Contact</h4>
+                        <h4 className={`mb-4 text-sm font-semibold uppercase tracking-wide text-white ${civic ? 'border-b border-white/10 pb-2' : ''}`}>
+                            Contact
+                        </h4>
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <a href="mailto:layya.youth@gmail.com" className="transition-colors hover:text-brand-light">

@@ -1,14 +1,15 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function GuestNavbar() {
+export default function GuestNavbar({ variant = 'default' }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { auth } = usePage().props;
+    const civic = variant === 'association';
 
     return (
         <div className="sticky top-0 z-50">
             {/* Top bar — navy from logo lettering (RK / 3K-style strip) */}
-            <div className="bg-navy py-2.5 text-slate-300">
+            <div className={`py-2.5 text-slate-300 ${civic ? 'bg-[#0a1628]' : 'bg-navy'}`}>
                 <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm">
                         <a href="tel:+211927779952" className="flex items-center gap-2 transition-colors hover:text-white">
@@ -49,9 +50,11 @@ export default function GuestNavbar() {
                 </div>
             </div>
 
-            <nav className="border-b border-slate-200 bg-white shadow-sm">
+            <nav
+                className={`border-b bg-white ${civic ? 'border-slate-200/90 shadow-none' : 'border-slate-200 shadow-sm'} ${civic ? 'border-t-4 border-t-brand' : ''}`}
+            >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-14 items-center justify-between lg:h-16">
+                    <div className={`flex items-center justify-between ${civic ? 'h-16 lg:h-[4.25rem]' : 'h-14 lg:h-16'}`}>
                         <a href={route('home')} className="flex min-w-0 items-center gap-3">
                             <img src="/images/logo.jpg" alt="LAYYA" className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-slate-200" />
                             <div className="min-w-0 text-left">
@@ -62,34 +65,36 @@ export default function GuestNavbar() {
                             </div>
                         </a>
 
-                        <div className="hidden items-center gap-5 lg:gap-6 lg:flex">
-                            <a href={route('home')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                Home
-                            </a>
-                            <a href={route('about')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                About
-                            </a>
-                            <a href={route('services')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                Programs
-                            </a>
-                            <a href={route('youth-census.register')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                Youth Census
-                            </a>
-                            <a href={route('tawus-hub')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                Tawus Hub
-                            </a>
-                            <a href={route('reports')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                Reports
-                            </a>
-                            <a href="/strategic-plan" className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                10-Year Plan
-                            </a>
-                            <a href={route('contact')} className="text-sm font-medium text-slate-700 transition-colors hover:text-brand">
-                                Contact
-                            </a>
+                        <div className="hidden items-center gap-4 lg:gap-5 xl:gap-6 lg:flex">
+                            {[
+                                [route('home'), 'Home'],
+                                [route('about'), 'About'],
+                                [route('services'), 'Programs'],
+                                [route('youth-census.register'), 'Youth Census'],
+                                [route('tawus-hub'), 'Tawus Hub'],
+                                [route('reports'), 'Reports'],
+                                ['/strategic-plan', '10-Year Plan'],
+                                [route('contact'), 'Contact'],
+                            ].map(([href, label]) => (
+                                <a
+                                    key={href}
+                                    href={href}
+                                    className={
+                                        civic
+                                            ? 'text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600 transition-colors hover:text-brand'
+                                            : 'text-sm font-medium text-slate-700 transition-colors hover:text-brand'
+                                    }
+                                >
+                                    {label}
+                                </a>
+                            ))}
                             <a
                                 href={route('contact')}
-                                className="rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
+                                className={
+                                    civic
+                                        ? 'rounded-full bg-brand px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] text-white shadow-sm transition-colors hover:bg-brand-dark'
+                                        : 'rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark'
+                                }
                             >
                                 Get in touch
                             </a>

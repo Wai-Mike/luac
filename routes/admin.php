@@ -1,62 +1,74 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\YouthMemberController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\YouthMemberController;
 use Inertia\Inertia;
 
-Route::get('/admin/login', function () {
-    return Inertia::render('admin/auth/login');
-})->name('admin.login');
+$host = parse_url((string) config('app.url'), PHP_URL_HOST);
+$adminDomain = $host ? 'admin.'.$host : null;
 
-Route::post('/admin/login', function (Illuminate\Http\Request $request) {
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+$registerAdminRoutes = function () {
+    Route::get('/login', function () {
+        return Inertia::render('admin/auth/login');
+    })->name('admin.login');
 
-    if (Auth::attempt($credentials, $request->boolean('remember'))) {
-        $request->session()->regenerate();
+    Route::post('/login', function (Illuminate\Http\Request $request) {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        if (Auth::user()->role === 'admin') {
-            return redirect()->intended('/admin/dashboard');
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended(route('admin.dashboard'));
+            }
+
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'You do not have admin privileges.',
+            ]);
         }
 
-        Auth::logout();
-
         return back()->withErrors([
-            'email' => 'You do not have admin privileges.',
+            'email' => 'The provided credentials do not match our records.',
         ]);
-    }
+    })->name('admin.login.submit');
 
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ]);
-})->name('admin.login.submit');
+    Route::post('/logout', function (Illuminate\Http\Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-Route::post('/admin/logout', function (Illuminate\Http\Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+        return redirect()->route('admin.login');
+    })->name('admin.logout');
 
-    return redirect('/admin/login');
-})->name('admin.logout');
+    Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+        Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('admin.analytics');
 
-Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::put('/users/{id}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
-    Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+        Route::put('/users/{id}/role', [AdminController::class, 'updateUserRole'])->name('admin.users.role');
+        Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
-    Route::resource('youth-members', YouthMemberController::class)
-        ->names('admin.youth-members');
+        Route::resource('youth-members', YouthMemberController::class)
+            ->names('admin.youth-members');
 
-    Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
-    Route::put('/settings/update', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
-});
+        Route::get('/settings', [AdminController::class, 'settings'])->name('admin.settings');
+        Route::put('/settings/update', [AdminController::class, 'updateSettings'])->name('admin.settings.update');
+    });
 
-Route::get('/admin', function () {
-    return redirect()->route('admin.dashboard');
-});
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
+};
+
+if ($adminDomain) {
+    Route::domain($adminDomain)->group($registerAdminRoutes);
+}

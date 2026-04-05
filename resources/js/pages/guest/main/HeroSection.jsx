@@ -5,7 +5,7 @@ export default function HeroSection() {
     const hasPhoto = Boolean(heroImage);
 
     return (
-        <section className="relative flex min-h-[min(78vh,720px)] items-center overflow-hidden py-16 sm:py-24">
+        <section className="relative flex min-h-[min(88vh,820px)] flex-col justify-center overflow-hidden py-20 sm:py-28">
             {hasPhoto ? (
                 <>
                     <img
@@ -15,45 +15,44 @@ export default function HeroSection() {
                         decoding="async"
                         fetchPriority="high"
                     />
-                    <div
-                        className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-brand/65 to-teal-500/35"
-                        aria-hidden
-                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/88 via-[#0f172a]/75 to-[#0f766e]/45" aria-hidden />
                 </>
             ) : (
-                <div
-                    className="absolute inset-0 bg-gradient-to-br from-slate-800 via-brand to-teal-500"
-                    aria-hidden
-                />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#134e4a] to-brand" aria-hidden />
             )}
 
-            <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="max-w-3xl">
-                    <h1 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-                        Youth leadership & creativity
-                        <span className="mt-2 block text-2xl font-semibold text-brand-foreground sm:text-3xl lg:text-4xl">
-                            across Luac Akok Yieu
-                        </span>
-                    </h1>
+            {/* Civic theme: subtle grid overlay */}
+            <div
+                className="pointer-events-none absolute inset-0 opacity-[0.06]"
+                style={{
+                    backgroundImage: `linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)`,
+                    backgroundSize: '48px 48px',
+                }}
+                aria-hidden
+            />
 
-                    <p className="mt-6 text-lg leading-relaxed text-slate-100 sm:text-xl">
-                        Together for a better future — building skills, confidence, and real change for young people and the community.
-                    </p>
+            <div className="relative z-10 mx-auto w-full max-w-5xl px-4 text-center sm:px-6 lg:px-8">
+                <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.35em] text-teal-100/95 sm:text-xs">Luac Akok Yieu Youth Association</p>
+                <h1 className="font-association text-4xl font-semibold leading-[1.12] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[3.35rem]">
+                    Youth leadership &amp; creativity
+                </h1>
+                <p className="mx-auto mt-5 max-w-2xl font-sans text-lg font-medium text-slate-200/95 sm:text-xl">
+                    Together for a better future — building skills, confidence, and real change for young people and the community.
+                </p>
 
-                    <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <Link
-                            href={route('services')}
-                            className="inline-flex items-center justify-center rounded-md bg-brand px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
-                        >
-                            Explore programs
-                        </Link>
-                        <Link
-                            href={route('tawus-hub')}
-                            className="inline-flex items-center justify-center rounded-md border-2 border-white/80 bg-white/10 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-                        >
-                            Tawus Hub for girls
-                        </Link>
-                    </div>
+                <div className="mainbutton mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5">
+                    <Link
+                        href={route('services')}
+                        className="inline-flex min-w-[200px] items-center justify-center rounded-sm bg-brand px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white shadow-md transition-colors hover:bg-brand-dark"
+                    >
+                        Explore programs
+                    </Link>
+                    <Link
+                        href={route('tawus-hub')}
+                        className="inline-flex min-w-[200px] items-center justify-center rounded-sm border-2 border-white/90 bg-transparent px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10"
+                    >
+                        Tawus Hub for girls
+                    </Link>
                 </div>
             </div>
         </section>

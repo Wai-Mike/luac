@@ -188,9 +188,16 @@ a {
     --color-navy: #1e293b;
     --color-navy-light: #334155;
 
+    /* Civic / Association-theme inspired neutrals */
+    --color-association-canvas: #f3f5f4;
+    --color-association-ink: #0f172a;
+    --color-association-band: #0c4a6e;
+
     --font-sans:
         'Montserrat', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+
+    --font-association: 'Lora', Georgia, 'Times New Roman', ui-serif, serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

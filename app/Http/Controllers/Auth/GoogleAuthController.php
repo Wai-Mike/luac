@@ -46,7 +46,7 @@ class GoogleAuthController extends Controller
                     'google_id' => $googleUser->getId(),
                     'avatar' => $googleUser->getAvatar(),
                     'email_verified_at' => now(), // Google emails are pre-verified
-                    'role' => 'user', // Ensure role is set for Google users
+                    'role' => 'member',
                 ]
             );
 
@@ -77,11 +77,10 @@ class GoogleAuthController extends Controller
                 Log::info('Redirecting to profile setup', ['user_id' => $user->id]);
             } else {
                 // Redirect based on user role (same logic as registration)
-                $redirectRoute = match($user->role) {
+                $redirectRoute = match ($user->role) {
                     'admin' => 'admin.dashboard',
-                    'expert' => 'expert.dashboard',
-                    'user' => 'user.dashboard',
-                    default => 'user.dashboard'
+                    'management', 'member' => 'user.dashboard',
+                    default => 'user.dashboard',
                 };
 
                 // Try to redirect to intended page, fallback to role-based dashboard
