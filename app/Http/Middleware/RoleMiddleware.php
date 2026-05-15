@@ -24,7 +24,7 @@ class RoleMiddleware
 
         if (! in_array($user->role, $allowed, true)) {
             return match ($user->role) {
-                'admin' => redirect()->route('admin.dashboard')->with('error', 'Access denied. You do not have permission to access this resource.'),
+                'admin' => redirect()->route('home')->with('error', 'Access denied. You do not have permission to access this resource.'),
                 'management', 'member' => redirect()->route('user.dashboard')->with('error', 'Access denied. You do not have permission to access this resource.'),
                 default => redirect()->route('home')->with('error', 'Access denied. Invalid user role.'),
             };

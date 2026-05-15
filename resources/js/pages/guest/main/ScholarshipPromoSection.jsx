@@ -1,0 +1,32 @@
+import { Link } from '@inertiajs/react';
+
+export default function ScholarshipPromoSection() {
+    return (
+        <section
+            id="scholership-promo"
+            className="scroll-mt-24 bg-cover bg-center bg-no-repeat py-16 sm:py-24 lg:py-[117px]"
+            style={{
+                backgroundImage:
+                    'linear-gradient(105deg, rgba(236,241,245,0.94) 0%, rgba(219,229,243,0.9) 42%, rgba(19,28,51,0.08) 100%), url(https://codeboxr.net/themedemo/unialumni/html/assets/images/scholership.png)',
+            }}
+        >
+            <div className="mx-auto max-w-[75rem] px-4 text-center sm:px-6 lg:px-8">
+                <div className="scholership-promo-text font-sans text-lg text-[#3a3b3c] sm:text-xl">
+                    <h2 className="mx-auto mb-6 max-w-4xl font-sans text-2xl font-semibold capitalize leading-tight text-[#131c33] drop-shadow-sm sm:text-3xl lg:text-[2.5rem]">
+                        LAYYA provides <span className="text-[#3b60c9]">pathways</span> for talented young people!
+                    </h2>
+                    <p className="mx-auto max-w-3xl leading-relaxed text-[#3a3b3c]">
+                        Whether you need skills training, mentorship, or a community platform—reach out and help us grow programs that serve Luac Akok Yieu
+                        and beyond.
+                    </p>
+                    <Link
+                        href={route('youth-census.register')}
+                        className="mt-9 inline-flex min-h-[48px] items-center justify-center bg-[#3b60c9] px-10 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-white shadow-md transition motion-safe:duration-200 hover:bg-[#161f37] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b60c9] focus-visible:ring-offset-2 sm:mt-10"
+                    >
+                        Apply now
+                    </Link>
+                </div>
+            </div>
+        </section>
+    );
+}

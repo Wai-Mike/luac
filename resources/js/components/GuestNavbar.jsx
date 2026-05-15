@@ -4,7 +4,12 @@ import { useState } from 'react';
 export default function GuestNavbar({ variant = 'default' }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { auth } = usePage().props;
+    const user = auth?.user;
     const civic = variant === 'association';
+
+    const loginBtnClass = civic
+        ? 'rounded-full border-2 border-brand/80 bg-transparent px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] text-brand shadow-sm transition-colors hover:border-brand hover:bg-brand-surface'
+        : 'rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-navy shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50';
 
     return (
         <div className="sticky top-0 z-50">
@@ -69,7 +74,7 @@ export default function GuestNavbar({ variant = 'default' }) {
                             {[
                                 [route('home'), 'Home'],
                                 [route('about'), 'About'],
-                                [route('services'), 'Programs'],
+                                [route('programs'), 'Programs'],
                                 [route('youth-census.register'), 'Youth Census'],
                                 [route('tawus-hub'), 'Tawus Hub'],
                                 [route('reports'), 'Reports'],
@@ -98,16 +103,25 @@ export default function GuestNavbar({ variant = 'default' }) {
                             >
                                 Get in touch
                             </a>
-                            {auth.user && (
+                            {!user ? (
+                                <Link href={route('login')} prefetch className={loginBtnClass}>
+                                    Log in
+                                </Link>
+                            ) : (
                                 <div className="flex items-center gap-3 border-l border-slate-200 pl-5">
                                     <img
-                                        src={auth.user.avatar || '/images/default-avatar.png'}
+                                        src={user.avatar || '/images/default-avatar.png'}
                                         alt=""
                                         className="h-8 w-8 rounded-full border border-slate-200"
                                     />
                                     <Link
-                                        href={route('user.dashboard')}
-                                        className="rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+                                        href={route('dashboard')}
+                                        prefetch
+                                        className={
+                                            civic
+                                                ? 'rounded-full bg-brand px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] text-white shadow-sm transition-colors hover:bg-brand-dark'
+                                                : 'rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark'
+                                        }
                                     >
                                         Dashboard
                                     </Link>
@@ -115,7 +129,24 @@ export default function GuestNavbar({ variant = 'default' }) {
                             )}
                         </div>
 
-                        <div className="lg:hidden">
+                        <div className="flex items-center gap-2 lg:hidden">
+                            {!user ? (
+                                <Link
+                                    href={route('login')}
+                                    prefetch
+                                    className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-navy shadow-sm transition-colors hover:bg-slate-50"
+                                >
+                                    Log in
+                                </Link>
+                            ) : (
+                                <Link
+                                    href={route('dashboard')}
+                                    prefetch
+                                    className="rounded-md bg-brand px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-dark"
+                                >
+                                    Dashboard
+                                </Link>
+                            )}
                             <button
                                 type="button"
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -142,7 +173,7 @@ export default function GuestNavbar({ variant = 'default' }) {
                                 {[
                                     ['Home', route('home')],
                                     ['About LAYYA', route('about')],
-                                    ['Programs', route('services')],
+                                    ['Programs', route('programs')],
                                     ['Youth Census', route('youth-census.register')],
                                     ['Tawus Hub', route('tawus-hub')],
                                     ['Reports', route('reports')],
@@ -165,14 +196,24 @@ export default function GuestNavbar({ variant = 'default' }) {
                                 >
                                     Get in touch
                                 </a>
-                                {auth.user && (
+                                {!user ? (
+                                    <Link
+                                        href={route('login')}
+                                        prefetch
+                                        className="mx-1 mt-3 rounded-md border border-slate-300 bg-white py-3 text-center text-base font-semibold text-navy hover:bg-slate-50"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        Log in
+                                    </Link>
+                                ) : (
                                     <>
                                         <div className="mt-3 flex items-center gap-2 border-t border-slate-100 px-3 pt-3">
-                                            <img src={auth.user.avatar || '/images/default-avatar.png'} alt="" className="h-8 w-8 rounded-full" />
-                                            <span className="text-sm font-medium text-navy">{auth.user.name}</span>
+                                            <img src={user.avatar || '/images/default-avatar.png'} alt="" className="h-8 w-8 rounded-full" />
+                                            <span className="text-sm font-medium text-navy">{user.name}</span>
                                         </div>
                                         <Link
-                                            href={route('user.dashboard')}
+                                            href={route('dashboard')}
+                                            prefetch
                                             className="mx-1 mt-1 rounded-md bg-brand py-3 text-center text-base font-semibold text-white hover:bg-brand-dark"
                                             onClick={() => setIsMenuOpen(false)}
                                         >

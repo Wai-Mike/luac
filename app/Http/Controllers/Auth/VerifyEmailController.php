@@ -19,13 +19,13 @@ class VerifyEmailController extends Controller
         $user = User::findOrFail($id);
 
         // Verify the hash matches the user's email
-        if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
             abort(403, 'Invalid verification link.');
         }
 
         // Check if already verified
         if ($user->hasVerifiedEmail()) {
-            return redirect()->intended(route('login', absolute: false).'?verified=1');
+            return redirect()->intended(route('dashboard').'?verified=1');
         }
 
         // Mark email as verified
@@ -36,13 +36,6 @@ class VerifyEmailController extends Controller
         // Auto-login the user after verification
         auth()->login($user);
 
-        // Redirect based on user role
-        $redirectRoute = match ($user->role) {
-            'admin' => 'admin.dashboard',
-            'management', 'member' => 'user.dashboard',
-            default => 'user.dashboard',
-        };
-
-        return redirect()->intended(route($redirectRoute, absolute: false).'?verified=1');
+        return redirect()->intended(route('dashboard').'?verified=1');
     }
 }

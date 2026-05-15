@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
+use App\Models\Department;
 use App\Models\User;
 use App\Models\YouthMember;
 use Illuminate\Http\Request;
@@ -17,6 +19,8 @@ class AdminController extends Controller
         $stats = [
             'total_users' => User::count(),
             'total_youth_members' => YouthMember::count(),
+            'total_departments' => Department::query()->count(),
+            'active_departments' => Department::query()->where('status', 'active')->count(),
         ];
 
         $recent_youth = YouthMember::query()
@@ -24,10 +28,17 @@ class AdminController extends Controller
             ->limit(5)
             ->get();
 
+        $recent_activity = ActivityLog::query()
+            ->with('user:id,name')
+            ->latest()
+            ->limit(8)
+            ->get();
+
         return Inertia::render('admin/dashboard', [
             'user' => $user,
             'stats' => $stats,
             'recent_youth' => $recent_youth,
+            'recent_activity' => $recent_activity,
         ]);
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -25,20 +26,24 @@ class DashboardController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        $user->load('profile');
+        if (Schema::hasTable('profiles')) {
+            $user->load('profile');
+        }
 
         return Inertia::render('user/profile/index', [
             'user' => $user,
-            'profile' => $user->profile,
+            'profile' => Schema::hasTable('profiles') ? $user->profile : null,
         ]);
     }
 
     public function profileSetup()
     {
         $user = Auth::user();
-        $user->load('profile');
+        if (Schema::hasTable('profiles')) {
+            $user->load('profile');
+        }
 
-        if ($user->profile) {
+        if (Schema::hasTable('profiles') && $user->profile) {
             return redirect()->route('user.profile');
         }
 

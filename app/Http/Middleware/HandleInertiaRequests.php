@@ -44,12 +44,24 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => function () use ($request) {
+                    $user = $request->user();
+                    if ($user instanceof \App\Models\User) {
+                        $user->loadMissing('department');
+                    }
+
+                    return $user;
+                },
+                'permissions' => function () use ($request) {
+                    $user = $request->user();
+
+                    return $user instanceof \App\Models\User ? $user->permissionNames() : [];
+                },
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
-            ]
+            ],
         ];
     }
 }

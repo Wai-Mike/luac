@@ -31,7 +31,7 @@ export default function GuestFooter({ variant = 'default' }) {
                         </h4>
                         <ul className="space-y-2 text-sm">
                             <li>
-                                <Link href={route('services')} className="transition-colors hover:text-brand-light">
+                                <Link href={route('programs')} className="transition-colors hover:text-brand-light">
                                     Programs
                                 </Link>
                             </li>

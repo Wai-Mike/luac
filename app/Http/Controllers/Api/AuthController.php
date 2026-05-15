@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Http\Requests\Api\RegisterRequest;
-use App\Http\Requests\Api\LoginRequest;
-use App\Http\Requests\Api\UpdateProfileRequest;
 use App\Http\Requests\Api\ChangePasswordRequest;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Api\LoginRequest;
+use App\Http\Requests\Api\RegisterRequest;
+use App\Http\Requests\Api\UpdateProfileRequest;
+use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class AuthController extends Controller
 {
@@ -43,7 +42,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Registration failed',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -57,33 +56,49 @@ class AuthController extends Controller
             // Check credentials
             $user = User::where('email', $request->email)->first();
 
-            if (!$user || !Hash::check($request->password, $user->password)) {
+            if (! $user || ! Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Invalid credentials'
+                    'message' => 'Invalid credentials',
                 ], 401);
             }
+
+            if (($user->status ?? 'active') !== 'active') {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Account is inactive.',
+                ], 403);
+            }
+
+            $user->forceFill(['last_login_at' => now()])->save();
 
             // Generate API token
             $token = $user->createToken('API Token')->plainTextToken;
 
-            $user->load('profile');
+            $user->load('roles');
 
-            // Calculate age from date_of_birth (from profile)
             $age = null;
             $isUnderage = null;
-            if ($user->profile && $user->profile->date_of_birth) {
-                $age = \Carbon\Carbon::parse($user->profile->date_of_birth)->age;
-                $isUnderage = $age < 18;
+            $hasProfile = false;
+            if (Schema::hasTable('profiles')) {
+                $user->load('profile');
+                $hasProfile = $user->profile !== null;
+                if ($user->profile?->date_of_birth) {
+                    $age = \Carbon\Carbon::parse($user->profile->date_of_birth)->age;
+                    $isUnderage = $age < 18;
+                }
             }
-
-            $hasProfile = $user->profile !== null;
 
             $userData = $user->toArray();
             $userData['age'] = $age;
             $userData['is_underage'] = $isUnderage;
             $userData['is_admin'] = $user->role === 'admin';
             $userData['has_profile'] = $hasProfile;
+            $userData['roles'] = $user->roles->map(fn ($r) => [
+                'id' => $r->id,
+                'name' => $r->name,
+                'display_name' => $r->display_name,
+            ])->values()->all();
 
             return response()->json([
                 'success' => true,
@@ -92,12 +107,11 @@ class AuthController extends Controller
                 'token' => $token,
             ], 200);
 
-
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
                 'message' => 'Login failed',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -109,33 +123,38 @@ class AuthController extends Controller
     {
         try {
             $user = $request->user();
-            
-            
-            if (!$user) {
+
+            if (! $user) {
                 return response()->json([
                     'success' => false,
-                    'error' => 'User not authenticated'
+                    'error' => 'User not authenticated',
                 ], 401);
             }
 
-            // Load the profile relationship
-            $user->load('profile');
-            
-            // Calculate age from date_of_birth (from profile)
+            $user->load('roles');
+
             $age = null;
             $isUnderage = null;
-            if ($user->profile && $user->profile->date_of_birth) {
-                $age = \Carbon\Carbon::parse($user->profile->date_of_birth)->age;
-                $isUnderage = $age < 18;
+            $hasProfile = false;
+            if (Schema::hasTable('profiles')) {
+                $user->load('profile');
+                $hasProfile = $user->profile !== null;
+                if ($user->profile?->date_of_birth) {
+                    $age = \Carbon\Carbon::parse($user->profile->date_of_birth)->age;
+                    $isUnderage = $age < 18;
+                }
             }
-
-            $hasProfile = $user->profile !== null;
 
             $userData = $user->toArray();
             $userData['age'] = $age;
             $userData['is_underage'] = $isUnderage;
             $userData['is_admin'] = $user->role === 'admin';
             $userData['has_profile'] = $hasProfile;
+            $userData['roles'] = $user->roles->map(fn ($r) => [
+                'id' => $r->id,
+                'name' => $r->name,
+                'display_name' => $r->display_name,
+            ])->values()->all();
 
             return response()->json([
                 'success' => true,
@@ -147,12 +166,11 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to get user profile',
-                'details' => $th->getMessage()
+                'details' => $th->getMessage(),
             ], 500);
         }
     }
-   
-   
+
     public function test(Request $request): JsonResponse
     {
         try {
@@ -164,7 +182,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to get user profile',
-                'details' => $th->getMessage()
+                'details' => $th->getMessage(),
             ], 500);
         }
     }
@@ -180,20 +198,21 @@ class AuthController extends Controller
             // Update user
             $user->update($request->only(['name', 'email', 'phone', 'role', 'date_of_birth', 'marital_status']));
 
-            $user->load('profile');
-
+            if (Schema::hasTable('profiles')) {
+                $user->load('profile');
+            }
 
             return response()->json([
                 'status' => true,
                 'message' => 'Profile updated successfully',
-                'user' => $user
+                'user' => $user,
             ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to update profile',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -207,28 +226,28 @@ class AuthController extends Controller
             $user = $request->user();
 
             // Check current password
-            if (!Hash::check($request->current_password, $user->password)) {
+            if (! Hash::check($request->current_password, $user->password)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Current password is incorrect'
+                    'message' => 'Current password is incorrect',
                 ], 400);
             }
 
             // Update password
             $user->update([
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
             ]);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Password changed successfully'
+                'message' => 'Password changed successfully',
             ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to change password',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -243,14 +262,14 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Logged out successfully'
+                'message' => 'Logged out successfully',
             ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => 'Logout failed',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -265,14 +284,14 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Logged out from all devices successfully'
+                'message' => 'Logged out from all devices successfully',
             ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => 'Logout failed',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -284,10 +303,10 @@ class AuthController extends Controller
     {
         try {
             $user = $request->user();
-            
+
             // Revoke current token
             $request->user()->currentAccessToken()->delete();
-            
+
             // Generate new token
             $token = $user->createToken('API Token')->plainTextToken;
 
@@ -297,18 +316,16 @@ class AuthController extends Controller
                 'data' => [
                     'user' => $user,
                     'token' => $token,
-                    'token_type' => 'Bearer'
-                ]
+                    'token_type' => 'Bearer',
+                ],
             ], 200);
 
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => 'Token refresh failed',
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
-
 }
-

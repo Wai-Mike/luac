@@ -21,6 +21,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('password'), // Default password for testing
             'role' => 'member',
+            'status' => 'active',
             'google_id' => null,
             'avatar' => null,
         ];

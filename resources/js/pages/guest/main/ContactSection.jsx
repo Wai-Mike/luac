@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SectionTitle from './SectionTitle';
 
 export default function ContactSection() {
     const [formData, setFormData] = useState({
@@ -83,17 +84,16 @@ export default function ContactSection() {
     return (
         <section className="border-t border-slate-200/80 bg-white py-16 sm:py-24">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mb-14 text-center lg:mb-16">
-                    <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.28em] text-brand">Get in touch</p>
-                    <h2 className="font-association text-3xl font-semibold tracking-tight text-association-ink sm:text-4xl md:text-[2.35rem]">Contact us</h2>
-                    <div className="mx-auto mt-5 h-px w-16 bg-brand/80" aria-hidden />
-                    <p className="mx-auto mt-8 max-w-2xl text-base text-slate-600 sm:text-lg">
+                <div className="text-center lg:mb-16">
+                    <SectionTitle title="Contact us" />
+                    <p className="mx-auto mt-6 max-w-2xl font-sans text-base text-[#3a3b3c] sm:text-lg">
                         Reach out about programs, partnerships, or how you can get involved with LAYYA.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-                    <div className="border-l-4 border-brand bg-association-canvas p-8 shadow-[0_12px_40px_-12px_rgba(15,23,42,0.1)] sm:p-10">
+                    <div className="relative overflow-hidden rounded-sm border border-slate-200/90 bg-[#f5f2eb] p-8 shadow-[0_20px_50px_-18px_rgba(26,35,50,0.12)] sm:p-10">
+                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-600 via-brand to-[#1a2332]" aria-hidden />
                         <div className="mb-8">
                             <h3 className="font-association mb-2 text-2xl font-semibold text-association-ink">Send us a message</h3>
                             <p className="text-slate-600">Fill out the form below and we'll get back to you as soon as possible.</p>

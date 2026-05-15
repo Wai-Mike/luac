@@ -83,32 +83,7 @@ class PageController extends Controller
     {
         return Inertia::render('guest/main/index', [
             'heroImage' => $this->pickRandomHeroImage(),
-            'homeGallery' => $this->randomGalleryImages(8),
-            'tawusStripImages' => $this->randomGalleryImages(4),
-            'blogPostImages' => $this->randomImagesFromPool(4),
-            'features' => [
-                [
-                    'title' => 'Youth leadership',
-                    'description' => 'Programs that build confidence, responsibility, and voice for young people in Luac Akok Yieu and beyond.',
-                    'icon' => 'leadership',
-                ],
-                [
-                    'title' => 'Skills & education',
-                    'description' => 'Workshops and learning opportunities that prepare youth for work, civic life, and entrepreneurship.',
-                    'icon' => 'education',
-                ],
-                [
-                    'title' => 'Community & sports',
-                    'description' => 'Safe spaces to connect, play, and organize around shared goals for peace and development.',
-                    'icon' => 'community',
-                ],
-            ],
-            'stats' => [
-                'members' => 500,
-                'programs' => 12,
-                'communities' => 8,
-                'events' => 24,
-            ],
+            'homeGallery' => $this->randomGalleryImages(6),
         ]);
     }
 
@@ -116,14 +91,6 @@ class PageController extends Controller
     {
         return Inertia::render('guest/about', [
             'aboutGallery' => $this->randomGalleryImages(6),
-            'team' => [
-                [
-                    'name' => 'Leadership team',
-                    'role' => 'Executive committee',
-                    'bio' => 'Youth leaders guiding programs, partnerships, and community outreach for LAYYA.',
-                    'image' => '/images/youth.jpg',
-                ],
-            ],
         ]);
     }
 
@@ -138,49 +105,41 @@ class PageController extends Controller
         ]);
     }
 
-    public function services()
+    public function programs()
     {
-        return Inertia::render('guest/services', [
-            'programsGallery' => $this->randomGalleryImages(6),
-            'servicesHeroImage' => $this->pickRandomHeroImage(),
-            'programIcons' => $this->randomImagesFromPool(5),
-            'services' => [
-                [
-                    'title' => 'Youth programs',
-                    'description' => 'Structured activities focused on leadership, life skills, and civic engagement.',
-                    'features' => ['Mentorship', 'Workshops', 'Peer learning'],
-                ],
-                [
-                    'title' => 'Skills training',
-                    'description' => 'Practical training in digital literacy, communication, and employability.',
-                    'features' => ['Hands-on sessions', 'Certificates', 'Career guidance'],
-                ],
-                [
-                    'title' => 'Community events',
-                    'description' => 'Sports, cultural activities, and dialogue that strengthen social cohesion.',
-                    'features' => ['Tournaments', 'Youth forums', 'Volunteering'],
-                ],
-            ],
+        return Inertia::render('guest/programs', [
+            'programsGallery' => $this->randomGalleryImages(8),
+            'programsHeroImage' => $this->pickRandomHeroImage(),
         ]);
     }
 
-    public function users()
+    public function fundraising()
     {
-        return Inertia::render('guest/users', [
-            'user_stats' => [
-                'total_users' => 500,
-                'active_users' => 420,
-                'new_this_month' => 45,
-            ],
-            'testimonials' => [
-                [
-                    'name' => 'Community member',
-                    'location' => 'Luac Akok Yieu',
-                    'quote' => 'LAYYA gave me a place to learn, lead, and belong.',
-                    'rating' => 5,
-                ],
-            ],
+        return Inertia::render('guest/fundraising', [
+            'heroImage' => $this->pickRandomHeroImage(),
         ]);
+    }
+
+    public function gallery()
+    {
+        return Inertia::render('guest/gallery', [
+            'images' => $this->randomGalleryImages(12),
+        ]);
+    }
+
+    public function impact()
+    {
+        return Inertia::render('guest/impact');
+    }
+
+    public function news()
+    {
+        return Inertia::render('guest/news');
+    }
+
+    public function getInvolved()
+    {
+        return Inertia::render('guest/get-involved');
     }
 
     public function faq()
@@ -190,7 +149,9 @@ class PageController extends Controller
 
     public function team()
     {
-        return Inertia::render('guest/about');
+        return Inertia::render('guest/team', [
+            'teamGallery' => $this->randomGalleryImages(3),
+        ]);
     }
 
     public function reports()

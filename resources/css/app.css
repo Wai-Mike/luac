@@ -63,12 +63,12 @@ a,
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #0f766e;
+    background: #004d4d;
     border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #115e59;
+    background: #006666;
 }
 
 /* Prevent body overflow when mobile menu is open */
@@ -176,14 +176,17 @@ a {
 
 
 @theme {
-    /* LAYYA logo: teal ribbon & navy lettering */
-    --color-brand: #0f766e;
-    --color-brand-dark: #115e59;
-    --color-brand-foreground: #ccfbf1;
+    /* LAYYA logo: dark teal ring, water mist, leaf green, star yellow */
+    --color-brand: #004d4d;
+    --color-brand-dark: #003838;
+    --color-brand-foreground: #ecfdf5;
     --color-brand-muted: #94a3b8;
-    --color-brand-light: #14b8a6;
-    --color-brand-soft: #0d9488;
-    --color-brand-surface: #f0fdfa;
+    --color-brand-light: #0d9488;
+    --color-brand-soft: #115e59;
+    --color-brand-surface: #e0f2f1;
+    --color-layya-star: #ffe156;
+    --color-layya-leaf: #228b22;
+    --color-layya-leaf-bright: #32cd32;
 
     --color-navy: #1e293b;
     --color-navy-light: #334155;
@@ -194,10 +197,9 @@ a {
     --color-association-band: #0c4a6e;
 
     --font-sans:
-        'Montserrat', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'Roboto', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --font-association: 'Lora', Georgia, 'Times New Roman', ui-serif, serif;
+    --font-association: 'Roboto', Georgia, 'Times New Roman', ui-serif, serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

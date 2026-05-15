@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -32,7 +33,7 @@ class RegisterController extends Controller
     public function showLoginForm(Request $request): Response
     {
         return Inertia::render('auth/login', [
-            'canResetPassword' => Route::has('password.request'),
+            'canResetPassword' => Route::has('auth.password.request'),
             'status' => $request->session()->get('status'),
         ]);
     }
@@ -61,25 +62,22 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         // Send custom verification email
-        $user->notify(new VerificationWelcomeNotification());
+        $user->notify(new VerificationWelcomeNotification);
 
         // Auto-login the user after registration
         Auth::login($user);
 
         // Check if user has a profile, if not redirect to profile setup
-        try {
+        if (Schema::hasTable('profiles')) {
             $user->load('profile');
-        } catch (\Exception $e) {
-            // Profile table might not exist yet, continue without it
         }
-        if (!isset($user->profile) || !$user->profile) {
+        if (Schema::hasTable('profiles') && ! isset($user->profile)) {
             return redirect()->route('user.profile.setup')->with('info', 'Please complete your profile to get started.');
         }
 
-        // Redirect based on user role
-        $redirectRoute = $user->role === 'admin' ? 'admin.dashboard' : 'user.dashboard';
-
-        return redirect()->intended(route($redirectRoute))->with('success', 'Registration successful! Welcome.');
+        return redirect()
+            ->intended(route('dashboard'))
+            ->with('success', 'Registration successful! Welcome.');
     }
 
     /**
@@ -92,28 +90,23 @@ class RegisterController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-        
+
         // Try to load profile if table exists, otherwise skip
-        try {
+        if (Schema::hasTable('profiles')) {
             $user->load('profile');
-        } catch (\Exception $e) {
-            // Profile table might not exist yet, continue without it
         }
-        
+
         // If email is not verified, redirect to verification page
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             return redirect()->route('verification.notice');
         }
 
         // If user doesn't have a profile, redirect to profile setup
-        if (!isset($user->profile) || !$user->profile) {
+        if (Schema::hasTable('profiles') && ! isset($user->profile)) {
             return redirect()->route('user.profile.setup')->with('info', 'Please complete your profile to continue.');
         }
 
-        // Redirect based on user role
-        $redirectRoute = $user->role === 'admin' ? 'admin.dashboard' : 'user.dashboard';
-
-        return redirect()->intended(route($redirectRoute));
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

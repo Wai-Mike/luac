@@ -14,13 +14,7 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check()) {
-            $user = auth()->user();
-
-            return match ($user->role) {
-                'admin' => redirect()->route('admin.dashboard'),
-                'management', 'member' => redirect()->route('user.dashboard'),
-                default => redirect()->route('home'),
-            };
+            return redirect()->intended(route('dashboard'));
         }
 
         return $next($request);

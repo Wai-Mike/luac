@@ -1,6 +1,8 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
+const LOGIN_HERO_IMAGE = '/images/pexels-pixabay-51953.jpg';
+
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
@@ -20,207 +22,227 @@ export default function Login({ status, canResetPassword }) {
 
     const handleGoogleLogin = () => {
         setIsGoogleLoading(true);
-        // Redirect to Google OAuth
         window.location.href = route('auth.google');
     };
 
+    const fieldClass =
+        'w-full rounded-lg border border-slate-200/90 bg-slate-50/60 px-3 py-2 text-sm text-navy shadow-inner shadow-slate-900/5 outline-none transition-[border-color,box-shadow,background-color] placeholder:text-slate-400 focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/15 sm:rounded-xl sm:px-4 sm:py-2.5 sm:text-[15px]';
+
     return (
-        <div className="flex min-h-screen">
+        <>
             <Head title="Login - LAYYA" />
-
-            {/* Left Section - Image with Gradient */}
-            <div className="relative hidden lg:flex lg:flex-1">
-                <div
-                    className="h-full w-full bg-cover bg-center bg-no-repeat"
-                    style={{
-                        backgroundImage: `url('/images/pexels-pixabay-51953.jpg')`,
-                    }}
-                >
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-900/90 via-green-800/85 to-green-700/80"></div>
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="relative z-10 flex h-full items-center justify-center">
-                        <div className="p-8 text-center text-white">
-                            <div className="mb-6 inline-flex items-center justify-center rounded-full bg-white/30 p-4 backdrop-blur-md shadow-lg ring-2 ring-white/20">
-                                <svg className="h-12 w-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                            </div>
-                            <h2 className="mb-4 text-3xl font-extrabold text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgba(0,0,0,0.9)] lg:text-4xl">Welcome Back</h2>
-                            <p className="text-lg font-medium text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.8)] [text-shadow:_1px_1px_3px_rgba(0,0,0,0.9)] opacity-90">Sign in to continue your journey with us</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Right Section - Login Form */}
-            <div className="flex w-full items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 p-8 lg:w-1/2">
-                <div className="w-full max-w-md">
-                    {/* Status Message */}
-                    {status && <div className="mb-6 rounded-lg border border-green-300 bg-green-500/20 p-4 text-green-100 backdrop-blur-sm">{status}</div>}
-
-                    {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="mb-2 text-3xl font-bold text-white">LOGIN</h1>
-                        <div className="h-1 w-12 rounded bg-green-600"></div>
-                    </div>
-
-                    {/* Form */}
-                    <form className="space-y-6" onSubmit={submit}>
-                        {/* Username Field */}
-                        <div>
-                            <label htmlFor="email" className="mb-2 block text-sm font-medium text-white">
-                                Username
-                            </label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                className="w-full rounded-lg border border-white/30 bg-white/10 px-4 py-3 text-white placeholder:text-white/70 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
-                                placeholder="Enter your username"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
-                            />
-                            {errors.email && <p className="mt-2 text-sm text-red-300">{errors.email}</p>}
-                        </div>
-
-                        {/* Password Field */}
-                        <div>
-                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-white">
-                                Password
-                            </label>
-                            <div className="relative">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    autoComplete="current-password"
-                                    required
-                                    className="w-full rounded-lg border border-white/30 bg-white/10 px-4 py-3 pr-12 text-white placeholder:text-white/70 transition-colors focus:border-green-500 focus:ring-2 focus:ring-green-500"
-                                    placeholder="Enter your password"
-                                    value={data.password}
-                                    onChange={(e) => setData('password', e.target.value)}
-                                />
-                                <button
-                                    type="button"
-                                    className="absolute inset-y-0 right-0 flex items-center pr-3 transition-colors hover:text-white"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? (
-                                        <svg className="h-5 w-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                                            />
-                                        </svg>
-                                    ) : (
-                                        <svg className="h-5 w-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
-                                    )}
-                                </button>
-                            </div>
-                            {errors.password && <p className="mt-2 text-sm text-red-300">{errors.password}</p>}
-                        </div>
-
-                        {/* Remember Me */}
-                        <div className="flex items-center">
-                            <input
-                                id="remember"
-                                name="remember"
-                                type="checkbox"
-                                className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                                checked={data.remember}
-                                onChange={(e) => setData('remember', e.target.checked)}
-                            />
-                            <label htmlFor="remember" className="ml-2 block text-sm text-white">
-                                Remember me
-                            </label>
-                        </div>
-
-                        {/* Sign In Button */}
-                        <button
-                            type="submit"
-                            disabled={processing}
-                            className="w-full rounded-lg bg-green-600 px-4 py-3 font-medium text-white transition-colors hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            <div className="flex h-dvh max-h-dvh flex-col overflow-hidden overscroll-none bg-gradient-to-b from-brand-surface/70 via-white to-slate-50 lg:flex-row lg:min-h-0 lg:bg-white lg:bg-none">
+                {/* Desktop hero */}
+                <aside className="relative hidden min-h-0 lg:flex lg:h-full lg:w-[min(52%,520px)] lg:shrink-0 xl:w-[min(48%,600px)]">
+                    <img
+                        src={LOGIN_HERO_IMAGE}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover object-center"
+                        draggable={false}
+                        decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/[0.88] via-brand/78 to-navy/85" aria-hidden />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_20%_-10%,rgba(255,225,86,0.14),transparent_55%)]" aria-hidden />
+                    <div className="relative z-10 flex h-full min-h-0 flex-col justify-between gap-4 p-7 xl:p-9 [@media(max-height:700px)]:p-6">
+                        <Link
+                            href={route('home')}
+                            prefetch
+                            className="inline-flex w-fit shrink-0 items-center gap-2.5 rounded-xl bg-white/10 px-2.5 py-1.5 backdrop-blur-sm transition-colors hover:bg-white/[0.14] [@media(max-height:700px)]:gap-2"
                         >
-                            {processing ? 'Signing in...' : 'Sign in'}
-                        </button>
-                    </form>
-
-                    {/* Sign Up Link */}
-                    <div className="mt-6 text-center">
-                        <p className="text-sm text-white">
-                            Don't have an account?{' '}
-                            <Link href={route('register')} className="font-medium text-green-400 transition-colors hover:text-green-300">
-                                Sign up
-                            </Link>
-                        </p>
+                            <img
+                                src="/images/logo.jpg"
+                                alt=""
+                                className="size-9 rounded-full object-cover ring-2 ring-white/25 [@media(max-height:700px)]:size-8"
+                                draggable={false}
+                            />
+                            <span className="text-left leading-tight">
+                                <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-white/85">Layya</span>
+                                <span className="mt-0.5 block max-w-[10rem] text-[10px] leading-snug text-white/65">
+                                    Luac Akok Yieu Youth Association
+                                </span>
+                            </span>
+                        </Link>
+                        <div className="min-w-0 space-y-2 [@media(max-height:700px)]:space-y-1.5">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-layya-star/95">Portal</p>
+                            <h1 className="max-w-[18ch] text-2xl font-bold leading-[1.12] tracking-tight text-white xl:text-3xl [@media(max-height:700px)]:text-xl">
+                                Welcome back — your community is here.
+                            </h1>
+                            <p className="hidden max-w-sm text-sm leading-relaxed text-white/75 lg:block [@media(max-height:720px)]:lg:hidden">
+                                Programs, updates, and member tools in one place.
+                            </p>
+                        </div>
+                        <p className="shrink-0 text-[10px] text-white/35">Secure sign-in · Encrypted session</p>
                     </div>
+                </aside>
 
-                    {/* Google Login Button */}
-                    <div className="mt-8">
-                        <button
-                            type="button"
-                            onClick={handleGoogleLogin}
-                            disabled={isGoogleLoading}
-                            className="flex w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-50 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                {/* Mobile top band */}
+                <div className="relative h-[5.25rem] shrink-0 overflow-hidden lg:hidden [@media(max-height:620px)]:h-[4.25rem]">
+                    <img
+                        src={LOGIN_HERO_IMAGE}
+                        alt=""
+                        className="h-full w-full object-cover object-center"
+                        draggable={false}
+                        decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/80 to-navy/80" aria-hidden />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <Link
+                            href={route('home')}
+                            prefetch
+                            className="flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 backdrop-blur-md"
                         >
-                            {isGoogleLoading ? (
-                                <>
-                                    <svg className="mr-3 h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path
-                                            className="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                        ></path>
-                                    </svg>
-                                    Loading...
-                                </>
-                            ) : (
-                                <>
-                                    <svg className="mr-3 h-5 w-5" viewBox="0 0 24 24">
-                                        <path
-                                            fill="currentColor"
-                                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                        />
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                        />
-                                        <path
-                                            fill="currentColor"
-                                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                        />
-                                        <path
-                                            fill="currentColor"
-                                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                        />
-                                    </svg>
-                                    Continue with Google
-                                </>
-                            )}
-                        </button>
-                    </div>
-
-                    {/* Back to Home */}
-                    <div className="mt-8 text-center">
-                        <Link href={route('home')} className="text-sm text-white transition-colors hover:text-green-400">
-                            ← Back to home
+                            <img src="/images/logo.jpg" alt="" className="size-8 rounded-full object-cover ring-2 ring-white/30" draggable={false} />
+                            <span className="text-sm font-semibold text-white">LAYYA</span>
                         </Link>
                     </div>
                 </div>
+
+                {/* Sign-in */}
+                <main className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 sm:px-6 lg:px-10 xl:px-14 [@media(max-height:640px)]:pt-1">
+                    <div className="flex max-h-full min-h-0 w-full max-w-[400px] flex-col justify-center">
+                        <div className="max-h-full min-h-0 w-full overflow-hidden rounded-[1.25rem] border border-slate-200/70 bg-white/95 p-4 shadow-[0_18px_48px_-28px_rgba(0,77,77,0.25)] backdrop-blur-sm sm:rounded-[1.5rem] sm:p-5 lg:p-6 [@media(max-height:680px)]:p-3.5">
+                            {status ? (
+                                <div className="mb-3 rounded-lg bg-brand-surface px-3 py-2 text-xs leading-snug text-brand-dark sm:text-sm" role="status">
+                                    {status}
+                                </div>
+                            ) : null}
+
+                            <div className="mb-4 lg:hidden [@media(max-height:640px)]:mb-3">
+                                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand [@media(max-height:640px)]:hidden">Sign in</p>
+                                <h2 className="mt-0.5 text-lg font-bold tracking-tight text-navy [@media(min-height:700px)]:text-xl [@media(min-height:800px)]:text-2xl">
+                                    Access your account
+                                </h2>
+                                <p className="mt-1 text-xs text-slate-500 [@media(max-height:640px)]:hidden sm:text-sm">Use the email on your profile.</p>
+                            </div>
+
+                            <div className="mb-4 hidden lg:block [@media(max-height:700px)]:mb-3">
+                                <h2 className="text-xl font-bold tracking-tight text-navy [@media(min-height:820px)]:text-2xl">Sign in</h2>
+                                <p className="mt-0.5 text-xs text-slate-500 sm:text-sm">Enter your credentials to continue.</p>
+                                <div className="mt-2 h-0.5 w-8 rounded-full bg-brand [@media(max-height:700px)]:mt-1.5" aria-hidden />
+                            </div>
+
+                            <form className="space-y-3 sm:space-y-4 [@media(max-height:680px)]:space-y-2.5" onSubmit={submit} noValidate>
+                                <div>
+                                    <label htmlFor="email" className="mb-1 block text-xs font-medium text-navy sm:text-sm">
+                                        Email
+                                    </label>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        required
+                                        className={fieldClass}
+                                        placeholder="you@example.com"
+                                        value={data.email}
+                                        onChange={(e) => setData('email', e.target.value)}
+                                    />
+                                    {errors.email ? <p className="mt-1 text-xs text-red-600 sm:text-sm">{errors.email}</p> : null}
+                                </div>
+
+                                <div>
+                                    <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                                        <label htmlFor="password" className="text-xs font-medium text-navy sm:text-sm">
+                                            Password
+                                        </label>
+                                        {canResetPassword ? (
+                                            <Link
+                                                href={route('auth.password.request')}
+                                                prefetch
+                                                className="text-[11px] font-semibold text-brand underline-offset-2 hover:text-brand-dark hover:underline sm:text-xs"
+                                            >
+                                                Forgot password?
+                                            </Link>
+                                        ) : null}
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            id="password"
+                                            name="password"
+                                            type={showPassword ? 'text' : 'password'}
+                                            autoComplete="current-password"
+                                            required
+                                            className={`${fieldClass} pr-[3.75rem]`}
+                                            placeholder="••••••••"
+                                            value={data.password}
+                                            onChange={(e) => setData('password', e.target.value)}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md px-2 py-0.5 text-[11px] font-semibold text-slate-500 transition-colors hover:bg-slate-100 hover:text-brand"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? 'Hide' : 'Show'}
+                                        </button>
+                                    </div>
+                                    {errors.password ? <p className="mt-1 text-xs text-red-600 sm:text-sm">{errors.password}</p> : null}
+                                </div>
+
+                                <label className="flex cursor-pointer items-center gap-2 text-xs text-slate-600 sm:text-sm">
+                                    <input
+                                        id="remember"
+                                        name="remember"
+                                        type="checkbox"
+                                        className="size-3.5 rounded border-slate-300 text-brand focus:ring-brand/30 sm:size-4"
+                                        checked={data.remember}
+                                        onChange={(e) => setData('remember', e.target.checked)}
+                                    />
+                                    <span className="[@media(max-height:640px)]:hidden">Remember this device</span>
+                                    <span className="hidden [@media(max-height:640px)]:inline">Remember</span>
+                                </label>
+
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="w-full rounded-xl bg-brand py-2.5 text-sm font-semibold text-white shadow-md shadow-brand/20 transition-[filter,transform] hover:bg-brand-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.99] sm:py-3 [@media(max-height:680px)]:py-2"
+                                >
+                                    {processing ? 'Signing in…' : 'Sign in'}
+                                </button>
+                            </form>
+
+                            <p className="mt-4 text-center text-xs text-slate-600 sm:mt-5 sm:text-sm [@media(max-height:680px)]:mt-3">
+                                Don&apos;t have an account?{' '}
+                                <Link href={route('register')} prefetch className="font-semibold text-brand hover:text-brand-dark">
+                                    Register
+                                </Link>
+                            </p>
+
+                            <div className="relative my-4 sm:my-5 [@media(max-height:680px)]:my-3">
+                                <div className="absolute inset-0 flex items-center" aria-hidden>
+                                    <div className="w-full border-t border-slate-200" />
+                                </div>
+                                <div className="relative flex justify-center text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 sm:text-[10px]">
+                                    <span className="bg-white/95 px-2">Or</span>
+                                </div>
+                            </div>
+
+                            <button
+                                type="button"
+                                onClick={handleGoogleLogin}
+                                disabled={isGoogleLoading}
+                                aria-busy={isGoogleLoading}
+                                className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-navy shadow-sm transition-[background-color,box-shadow] hover:border-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-300 disabled:cursor-not-allowed disabled:opacity-60 sm:py-2.5 [@media(max-height:680px)]:py-1.5"
+                            >
+                                {isGoogleLoading ? (
+                                    <>
+                                        <span className="size-3.5 shrink-0 animate-spin rounded-full border-2 border-slate-200 border-t-brand" aria-hidden />
+                                        Redirecting…
+                                    </>
+                                ) : (
+                                    'Continue with Google'
+                                )}
+                            </button>
+
+                            <div className="mt-4 flex flex-col items-center gap-0.5 border-t border-slate-100 pt-4 text-center sm:mt-5 sm:gap-1 sm:pt-5 [@media(max-height:680px)]:mt-3 [@media(max-height:680px)]:pt-3">
+                                <Link href={route('home')} prefetch className="text-xs font-medium text-slate-500 hover:text-brand sm:text-sm">
+                                    Back to home
+                                </Link>
+                                <p className="text-[10px] text-slate-400 [@media(max-height:620px)]:hidden">Luac Akok Yieu Youth Association</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
-        </div>
+        </>
     );
 }

@@ -1,18 +1,17 @@
 <?php
 
+use App\Http\Middleware\EnsureAdminAccess;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\RoleOrHigherMiddleware;
-use App\Http\Middleware\RedirectIfAuthenticated;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Illuminate\Http\Middleware\HandleCors;
-use Illuminate\Auth\AuthenticationException;
-
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -30,8 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-         // Add CORS and Sanctum Middleware for API
-         $middleware->api(prepend: [
+        // Add CORS and Sanctum Middleware for API
+        $middleware->api(prepend: [
             HandleCors::class,
         ]);
 
@@ -45,10 +44,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Register middleware aliases
         $middleware->alias([
+            'admin.access' => EnsureAdminAccess::class,
             'role' => RoleMiddleware::class,
             'role.or.higher' => RoleOrHigherMiddleware::class,
             'guest' => RedirectIfAuthenticated::class,
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+            'permission' => \App\Http\Middleware\EnsurePermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -57,7 +58,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([
                     'error' => 'Unauthorized. Please log in.',
-                    'message' => 'Unauthenticated.'
+                    'message' => 'Unauthenticated.',
                 ], 401);
             }
         });

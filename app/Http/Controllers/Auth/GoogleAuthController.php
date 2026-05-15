@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
@@ -63,7 +64,9 @@ class GoogleAuthController extends Controller
             ]);
 
             Auth::login($user, true); // Remember the user
-            $user->load('profile');
+            if (Schema::hasTable('profiles')) {
+                $user->load('profile');
+            }
 
             Log::info('User logged in', [
                 'authenticated' => Auth::check(),
@@ -71,30 +74,18 @@ class GoogleAuthController extends Controller
                 'session_data' => session()->all(),
             ]);
 
-            // If user doesn't have a profile, redirect to profile setup
-            if (!$user->profile) {
-                $intended = route('user.profile.setup');
+            if (Schema::hasTable('profiles') && ! $user->profile) {
                 Log::info('Redirecting to profile setup', ['user_id' => $user->id]);
-            } else {
-                // Redirect based on user role (same logic as registration)
-                $redirectRoute = match ($user->role) {
-                    'admin' => 'admin.dashboard',
-                    'management', 'member' => 'user.dashboard',
-                    default => 'user.dashboard',
-                };
 
-                // Try to redirect to intended page, fallback to role-based dashboard
-                $intended = session()->pull('url.intended', route($redirectRoute));
-                
-                Log::info('Redirecting user', [
-                    'user_role' => $user->role,
-                    'redirect_route' => $redirectRoute,
-                    'intended_url' => $intended,
-                    'final_redirect' => url($intended),
-                ]);
+                return redirect()->intended(route('user.profile.setup'));
             }
 
-            return redirect($intended);
+            Log::info('Redirecting user to dashboard dispatcher', [
+                'user_role' => $user->role,
+                'can_access_admin' => $user->canAccessAdminPanel(),
+            ]);
+
+            return redirect()->intended(route('dashboard'));
         } catch (\Throwable $e) {
             Log::warning('Google OAuth callback failed', [
                 'message' => $e->getMessage(),
@@ -112,7 +103,7 @@ class GoogleAuthController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')->with('error', 'Please log in first.');
         }
 
@@ -147,7 +138,7 @@ class GoogleAuthController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login')->with('error', 'Please log in first.');
         }
 

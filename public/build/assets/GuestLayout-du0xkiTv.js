@@ -1,0 +1,1 @@
+import{j as a}from"./app-BSouqLoC.js";import{G as e,a as o}from"./GuestNavbar-Cq6VlE9Y.js";function n({children:t,navbarVariant:s="default",footerVariant:r="default"}){return a.jsxs("div",{className:"min-w-0",children:[a.jsx(e,{variant:s}),t,a.jsx(o,{variant:r})]})}export{n as G};

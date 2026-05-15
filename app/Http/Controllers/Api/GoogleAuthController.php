@@ -7,20 +7,19 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
     public function login(Request $request)
     {
-    
 
         $request->validate([
             'token' => ['required', 'string'],
         ]);
 
         $token = $request->input('token');
-
 
         try {
             $googleUser = Socialite::driver('google')->stateless()->userFromToken($token);
@@ -32,7 +31,6 @@ class GoogleAuthController extends Controller
                 'avatar' => $googleUser->getAvatar(),
                 'email' => $googleUser->getEmail(),
             ];
-
 
             $wasRecentlyCreated = false;
             $user = User::updateOrCreate(
@@ -51,7 +49,9 @@ class GoogleAuthController extends Controller
             }
 
             Auth::login($user);
-            $user->load('profile');
+            if (Schema::hasTable('profiles')) {
+                $user->load('profile');
+            }
 
             return response()->json([
                 'success' => true,
@@ -66,7 +66,7 @@ class GoogleAuthController extends Controller
                 'error_file' => $e->getFile(),
                 'error_line' => $e->getLine(),
                 'token_length' => strlen($token),
-                'token_preview' => substr($token, 0, 20) . '...',
+                'token_preview' => substr($token, 0, 20).'...',
                 'ip' => $request->ip(),
                 'user_agent' => $request->userAgent(),
             ]);
@@ -150,7 +150,7 @@ class GoogleAuthController extends Controller
     {
         $user = $request->user();
         $user->forceFill(['google_id' => null])->save();
+
         return response()->json(['message' => 'Google account unlinked successfully', 'user' => $user]);
     }
 }
-

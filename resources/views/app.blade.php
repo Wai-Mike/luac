@@ -54,11 +54,8 @@
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
-    {{-- Fonts — Montserrat body; Lora for civic / Association-style display headings --}}
-    <link
-        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    {{-- Fonts — Roboto (UniAlumni / Codeboxr template primary) --}}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
 
     {{-- Inline script to detect system dark mode preference and apply it immediately --}}
     <script>

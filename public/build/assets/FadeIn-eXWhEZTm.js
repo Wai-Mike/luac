@@ -1,0 +1,1 @@
+import{j as n}from"./app-BSouqLoC.js";import{m as r}from"./proxy-C16jylBR.js";function m({children:i,className:t="",delay:o=0}){return n.jsx(r.div,{className:t,initial:{opacity:0,y:28},whileInView:{opacity:1,y:0},viewport:{once:!0,margin:"-60px"},transition:{duration:.55,delay:o,ease:[.22,1,.36,1]},children:i})}export{m as default};

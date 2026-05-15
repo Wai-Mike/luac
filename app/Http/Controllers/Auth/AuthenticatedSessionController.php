@@ -9,8 +9,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,7 +22,7 @@ class AuthenticatedSessionController extends Controller
     public function create(Request $request): Response
     {
         return Inertia::render('auth/login', [
-            'canResetPassword' => Route::has('password.request'),
+            'canResetPassword' => Route::has('auth.password.request'),
             'status' => $request->session()->get('status'),
         ]);
     }
@@ -33,13 +33,13 @@ class AuthenticatedSessionController extends Controller
             // Validate user input
             $validated = $request->validate([
                 'email' => 'required|string|lowercase|email|max:255',
-                'password' =>  'required',
+                'password' => 'required',
             ]);
 
             // Create new user
             $user = User::where('email', $validated['email'])->first();
 
-            if(!$user || !Hash::check($validated['password'], $user->password)){
+            if (! $user || ! Hash::check($validated['password'], $user->password)) {
                 return response([
                     'message' => 'Wrong credentials',
                     'status' => false,
@@ -99,6 +99,7 @@ class AuthenticatedSessionController extends Controller
             ], 500);
         }
     }
+
     /**
      * Handle an incoming authentication request.
      */

@@ -1,0 +1,11 @@
+import{j as e}from"./app-BSouqLoC.js";import{U as n}from"./users-D0mFIkPk.js";import{B as c}from"./book-open-BEWRav3Z.js";import{c as t}from"./createLucideIcon-DFROSFlq.js";/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const r=[["path",{d:"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526",key:"1yiouv"}],["circle",{cx:"12",cy:"8",r:"6",key:"1vp47v"}]],o=t("Award",r);/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const m=[["path",{d:"M8 2v4",key:"1cmpym"}],["path",{d:"M16 2v4",key:"4m81vk"}],["rect",{width:"18",height:"18",x:"3",y:"4",rx:"2",key:"1hopcy"}],["path",{d:"M3 10h18",key:"8toen8"}]],d=t("Calendar",m),x=[{icon:n,value:"500+",label:"Youth reached"},{icon:c,value:"12+",label:"Programs"},{icon:d,value:"10+",label:"Years"},{icon:o,value:"1",label:"Community mission"}];function y(){return e.jsx("section",{id:"funfact-area",className:"scroll-mt-24 bg-[#161f37] py-16 text-white sm:py-20 lg:py-20",children:e.jsx("div",{className:"mx-auto max-w-[75rem] px-4 sm:px-6 lg:px-8",children:e.jsx("div",{className:"mx-auto grid max-w-4xl grid-cols-1 divide-y divide-white/10 sm:max-w-none sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:gap-2 lg:divide-x lg:divide-y-0 lg:divide-white/15",children:x.map(({icon:a,value:i,label:s},l)=>e.jsxs("div",{className:`single-funfact-wrap flex flex-col items-center gap-4 py-8 sm:flex-row sm:items-center sm:justify-center sm:py-6 sm:pl-0 lg:justify-start lg:gap-5 lg:px-6 ${l===0?"lg:pl-0":""}`,children:[e.jsx("div",{className:"shrink-0 rounded-lg bg-white/5 p-3 text-white/90 ring-1 ring-white/10",children:e.jsx(a,{className:"h-10 w-10",strokeWidth:1.25,"aria-hidden":!0})}),e.jsxs("div",{className:"text-center sm:text-left",children:[e.jsx("h3",{className:"m-0 font-sans text-4xl font-light tabular-nums leading-none",children:i}),e.jsx("p",{className:"m-0 mt-2 font-sans text-base text-white/80",children:s})]})]},s))})})})}export{y as default};

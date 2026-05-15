@@ -1,149 +1,151 @@
-import AdminLayout from '@/components/AdminLayout';
-import Chart from '@/components/admin/Chart';
-import { Head, Link, useForm } from '@inertiajs/react';
+import AppLayout from '@/layouts/app-layout';
+import { Head, Link, router } from '@inertiajs/react';
+import { paginatorItems } from '../useAdminPageProps';
 
-export default function YouthCensusAdminIndex({ members, filters, charts, auth, user, role, currentPath }) {
-    const { data, setData, get } = useForm({
-        search: filters?.search || '',
-    });
+const breadcrumbs = [
+    { title: 'Admin', href: '/admin' },
+    { title: 'Youth census' },
+];
 
-    const submitSearch = (e) => {
+export default function YouthCensusIndex({ members, filters = {}, charts = {} }) {
+    const rows = paginatorItems(members);
+    const meta = members && !Array.isArray(members) ? members : null;
+
+    const search = filters.search || '';
+
+    const onSearch = (e) => {
         e.preventDefault();
-        get(route('admin.youth-members.index'), {
-            preserveState: true,
-            preserveScroll: true,
-            replace: true,
-        });
-    };
-
-    const genderChartData = {
-        labels: (charts?.byGender || []).map((g) => g.gender || 'Unknown'),
-        datasets: [
-            {
-                data: (charts?.byGender || []).map((g) => g.total),
-                backgroundColor: ['#047857', '#0ea5e9', '#f59e0b', '#6b7280'],
-            },
-        ],
-    };
-
-    const educationChartData = {
-        labels: (charts?.byEducation || []).map((e) => e.education_level || 'Unknown'),
-        datasets: [
-            {
-                data: (charts?.byEducation || []).map((e) => e.total),
-                backgroundColor: ['#22c55e', '#10b981', '#0ea5e9', '#6366f1', '#f97316', '#e11d48'],
-            },
-        ],
+        const fd = new FormData(e.target);
+        const q = fd.get('search') || '';
+        router.get('/admin/youth-members', q ? { search: q } : {}, { preserveState: true });
     };
 
     return (
-        <AdminLayout user={user || auth?.user} role={role || 'admin'} currentPath={currentPath || 'admin/youth-members'}>
-            <Head title="Youth Census - LAYYA" />
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Admin · Youth census" />
 
-            <div className="space-y-6">
-                <div className="flex items-center justify-between">
+            <div className="mx-auto max-w-6xl space-y-8">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900">Youth Census</h1>
-                        <p className="mt-1 text-sm text-slate-600">
-                            View registrations from the Luac Akok Yieu youth census and explore key demographics.
-                        </p>
+                        <h1 className="text-2xl font-semibold text-slate-900">Youth census</h1>
+                        <p className="mt-1 text-sm text-slate-600">Registered youth members</p>
                     </div>
-                    <div className="flex items-center gap-3">
-                        <Link
-                            href={route('youth-census.register')}
-                            className="inline-flex items-center rounded-full border border-emerald-600 bg-white px-4 py-2 text-xs font-semibold text-emerald-700 shadow-sm hover:bg-emerald-50"
-                        >
-                            Public registration form
-                        </Link>
-                    </div>
+                    <Link
+                        href="/admin/youth-members/create"
+                        className="rounded-lg bg-[rgb(4,50,75)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+                    >
+                        Add record
+                    </Link>
                 </div>
 
-                <div className="grid gap-6 lg:grid-cols-3">
-                    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm lg:col-span-2">
-                        <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-sm font-semibold text-slate-900">Census records</h2>
-                            <form onSubmit={submitSearch} className="flex items-center gap-2">
-                                <input
-                                    type="text"
-                                    placeholder="Search by name, phone, email..."
-                                    value={data.search}
-                                    onChange={(e) => setData('search', e.target.value)}
-                                    className="w-56 rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-300"
-                                />
-                                <button
-                                    type="submit"
-                                    className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700"
-                                >
-                                    Filter
-                                </button>
-                            </form>
-                        </div>
+                <form onSubmit={onSearch} className="flex flex-wrap gap-2">
+                    <input
+                        name="search"
+                        type="search"
+                        defaultValue={search}
+                        placeholder="Search name, phone, email…"
+                        className="min-w-[200px] flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                    />
+                    <button
+                        type="submit"
+                        className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50"
+                    >
+                        Search
+                    </button>
+                </form>
 
-                        <div className="overflow-hidden rounded-lg border border-slate-100">
-                            <table className="min-w-full divide-y divide-slate-100 text-xs">
-                                <thead className="bg-slate-50">
-                                    <tr>
-                                        <th className="px-3 py-2 text-left font-semibold text-slate-600">Name</th>
-                                        <th className="px-3 py-2 text-left font-semibold text-slate-600">Gender</th>
-                                        <th className="px-3 py-2 text-left font-semibold text-slate-600">Age</th>
-                                        <th className="px-3 py-2 text-left font-semibold text-slate-600">County / Payam</th>
-                                        <th className="px-3 py-2 text-left font-semibold text-slate-600">Education</th>
-                                        <th className="px-3 py-2 text-right font-semibold text-slate-600">Actions</th>
+                <div className="grid gap-4 lg:grid-cols-3">
+                    <ChartSummary title="By gender" rows={charts.byGender} labelKey="gender" />
+                    <ChartSummary title="Top counties" rows={charts.byCounty} labelKey="county" />
+                    <ChartSummary title="Education" rows={charts.byEducation} labelKey="education_level" />
+                </div>
+
+                <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                    <table className="min-w-full divide-y divide-slate-100 text-sm">
+                        <thead className="bg-slate-50 text-left text-xs font-medium text-slate-500 uppercase">
+                            <tr>
+                                <th className="px-4 py-3">Name</th>
+                                <th className="px-4 py-3">County</th>
+                                <th className="px-4 py-3">Gender</th>
+                                <th className="px-4 py-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {rows.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                                        No records yet.
+                                    </td>
+                                </tr>
+                            ) : (
+                                rows.map((m) => (
+                                    <tr key={m.id} className="hover:bg-slate-50/50">
+                                        <td className="px-4 py-3 font-medium text-slate-900">
+                                            {m.first_name} {m.last_name}
+                                        </td>
+                                        <td className="px-4 py-3 text-slate-600">{m.county || '—'}</td>
+                                        <td className="px-4 py-3 text-slate-600">{m.gender || '—'}</td>
+                                        <td className="px-4 py-3 text-right">
+                                            <Link
+                                                href={`/admin/youth-members/${m.id}`}
+                                                className="text-[rgb(29,84,114)] hover:underline"
+                                            >
+                                                View
+                                            </Link>
+                                            <span className="mx-2 text-slate-300">|</span>
+                                            <Link
+                                                href={`/admin/youth-members/${m.id}/edit`}
+                                                className="text-slate-700 hover:underline"
+                                            >
+                                                Edit
+                                            </Link>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100 bg-white">
-                                    {members.data.length === 0 && (
-                                        <tr>
-                                            <td colSpan="6" className="px-3 py-6 text-center text-xs text-slate-400">
-                                                No youth census records yet.
-                                            </td>
-                                        </tr>
-                                    )}
-                                    {members.data.map((member) => (
-                                        <tr key={member.id}>
-                                            <td className="px-3 py-2 text-xs text-slate-800">
-                                                {member.first_name} {member.last_name}
-                                            </td>
-                                            <td className="px-3 py-2 text-xs capitalize text-slate-700">
-                                                {member.gender || '—'}
-                                            </td>
-                                            <td className="px-3 py-2 text-xs text-slate-700">
-                                                {member.date_of_birth ? member.date_of_birth : '—'}
-                                            </td>
-                                            <td className="px-3 py-2 text-xs text-slate-700">
-                                                {[member.county, member.payam].filter(Boolean).join(' / ') || '—'}
-                                            </td>
-                                            <td className="px-3 py-2 text-xs text-slate-700">
-                                                {member.education_level || '—'}
-                                            </td>
-                                            <td className="px-3 py-2 text-right text-xs">
-                                                <Link
-                                                    href={route('admin.youth-members.show', member.id)}
-                                                    className="text-emerald-700 hover:text-emerald-900"
-                                                >
-                                                    View
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div className="space-y-4">
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                            <h2 className="mb-3 text-sm font-semibold text-slate-900">By gender</h2>
-                            <Chart data={genderChartData} type="doughnut" height={220} />
-                        </div>
-                        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                            <h2 className="mb-3 text-sm font-semibold text-slate-900">By education level</h2>
-                            <Chart data={educationChartData} type="bar" height={220} />
-                        </div>
-                    </div>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
                 </div>
+
+                {meta?.links && (
+                    <nav className="flex flex-wrap justify-center gap-2 text-sm">
+                        {meta.links.map((link, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                disabled={!link.url}
+                                onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
+                                className={`rounded-lg px-3 py-1 ${
+                                    link.active
+                                        ? 'bg-[rgb(4,50,75)] text-white'
+                                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                                } disabled:cursor-not-allowed disabled:opacity-40`}
+                                dangerouslySetInnerHTML={{ __html: link.label }}
+                            />
+                        ))}
+                    </nav>
+                )}
             </div>
-        </AdminLayout>
+        </AppLayout>
     );
 }
 
+function ChartSummary({ title, rows = [], labelKey }) {
+    return (
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
+            <ul className="mt-3 max-h-48 space-y-1 overflow-auto text-sm">
+                {rows.length === 0 ? (
+                    <li className="text-slate-500">No data</li>
+                ) : (
+                    rows.map((r, i) => (
+                        <li key={i} className="flex justify-between gap-2">
+                            <span className="truncate text-slate-700">{r[labelKey] || '—'}</span>
+                            <span className="tabular-nums font-medium text-slate-900">{r.total}</span>
+                        </li>
+                    ))
+                )}
+            </ul>
+        </div>
+    );
+}

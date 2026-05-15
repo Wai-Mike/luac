@@ -1,208 +1,140 @@
+import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
-import AdminLayout from '../../../layouts/AdminLayout';
 import { useState } from 'react';
+import { paginatorItems } from '../useAdminPageProps';
 
-export default function AdminUsers({ users, user: authUser }) {
-    const [showRoleModal, setShowRoleModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+const breadcrumbs = [
+    { title: 'Admin', href: '/admin' },
+    { title: 'Users' },
+];
 
-    const handleRoleChange = (u) => {
-        setSelectedUser(u);
-        setShowRoleModal(true);
-    };
+export default function AdminUsersIndex({ users: usersPaginator }) {
 
-    const handleDeleteClick = (u) => {
-        setSelectedUser(u);
-        setShowDeleteModal(true);
-    };
+    const rows = paginatorItems(usersPaginator);
+    const meta = usersPaginator && !Array.isArray(usersPaginator) ? usersPaginator : null;
 
-    const handleRoleUpdate = (newRole) => {
-        if (!selectedUser) {
-            return;
-        }
-        router.put(
-            route('admin.users.role', selectedUser.id),
-            { role: newRole },
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Admin · Users" />
+
+            <div className="mx-auto max-w-6xl space-y-6">
+                <div className="flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                        <h1 className="text-2xl font-semibold text-slate-900">Users</h1>
+                        <p className="mt-1 text-sm text-slate-600">Manage accounts and roles</p>
+                    </div>
+                    <Link
+                        href="/admin"
+                        className="text-sm font-medium text-[rgb(29,84,114)] hover:underline"
+                    >
+                        ← Dashboard
+                    </Link>
+                </div>
+
+                <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                    <table className="min-w-full divide-y divide-slate-100 text-sm">
+                        <thead className="bg-slate-50 text-left text-xs font-medium text-slate-500 uppercase">
+                            <tr>
+                                <th className="px-4 py-3">Name</th>
+                                <th className="px-4 py-3">Email</th>
+                                <th className="px-4 py-3">Role</th>
+                                <th className="px-4 py-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {rows.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="px-4 py-8 text-center text-slate-500">
+                                        No users found.
+                                    </td>
+                                </tr>
+                            ) : (
+                                rows.map((u) => <UserRow key={u.id} u={u} />)
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                {meta?.links && (
+                    <nav className="flex flex-wrap justify-center gap-2 text-sm">
+                        {meta.links.map((link, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                disabled={!link.url}
+                                onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
+                                className={`rounded-lg px-3 py-1 ${
+                                    link.active
+                                        ? 'bg-[rgb(4,50,75)] text-white'
+                                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                                } disabled:cursor-not-allowed disabled:opacity-40`}
+                                dangerouslySetInnerHTML={{ __html: link.label }}
+                            />
+                        ))}
+                    </nav>
+                )}
+            </div>
+        </AppLayout>
+    );
+}
+
+function UserRow({ u }) {
+    const [role, setRole] = useState(u.role || 'member');
+    const [saving, setSaving] = useState(false);
+
+    const submitRole = (e) => {
+        e.preventDefault();
+        setSaving(true);
+        router.patch(
+            route('admin.users.role', u.id),
+            { role },
             {
                 preserveScroll: true,
-                onSuccess: () => {
-                    setShowRoleModal(false);
-                    setSelectedUser(null);
-                },
+                onFinish: () => setSaving(false),
             }
         );
     };
 
-    const handleDeleteConfirm = () => {
-        if (!selectedUser) {
-            return;
-        }
-        router.delete(route('admin.users.delete', selectedUser.id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                setShowDeleteModal(false);
-                setSelectedUser(null);
-            },
-        });
-    };
-
-    const getRoleColor = (role) => {
-        switch (role) {
-            case 'admin':
-                return 'red';
-            case 'management':
-                return 'purple';
-            case 'member':
-                return 'blue';
-            default:
-                return 'gray';
-        }
+    const deleteUser = () => {
+        if (!confirm(`Delete user ${u.email}?`)) return;
+        router.delete(route('admin.users.destroy', u.id), { preserveScroll: true });
     };
 
     return (
-        <AdminLayout user={authUser} currentPath="/admin/users">
-            <Head title="Manage Users" />
-
-            <div className="space-y-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-                    <p className="mt-2 text-gray-600">Accounts and roles (member, management, or admin).</p>
-                </div>
-
-                <div className="overflow-hidden bg-white shadow sm:rounded-md">
-                    <ul className="divide-y divide-gray-200">
-                        {users.data?.map((userItem) => (
-                            <li key={userItem.id}>
-                                <div className="px-4 py-4 sm:px-6">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center">
-                                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-purple-100">
-                                                <span className="text-sm font-medium text-purple-600">
-                                                    {userItem.name?.charAt(0) || 'U'}
-                                                </span>
-                                            </div>
-                                            <div className="ml-4">
-                                                <div className="flex items-center">
-                                                    <p className="text-sm font-medium text-gray-900">{userItem.name}</p>
-                                                    <span
-                                                        className={`ml-2 inline-flex items-center rounded-full bg-${getRoleColor(userItem.role)}-100 px-2.5 py-0.5 text-xs font-medium text-${getRoleColor(userItem.role)}-800`}
-                                                    >
-                                                        {userItem.role}
-                                                    </span>
-                                                </div>
-                                                <p className="mt-1 text-sm text-gray-500">{userItem.email}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRoleChange(userItem)}
-                                                className="text-sm font-medium text-blue-600 hover:text-blue-900"
-                                            >
-                                                Change role
-                                            </button>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDeleteClick(userItem)}
-                                                className="text-sm font-medium text-red-600 hover:text-red-900"
-                                            >
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        )) || (
-                            <li>
-                                <div className="px-4 py-4 text-center text-gray-500 sm:px-6">No users found</div>
-                            </li>
-                        )}
-                    </ul>
-                </div>
-
-                {users.links && (
-                    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                        <div className="flex flex-1 justify-between sm:hidden">
-                            {users.prev_page_url && (
-                                <Link
-                                    href={users.prev_page_url}
-                                    className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                >
-                                    Previous
-                                </Link>
-                            )}
-                            {users.next_page_url && (
-                                <Link
-                                    href={users.next_page_url}
-                                    className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                >
-                                    Next
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {showRoleModal && (
-                    <div className="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50">
-                        <div className="relative top-20 mx-auto w-96 rounded-md border bg-white p-5 shadow-lg">
-                            <h3 className="text-lg font-medium text-gray-900">Change role</h3>
-                            <p className="mt-2 text-sm text-gray-500">Update role for &quot;{selectedUser?.name}&quot;</p>
-                            <div className="mt-4 flex justify-center space-x-2">
-                                {['member', 'management', 'admin'].map((role) => (
-                                    <button
-                                        key={role}
-                                        type="button"
-                                        onClick={() => handleRoleUpdate(role)}
-                                        className={`rounded-md px-4 py-2 text-sm font-medium ${
-                                            selectedUser?.role === role ? 'bg-gray-300 text-gray-800' : 'bg-blue-600 text-white hover:bg-blue-700'
-                                        }`}
-                                    >
-                                        {role.charAt(0).toUpperCase() + role.slice(1)}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="mt-4 text-center">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowRoleModal(false)}
-                                    className="rounded-md bg-gray-200 px-4 py-2 text-sm text-gray-800 hover:bg-gray-300"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {showDeleteModal && (
-                    <div className="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50">
-                        <div className="relative top-20 mx-auto w-96 rounded-md border bg-white p-5 shadow-lg">
-                            <h3 className="text-lg font-medium text-gray-900">Delete user</h3>
-                            <p className="mt-2 text-sm text-gray-500">
-                                Delete &quot;{selectedUser?.name}&quot;? This cannot be undone.
-                            </p>
-                            <div className="mt-4 flex justify-center space-x-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setShowDeleteModal(false)}
-                                    className="rounded-md bg-gray-200 px-4 py-2 text-sm text-gray-800 hover:bg-gray-300"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={handleDeleteConfirm}
-                                    className="rounded-md bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </AdminLayout>
+        <tr className="hover:bg-slate-50/50">
+            <td className="px-4 py-3 font-medium text-slate-900">{u.name}</td>
+            <td className="px-4 py-3 text-slate-600">{u.email}</td>
+            <td className="px-4 py-3">
+                <form onSubmit={submitRole} className="flex flex-wrap items-center gap-2">
+                    <select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        className="rounded-lg border border-slate-300 px-2 py-1 text-sm"
+                    >
+                        <option value="member">member</option>
+                        <option value="management">management</option>
+                        <option value="admin">admin</option>
+                    </select>
+                    <button
+                        type="submit"
+                        disabled={saving}
+                        className="rounded-lg bg-slate-100 px-2 py-1 text-xs font-medium text-slate-800 hover:bg-slate-200 disabled:opacity-50"
+                    >
+                        Save
+                    </button>
+                </form>
+            </td>
+            <td className="px-4 py-3 text-right">
+                <Link
+                    href={`/admin/users/${u.id}`}
+                    className="mr-2 text-[rgb(29,84,114)] hover:underline"
+                >
+                    View
+                </Link>
+                <button type="button" onClick={deleteUser} className="text-xs font-medium text-red-600 hover:underline">
+                    Delete
+                </button>
+            </td>
+        </tr>
     );
 }

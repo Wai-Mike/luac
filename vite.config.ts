@@ -19,6 +19,7 @@ export default defineConfig({
     },
     resolve: {
         alias: {
+            '@': resolve(__dirname, 'resources/js'),
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
         },
     },
@@ -33,14 +34,14 @@ export default defineConfig({
         },
     },
     server: {
-        host: 'localhost',
-        port: 5173,
+        host: '10.153.162.201',
+        port: 3000,
         cors: {
             origin: true,
             credentials: true,
         },
         hmr: {
-            host: 'localhost',
+            host: '10.153.162.201',
         },
     },
 });

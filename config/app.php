@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +128,7 @@ return [
     | Google Analytics Configuration
     |--------------------------------------------------------------------------
     |
-    | This value is your Google Analytics tracking ID. Set this in your ".env" 
+    | This value is your Google Analytics tracking ID. Set this in your ".env"
     | file as GOOGLE_ANALYTICS_ID=G-S3GRKMW90C
     |
     */
