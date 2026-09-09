@@ -68,7 +68,7 @@ a,
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #006666;
+    background: #003838;
 }
 
 /* Prevent body overflow when mobile menu is open */
@@ -82,10 +82,29 @@ body.mobile-menu-open {
     overflow-x: hidden;
 }
 
-/* Prevent horizontal overflow on all elements */
-* {
+html,
+body {
     max-width: 100%;
-    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.photo-fill {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
+    object-position: center;
+}
+
+.photo-fill-cover {
+    object-fit: cover;
+}
+
+.photo-fill-face {
+    object-fit: cover;
+    object-position: center 20%;
 }
 
 /* Animation performance optimizations */
@@ -176,30 +195,30 @@ a {
 
 
 @theme {
-    /* LAYYA logo: dark teal ring, water mist, leaf green, star yellow */
     --color-brand: #004d4d;
     --color-brand-dark: #003838;
-    --color-brand-foreground: #ecfdf5;
-    --color-brand-muted: #94a3b8;
-    --color-brand-light: #0d9488;
-    --color-brand-soft: #115e59;
-    --color-brand-surface: #e0f2f1;
-    --color-layya-star: #ffe156;
-    --color-layya-leaf: #228b22;
-    --color-layya-leaf-bright: #32cd32;
+    --color-brand-ink: #0c1f1f;
+    --color-brand-muted: #4a6b6b;
+    --color-brand-foreground: #ffffff;
+    --color-brand-light: #7dd4d4;
+    --color-brand-soft: #e6f2f2;
+    --color-brand-surface: #e6f2f2;
+    --color-amber: #c9b15c;
+    --color-cream: #ead9a0;
+    --color-layya-star: #c9b15c;
+    --color-layya-leaf: #004d4d;
+    --color-layya-leaf-bright: #7dd4d4;
 
-    --color-navy: #1e293b;
-    --color-navy-light: #334155;
+    --color-navy: #003838;
+    --color-navy-light: #004d4d;
 
-    /* Civic / Association-theme inspired neutrals */
-    --color-association-canvas: #f3f5f4;
-    --color-association-ink: #0f172a;
-    --color-association-band: #0c4a6e;
+    --color-association-canvas: #e6f2f2;
+    --color-association-ink: #0c1f1f;
+    --color-association-band: #004d4d;
 
-    --font-sans:
-        'Roboto', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-    --font-association: 'Roboto', Georgia, 'Times New Roman', ui-serif, serif;
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-association: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -286,4 +305,128 @@ a {
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
+}
+
+.guest-site {
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #0c1f1f;
+    background: #ffffff;
+}
+
+.guest-site h1,
+.guest-site h2,
+.guest-site h3,
+.font-display {
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    font-style: normal;
+}
+
+.guest-site h1 {
+    font-size: clamp(2.6rem, 6vw, 5.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+.guest-site h2 {
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.guest-site h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    padding: 0 1.35rem;
+    border-radius: 9999px;
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.btn-primary {
+    background: #004d4d;
+    color: #ffffff;
+    border-color: #004d4d;
+}
+
+.btn-primary:hover {
+    background: #003838;
+    border-color: #003838;
+    color: #ffffff;
+}
+
+.btn-amber {
+    background: #d8c06a;
+    color: #0c1f1f;
+    border-color: #d8c06a;
+}
+
+.btn-amber:hover {
+    background: #c9b15c;
+    border-color: #c9b15c;
+    color: #0c1f1f;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-ghost:hover {
+    background: #ffffff;
+    color: #004d4d;
+    border-color: #ffffff;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #004d4d;
+    border-color: #004d4d;
+}
+
+.btn-outline:hover {
+    background: #e6f2f2;
+}
+
+.field-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #004d4d;
+}
+
+.field-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1.5px solid rgba(0, 77, 77, 0.2);
+    background: #ffffff;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+    color: #0c1f1f;
+    outline: none;
+}
+
+.field-input:focus {
+    border-color: #004d4d;
 }

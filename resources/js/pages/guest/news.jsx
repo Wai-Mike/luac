@@ -1,36 +1,45 @@
 import GuestLayout from '@/layouts/GuestLayout';
-import SectionHeader from './components/SectionHeader';
 import FadeIn from './components/FadeIn';
+import PageHero from './components/PageHero';
 import { newsEvents } from './data/siteContent';
+
+const newsPhotos = [
+    '/images/youth.jpg',
+    '/images/education.jpg',
+    '/images/cover.jpg',
+    '/images/tawus.jpg',
+    '/images/football.jpg',
+    '/images/education1.jpg',
+];
 
 export default function News() {
     return (
-        <GuestLayout navbarVariant="layya" footerVariant="layya">
-            <div className="bg-white pb-20 pt-12">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <SectionHeader
-                        eyebrow="News & events"
-                        title="Stay in the loop"
-                        subtitle="Community meetings, trainings, fundraising milestones, campaigns, and cultural moments."
-                    />
-                    <div className="grid gap-8 md:grid-cols-2">
-                        {newsEvents.map((n, i) => (
-                            <FadeIn key={n.title} delay={i * 0.05}>
-                                <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-slate-50/50 p-8 transition hover:border-teal-200 hover:bg-white hover:shadow-lg">
-                                    <div className="flex items-center justify-between gap-4">
-                                        <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-teal-800">
-                                            {n.type}
-                                        </span>
-                                        <span className="text-sm text-slate-500">{n.date}</span>
+        <GuestLayout title="News">
+            <PageHero label="News" title="Stay in" italic="the loop" subtitle="Meetings, trainings, campaigns, and cultural moments." />
+            <section className="bg-white py-20 md:py-28">
+                <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+                    {newsEvents.map((n, i) => (
+                        <FadeIn key={n.title} delay={i * 0.05}>
+                            <article className="overflow-hidden rounded-2xl border border-brand/10">
+                                <div className="relative h-48 overflow-hidden bg-brand-dark">
+                                    <img src={newsPhotos[i % newsPhotos.length]} alt="" className="photo-fill transition duration-500 hover:scale-105" />
+                                </div>
+                                <div className="p-5">
+                                    <div className="flex items-center justify-between text-xs">
+                                        <span className="rounded-full bg-brand-soft px-2 py-1 font-semibold text-brand">{n.type}</span>
+                                        <span className="text-brand-muted">{n.date}</span>
                                     </div>
-                                    <h2 className="mt-4 text-2xl font-bold text-slate-900">{n.title}</h2>
-                                    <p className="mt-3 flex-1 text-slate-600 leading-relaxed">{n.excerpt}</p>
-                                </article>
-                            </FadeIn>
-                        ))}
-                    </div>
+                                    <h3 className="mt-3">{n.title}</h3>
+                                    <p className="mt-2 text-sm text-brand-muted">{n.excerpt}</p>
+                                    <a href={route('news')} className="mt-4 inline-block text-sm font-semibold text-brand">
+                                        Read more →
+                                    </a>
+                                </div>
+                            </article>
+                        </FadeIn>
+                    ))}
                 </div>
-            </div>
+            </section>
         </GuestLayout>
     );
 }

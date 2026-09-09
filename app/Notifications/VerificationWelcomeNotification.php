@@ -45,7 +45,7 @@ class VerificationWelcomeNotification extends Notification implements ShouldQueu
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Welcome to ' . config('app.name', 'Luac Akok Yieu Youth Association (LAYYA)') . '! Please verify your email address.',
+            'message' => 'Welcome to ' . config('app.name', 'Luac Akook Yieu Youth Association (LAYYA)') . '! Please verify your email address.',
             'user_id' => $notifiable->id,
         ];
     }

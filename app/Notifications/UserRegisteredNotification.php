@@ -45,7 +45,7 @@ class UserRegisteredNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Welcome to Luac Akok Yieu Youth Association (LAYYA)!',
+            'message' => 'Welcome to Luac Akook Yieu Youth Association (LAYYA)!',
             'user_id' => $notifiable->id,
         ];
     }

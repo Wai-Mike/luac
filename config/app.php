@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Luac Akok Yieu Youth Association (LAYYA)'),
+    'name' => env('APP_NAME', 'Luac Akook Yieu Youth Association (LAYYA)'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
+import useCapabilities from '@/hooks/useCapabilities';
 import { Head, Link, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 
@@ -8,6 +9,7 @@ const breadcrumbs = [
 ];
 
 export default function DepartmentsIndex({ departments: deptPaginator }) {
+    const { canManageUsers } = useCapabilities();
     const rows = paginatorItems(deptPaginator);
     const meta = deptPaginator && !Array.isArray(deptPaginator) ? deptPaginator : null;
 
@@ -42,12 +44,14 @@ export default function DepartmentsIndex({ departments: deptPaginator }) {
                         <Link href="/admin" className="text-sm font-medium text-[rgb(29,84,114)] hover:underline">
                             ← Dashboard
                         </Link>
-                        <Link
-                            href="/admin/departments/create"
-                            className="rounded-lg bg-[rgb(4,50,75)] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
-                        >
-                            Add department
-                        </Link>
+                        {canManageUsers ? (
+                            <Link
+                                href="/admin/departments/create"
+                                className="rounded-lg bg-[rgb(4,50,75)] px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                            >
+                                Add department
+                            </Link>
+                        ) : null}
                     </div>
                 </div>
 
@@ -76,12 +80,13 @@ export default function DepartmentsIndex({ departments: deptPaginator }) {
                                         <td className="px-4 py-3">
                                             <button
                                                 type="button"
-                                                onClick={() => toggle(d.id)}
+                                                onClick={() => canManageUsers && toggle(d.id)}
+                                                disabled={!canManageUsers}
                                                 className={`rounded-full px-3 py-0.5 text-xs font-semibold uppercase tracking-wide ${
                                                     d.status === 'active'
                                                         ? 'bg-emerald-100 text-emerald-800'
                                                         : 'bg-slate-200 text-slate-700'
-                                                }`}
+                                                } disabled:cursor-default`}
                                             >
                                                 {d.status}
                                             </button>
@@ -91,12 +96,16 @@ export default function DepartmentsIndex({ departments: deptPaginator }) {
                                                 <Link href={`/admin/departments/${d.id}`} className="hover:underline">
                                                     View
                                                 </Link>
-                                                <Link href={`/admin/departments/${d.id}/edit`} className="hover:underline">
-                                                    Edit
-                                                </Link>
-                                                <button type="button" className="text-red-600 hover:underline" onClick={() => remove(d.id)}>
-                                                    Archive
-                                                </button>
+                                                {canManageUsers ? (
+                                                    <>
+                                                        <Link href={`/admin/departments/${d.id}/edit`} className="hover:underline">
+                                                            Edit
+                                                        </Link>
+                                                        <button type="button" className="text-red-600 hover:underline" onClick={() => remove(d.id)}>
+                                                            Archive
+                                                        </button>
+                                                    </>
+                                                ) : null}
                                             </div>
                                         </td>
                                     </tr>

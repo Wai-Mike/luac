@@ -53,6 +53,7 @@ class RoleAndPermissionSeeder extends Seeder
             ['update_contact_messages', 'Update contact messages'],
             ['view_dashboard', 'View admin dashboard'],
             ['manage_departments', 'Manage departments'],
+            ['manage_users', 'Add users and assign roles'],
         ];
 
         foreach ($permissionDefs as [$name, $display]) {
@@ -71,6 +72,7 @@ class RoleAndPermissionSeeder extends Seeder
             'finance_officer' => 'Finance Officer',
             'volunteer' => 'Volunteer',
             'viewer' => 'Viewer',
+            'executive' => 'Executive member',
         ];
 
         foreach ($roles as $name => $display) {
@@ -84,6 +86,7 @@ class RoleAndPermissionSeeder extends Seeder
 
         Role::query()->where('name', 'super_admin')->first()?->permissions()->sync($allPermissionIds);
         Role::query()->where('name', 'admin')->first()?->permissions()->sync($allPermissionIds);
+        Role::query()->where('name', 'executive')->first()?->permissions()->sync($allPermissionIds);
 
         $sync = fn (string $roleName, array $names) => Role::query()
             ->where('name', $roleName)

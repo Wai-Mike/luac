@@ -4,7 +4,7 @@ import { impactStats } from '../data/siteContent';
 
 export default function HomeImpactStats() {
     return (
-        <section className="bg-gradient-to-br from-teal-900 via-teal-800 to-slate-900 py-16 md:py-24">
+        <section className="bg-brand py-16 md:py-24">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <SectionHeader
                     eyebrow="Impact"
@@ -15,9 +15,9 @@ export default function HomeImpactStats() {
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     {impactStats.map((s, i) => (
                         <FadeIn key={s.label} delay={i * 0.06}>
-                            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
-                                <p className="text-4xl font-extrabold text-[#ffe156] sm:text-5xl">{s.value}</p>
-                                <p className="mt-2 text-sm font-medium uppercase tracking-wide text-teal-200">{s.label}</p>
+                            <div className="border border-white/40 bg-white p-8 text-center">
+                                <p className="text-4xl font-bold text-brand sm:text-5xl">{s.value}</p>
+                                <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-brand-ink">{s.label}</p>
                             </div>
                         </FadeIn>
                     ))}

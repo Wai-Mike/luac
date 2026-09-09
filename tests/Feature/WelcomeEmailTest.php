@@ -113,7 +113,7 @@ class WelcomeEmailTest extends TestCase
         $this->assertStringContainsString('Complete your profile', $rendered);
         $this->assertStringContainsString('What you can do next', $rendered);
         $this->assertStringContainsString('youth census', $rendered);
-        $this->assertStringContainsString('Luac Akok Yieu Youth Association', $rendered);
+        $this->assertStringContainsString('Luac Akook Yieu Youth Association', $rendered);
     }
 
     public function test_welcome_email_contains_account_details()

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use App\Models\FundraisingCampaign;
+use App\Support\FundraisingPrograms;
+use App\Support\SiteMediaRepository;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -27,7 +30,6 @@ class PageController extends Controller
             '/images/nyantet.jpg',
             '/images/rehan.jpg',
             '/images/sabrina.jpg',
-            '/images/tawus.jpg',
             '/images/yaba.jpg',
             '/images/youth.jpg',
         ];
@@ -42,6 +44,11 @@ class PageController extends Controller
      */
     private function randomGalleryImages(int $count): array
     {
+        $uploaded = SiteMediaRepository::imageUrls($count);
+        if ($uploaded !== []) {
+            return $uploaded;
+        }
+
         $pool = $this->guestImagePool();
         shuffle($pool);
 
@@ -50,7 +57,17 @@ class PageController extends Controller
 
     private function pickRandomHeroImage(): ?string
     {
-        $pool = $this->guestImagePool();
+        $wide = array_values(array_filter($this->guestImagePool(), function (string $url): bool {
+            return in_array($url, [
+                '/images/cover.jpg',
+                '/images/cover1.jpg',
+                '/images/education.jpg',
+                '/images/education1.jpg',
+                '/images/football.jpg',
+            ], true);
+        }));
+
+        $pool = $wide !== [] ? $wide : $this->guestImagePool();
         if ($pool === []) {
             return null;
         }
@@ -84,6 +101,7 @@ class PageController extends Controller
         return Inertia::render('guest/main/index', [
             'heroImage' => $this->pickRandomHeroImage(),
             'homeGallery' => $this->randomGalleryImages(6),
+            'videos' => SiteMediaRepository::videos(),
         ]);
     }
 
@@ -100,7 +118,7 @@ class PageController extends Controller
             'contact_info' => [
                 'email' => config('mail.from.address', 'contact@example.org'),
                 'phone' => '+211 XXX XXX XXX',
-                'address' => 'Luac Akok Yieu, South Sudan',
+                'address' => 'Luac Akook De Yieu, South Sudan',
             ],
         ]);
     }
@@ -115,8 +133,14 @@ class PageController extends Controller
 
     public function fundraising()
     {
+        $raisedByProgram = FundraisingCampaign::query()
+            ->whereIn('title', FundraisingPrograms::titles())
+            ->pluck('raised_amount', 'title');
+
         return Inertia::render('guest/fundraising', [
             'heroImage' => $this->pickRandomHeroImage(),
+            'raisedByProgram' => $raisedByProgram->all(),
+            'selectedProgram' => request('program'),
         ]);
     }
 
@@ -124,6 +148,7 @@ class PageController extends Controller
     {
         return Inertia::render('guest/gallery', [
             'images' => $this->randomGalleryImages(12),
+            'items' => SiteMediaRepository::gallery(),
         ]);
     }
 
@@ -149,8 +174,13 @@ class PageController extends Controller
 
     public function team()
     {
-        return Inertia::render('guest/team', [
-            'teamGallery' => $this->randomGalleryImages(3),
+        return Inertia::render('guest/team');
+    }
+
+    public function videos()
+    {
+        return Inertia::render('guest/videos', [
+            'videos' => SiteMediaRepository::videos(),
         ]);
     }
 

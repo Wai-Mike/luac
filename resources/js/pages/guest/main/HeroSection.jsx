@@ -44,7 +44,7 @@ export default function HeroSection() {
                             <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/10 backdrop-blur-xl sm:p-8 md:p-10">
                                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
                                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#1dd983]" aria-hidden />
-                                    Luac Akok Yieu Youth Association
+                                    Luac Akook Yieu Youth Association
                                 </div>
 
                                 <h2

@@ -48,7 +48,7 @@ export default function Register() {
                                 </svg>
                             </div>
                             <h2 className="mb-4 text-3xl font-bold">Join LAYYA</h2>
-                            <p className="text-lg opacity-90">Create an account for the Luac Akok Yieu Youth Association portal</p>
+                            <p className="text-lg opacity-90">Create an account for the Luac Akook Yieu Youth Association portal</p>
                         </div>
                     </div>
                 </div>

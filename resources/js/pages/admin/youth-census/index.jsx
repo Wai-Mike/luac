@@ -1,4 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
+import useCapabilities from '@/hooks/useCapabilities';
 import { Head, Link, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 
@@ -8,6 +9,7 @@ const breadcrumbs = [
 ];
 
 export default function YouthCensusIndex({ members, filters = {}, charts = {} }) {
+    const { canEditContent } = useCapabilities();
     const rows = paginatorItems(members);
     const meta = members && !Array.isArray(members) ? members : null;
 
@@ -30,12 +32,14 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                         <h1 className="text-2xl font-semibold text-slate-900">Youth census</h1>
                         <p className="mt-1 text-sm text-slate-600">Registered youth members</p>
                     </div>
-                    <Link
-                        href="/admin/youth-members/create"
-                        className="rounded-lg bg-[rgb(4,50,75)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
-                    >
-                        Add record
-                    </Link>
+                    {canEditContent ? (
+                        <Link
+                            href="/admin/youth-members/create"
+                            className="rounded-lg bg-[rgb(4,50,75)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+                        >
+                            Add record
+                        </Link>
+                    ) : null}
                 </div>
 
                 <form onSubmit={onSearch} className="flex flex-wrap gap-2">
@@ -92,13 +96,17 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                                             >
                                                 View
                                             </Link>
-                                            <span className="mx-2 text-slate-300">|</span>
-                                            <Link
-                                                href={`/admin/youth-members/${m.id}/edit`}
-                                                className="text-slate-700 hover:underline"
-                                            >
-                                                Edit
-                                            </Link>
+                                            {canEditContent ? (
+                                                <>
+                                                    <span className="mx-2 text-slate-300">|</span>
+                                                    <Link
+                                                        href={`/admin/youth-members/${m.id}/edit`}
+                                                        className="text-slate-700 hover:underline"
+                                                    >
+                                                        Edit
+                                                    </Link>
+                                                </>
+                                            ) : null}
                                         </td>
                                     </tr>
                                 ))

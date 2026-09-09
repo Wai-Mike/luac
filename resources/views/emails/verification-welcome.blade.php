@@ -311,7 +311,7 @@
         <div class="email-header">
             <div class="logo-container">
                 <h1 class="logo-text">{{ $appName }}</h1>
-                <p class="logo-subtitle">Luac Akok Yieu Youth Association (LAYYA)</p>
+                <p class="logo-subtitle">Luac Akook Yieu Youth Association (LAYYA)</p>
             </div>
         </div>
 
@@ -321,7 +321,7 @@
             </div>
 
             <div class="content-body">
-                <p>Thank you for registering with the Luac Akok Yieu Youth Association (LAYYA).</p>
+                <p>Thank you for registering with the Luac Akook Yieu Youth Association (LAYYA).</p>
 
                 <p>Please verify your email to activate your account and access the member area.</p>
             </div>

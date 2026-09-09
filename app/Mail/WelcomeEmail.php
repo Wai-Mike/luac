@@ -23,7 +23,7 @@ class WelcomeEmail extends Mailable implements ShouldQueue
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->appName = config('app.name', 'Luac Akok Yieu Youth Association (LAYYA)');
+        $this->appName = config('app.name', 'Luac Akook Yieu Youth Association (LAYYA)');
     }
 
     /**

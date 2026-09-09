@@ -24,11 +24,11 @@ class YouthCensusRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:100'],
             'last_name' => ['required', 'string', 'max:100'],
-            'gender' => ['required', 'in:male,female,other'],
+            'gender' => ['required', 'in:male,female'],
             'date_of_birth' => ['required', 'date', 'before:today'],
             'phone' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
-            'county' => ['required', 'string', 'max:150'],
+            'county' => ['required', 'string', 'in:PIGI (Khorfulus)'],
             'payam' => ['required', 'string', 'max:150'],
             'boma' => ['nullable', 'string', 'max:150'],
             'education_level' => ['required', 'string', 'max:150'],

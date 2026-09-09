@@ -1,43 +1,81 @@
+import GuestButton from '@/components/GuestButton';
 import GuestLayout from '@/layouts/GuestLayout';
-import CampaignCard from './components/CampaignCard';
-import SectionHeader from './components/SectionHeader';
+import DonateForm from './components/DonateForm';
 import FadeIn from './components/FadeIn';
+import PageHero from './components/PageHero';
+import SectionLabel from './components/SectionLabel';
+import { dualMoney } from './data/money';
 import { campaigns } from './data/siteContent';
 
-export default function Fundraising({ heroImage }) {
-    return (
-        <GuestLayout navbarVariant="layya" footerVariant="layya">
-            <div className="bg-gradient-to-b from-teal-50/40 to-white pb-20">
-                <section id="campaigns" className="relative overflow-hidden bg-slate-900 py-16 md:py-24">
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-teal-900/90 to-slate-900/90" />
-                    <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-                            <FadeIn>
-                                <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-400">Fundraising</p>
-                                <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Support Our Mission</h1>
-                                <p className="mt-5 text-lg text-slate-300 leading-relaxed">
-                                    LAYYA organizes fundraising initiatives to support youth programs, education, vulnerable families, gender equality
-                                    activities, leadership trainings, and community development projects.
-                                </p>
-                            </FadeIn>
-                            <FadeIn delay={0.08}>
-                                <div className="overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
-                                    <img src={heroImage ?? '/images/cover1.jpg'} alt="" className="aspect-[5/4] w-full object-cover" />
-                                </div>
-                            </FadeIn>
-                        </div>
-                    </div>
-                </section>
+function donateHref(title) {
+    return `${route('fundraising')}?program=${encodeURIComponent(title)}#donate`;
+}
 
-                <div className="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8">
-                    <SectionHeader title="Active campaigns" subtitle="Give to what aligns with your values — progress updates shared with our community." />
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {campaigns.map((c, i) => (
-                            <CampaignCard key={c.title} {...c} delay={i * 0.06} />
-                        ))}
-                    </div>
+export default function Fundraising({ heroImage, raisedByProgram = {}, selectedProgram = '' }) {
+    return (
+        <GuestLayout title="Fundraising">
+            <PageHero
+                label="Fundraising"
+                title="Support our"
+                italic="mission"
+                subtitle="Give in South Sudanese pounds or US dollars. Fill in your details, the amount, and the work you want to fund."
+                image={heroImage}
+            />
+            <section className="bg-white py-20 md:py-28">
+                <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+                    {campaigns.map((c, i) => {
+                        const raised = Number(raisedByProgram[c.title] ?? c.raised);
+                        const pct = c.target > 0 ? Math.min(100, Math.round((raised / c.target) * 100)) : 0;
+                        return (
+                            <FadeIn key={c.title} delay={i * 0.06}>
+                                <article className="overflow-hidden rounded-2xl border border-brand/10 bg-white">
+                                    <div className="relative h-40 bg-brand-dark">
+                                        {heroImage ? <img src={heroImage} alt="" className="photo-fill opacity-80" /> : null}
+                                    </div>
+                                    <div className="p-6">
+                                        <h3>{c.title}</h3>
+                                        <p className="mt-2 text-sm text-brand-muted">{c.description}</p>
+                                        <div className="mt-5 h-2 overflow-hidden rounded-full bg-brand-soft">
+                                            <div className="h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
+                                        </div>
+                                        <div className="mt-2 flex justify-between gap-3 text-sm text-brand-muted">
+                                            <span>{pct}%</span>
+                                            <span className="text-right text-brand-ink">
+                                                <span className="block">{dualMoney(raised).usd} / {dualMoney(c.target).usd}</span>
+                                                <span className="block text-xs text-brand-muted">
+                                                    {dualMoney(raised).ssp} / {dualMoney(c.target).ssp}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <GuestButton href={donateHref(c.title)} variant={i % 2 ? 'amber' : 'primary'} className="mt-5 w-full">
+                                            Donate
+                                        </GuestButton>
+                                    </div>
+                                </article>
+                            </FadeIn>
+                        );
+                    })}
                 </div>
-            </div>
+            </section>
+            <section className="bg-brand-soft py-20 md:py-28">
+                <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+                    <FadeIn>
+                        <SectionLabel>Donate</SectionLabel>
+                        <h2>
+                            Fill in your gift
+                        </h2>
+                        <p className="mt-4 max-w-xl text-brand-muted">
+                            Tell us who you are, how much you are giving, and which program it should support. We will
+                            record it and follow up if we need to confirm payment.
+                        </p>
+                    </FadeIn>
+                    <FadeIn delay={0.06}>
+                        <div className="rounded-3xl bg-white p-6 shadow-sm md:p-8">
+                            <DonateForm selectedProgram={selectedProgram || ''} />
+                        </div>
+                    </FadeIn>
+                </div>
+            </section>
         </GuestLayout>
     );
 }

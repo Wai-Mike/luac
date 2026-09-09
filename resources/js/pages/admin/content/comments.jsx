@@ -1,4 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
+import useCapabilities from '@/hooks/useCapabilities';
 import { Head, Link, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 
@@ -60,6 +61,7 @@ export default function AdminContentComments({ comments: commentsPaginator }) {
 }
 
 function CommentCard({ comment }) {
+    const { canEditContent } = useCapabilities();
     const author = comment.user?.name || comment.user?.email || 'Unknown';
     const approved = comment.is_approved === true || comment.is_approved === 1;
 
@@ -79,6 +81,7 @@ function CommentCard({ comment }) {
                 </span>
             </div>
             <p className="mt-3 whitespace-pre-wrap text-sm text-slate-800">{comment.body || comment.content || '—'}</p>
+            {canEditContent ? (
             <div className="mt-4 flex flex-wrap gap-2">
                 <button
                     type="button"
@@ -109,6 +112,7 @@ function CommentCard({ comment }) {
                     Delete
                 </button>
             </div>
+            ) : null}
         </div>
     );
 }

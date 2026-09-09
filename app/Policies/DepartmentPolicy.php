@@ -9,36 +9,36 @@ class DepartmentPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->canAccessAdminPanel();
     }
 
     public function view(User $user, Department $department): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->canAccessAdminPanel();
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->isChairman();
     }
 
     public function update(User $user, Department $department): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->isChairman();
     }
 
     public function delete(User $user, Department $department): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->isChairman();
     }
 
     public function restore(User $user, Department $department): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->isChairman();
     }
 
     public function forceDelete(User $user, Department $department): bool
     {
-        return $user->hasPermission('manage_departments');
+        return $user->isChairman();
     }
 }

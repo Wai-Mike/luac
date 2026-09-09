@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
@@ -39,50 +38,23 @@ class GoogleAuthController extends Controller
                 'id' => $googleUser->getId(),
             ]);
 
-            $wasRecentlyCreated = false;
-            $user = User::updateOrCreate(
-                ['email' => $googleUser->getEmail()],
-                [
-                    'name' => $googleUser->getName() ?: ($googleUser->user['given_name'] ?? 'Google User'),
-                    'google_id' => $googleUser->getId(),
-                    'avatar' => $googleUser->getAvatar(),
-                    'email_verified_at' => now(), // Google emails are pre-verified
-                    'role' => 'member',
-                ]
-            );
+            $user = User::query()->where('email', $googleUser->getEmail())->first();
 
-            // Check if this was a newly created user
-            if ($user->wasRecentlyCreated) {
-                $wasRecentlyCreated = true;
+            if (! $user || ! $user->isExecutive() || $user->status !== 'active') {
+                return redirect()->route('login')->with('error', 'Only LAYYA executive members can sign in.');
             }
 
-            Log::info('User created/updated', [
-                'user_id' => $user->id,
-                'user_role' => $user->role,
-                'user_email' => $user->email,
-                'was_recently_created' => $wasRecentlyCreated,
+            $user->update([
+                'google_id' => $googleUser->getId(),
+                'avatar' => $user->avatar ?: $googleUser->getAvatar(),
+                'last_login_at' => now(),
             ]);
 
-            Auth::login($user, true); // Remember the user
-            if (Schema::hasTable('profiles')) {
-                $user->load('profile');
-            }
+            Auth::login($user, true);
 
-            Log::info('User logged in', [
+            Log::info('Executive logged in via Google', [
                 'authenticated' => Auth::check(),
                 'auth_user_id' => Auth::id(),
-                'session_data' => session()->all(),
-            ]);
-
-            if (Schema::hasTable('profiles') && ! $user->profile) {
-                Log::info('Redirecting to profile setup', ['user_id' => $user->id]);
-
-                return redirect()->intended(route('user.profile.setup'));
-            }
-
-            Log::info('Redirecting user to dashboard dispatcher', [
-                'user_role' => $user->role,
-                'can_access_admin' => $user->canAccessAdminPanel(),
             ]);
 
             return redirect()->intended(route('dashboard'));

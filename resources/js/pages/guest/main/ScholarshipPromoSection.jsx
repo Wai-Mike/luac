@@ -16,7 +16,7 @@ export default function ScholarshipPromoSection() {
                         LAYYA provides <span className="text-[#3b60c9]">pathways</span> for talented young people!
                     </h2>
                     <p className="mx-auto max-w-3xl leading-relaxed text-[#3a3b3c]">
-                        Whether you need skills training, mentorship, or a community platform—reach out and help us grow programs that serve Luac Akok Yieu
+                        Whether you need skills training, mentorship, or a community platform—reach out and help us grow programs that serve Luac Akook Yieu
                         and beyond.
                     </p>
                     <Link

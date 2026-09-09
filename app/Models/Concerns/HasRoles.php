@@ -25,8 +25,20 @@ trait HasRoles
 
     public function hasPermission(string $permissionName): bool
     {
-        if (method_exists($this, 'isAdmin') && $this->isAdmin()) {
+        if (method_exists($this, 'isChairman') && $this->isChairman()) {
             return true;
+        }
+
+        if (in_array($permissionName, ['manage_users', 'manage_departments'], true)) {
+            return false;
+        }
+
+        if (method_exists($this, 'canEditContent') && $this->canEditContent()) {
+            return true;
+        }
+
+        if (method_exists($this, 'isExecutive') && $this->isExecutive()) {
+            return $permissionName === 'view_dashboard' || str_starts_with($permissionName, 'view_');
         }
 
         if ($this->hasRole('super_admin')) {

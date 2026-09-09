@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\EnsureAdminAccess;
+use App\Http\Middleware\EnsureChairman;
+use App\Http\Middleware\EnsureContentEditor;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -45,6 +47,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // Register middleware aliases
         $middleware->alias([
             'admin.access' => EnsureAdminAccess::class,
+            'chairman' => EnsureChairman::class,
+            'content.edit' => EnsureContentEditor::class,
             'role' => RoleMiddleware::class,
             'role.or.higher' => RoleOrHigherMiddleware::class,
             'guest' => RedirectIfAuthenticated::class,

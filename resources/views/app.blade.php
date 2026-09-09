@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- SEO Meta Tags --}}
-    <title>@yield('title', 'Luac Akok Yieu Youth Association (LAYYA)')</title>
-    <meta name="description" content="@yield('description', 'Luac Akok Yieu Youth Association (LAYYA) – empowering youth through leadership, skills, and community development.')">
-    <meta name="keywords" content="@yield('keywords', 'Luac Akok Yieu, LAYYA, youth association, youth empowerment, skills training, leadership, South Sudan')">
-    <meta name="author" content="Luac Akok Yieu Youth Association (LAYYA)">
+    <title>@yield('title', 'Luac Akook Yieu Youth Association (LAYYA)')</title>
+    <meta name="description" content="@yield('description', 'Luac Akook Yieu Youth Association (LAYYA) — building unity and patriotic participation of youth in the development of Luac community.')">
+    <meta name="keywords" content="@yield('keywords', 'Luac Akook Yieu, LAYYA, youth association, Khorfulus, South Sudan')">
+    <meta name="author" content="Luac Akook Yieu Youth Association (LAYYA)">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
     {{-- Canonical URL --}}
@@ -17,10 +17,10 @@
 
     {{-- Open Graph Meta Tags --}}
     <meta property="og:type" content="website">
-    <meta property="og:title" content="@yield('og_title', 'Luac Akok Yieu Youth Association (LAYYA)')">
-    <meta property="og:description" content="@yield('og_description', 'LAYYA is a youth-led association advancing education, skills, and opportunities for young people in Luac Akok Yieu and beyond.')">
+    <meta property="og:title" content="@yield('og_title', 'Luac Akook Yieu Youth Association (LAYYA)')">
+    <meta property="og:description" content="@yield('og_description', 'LAYYA builds unity and patriotic participation of youth in the development of Luac community.')">
     <meta property="og:url" content="@yield('og_url', request()->url())">
-    <meta property="og:site_name" content="Luac Akok Yieu Youth Association (LAYYA)">
+    <meta property="og:site_name" content="Luac Akook Yieu Youth Association (LAYYA)">
     <meta property="og:image" content="@yield('og_image', asset('images/layya-og-image.jpg'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -28,15 +28,15 @@
 
     {{-- Twitter Card Meta Tags --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('twitter_title', 'Luac Akok Yieu Youth Association (LAYYA)')">
-    <meta name="twitter:description" content="@yield('twitter_description', 'Youth-led association empowering Luac Akok Yieu through education, skills and community initiatives.')">
+    <meta name="twitter:title" content="@yield('twitter_title', 'Luac Akook Yieu Youth Association (LAYYA)')">
+    <meta name="twitter:description" content="@yield('twitter_description', 'LAYYA builds unity and patriotic participation of youth in the development of Luac community.')">
     <meta name="twitter:image" content="@yield('twitter_image', asset('images/layya-twitter-image.jpg'))">
     <meta name="twitter:site" content="@LAYYA">
     <meta name="twitter:creator" content="@LAYYA">
 
     {{-- Additional SEO Meta Tags --}}
-    <meta name="theme-color" content="#0f766e">
-    <meta name="msapplication-TileColor" content="#1e293b">
+    <meta name="theme-color" content="#004d4d">
+    <meta name="msapplication-TileColor" content="#004d4d">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="LAYYA">
@@ -54,8 +54,7 @@
     <link rel="dns-prefetch" href="//www.google-analytics.com">
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
 
-    {{-- Fonts — Roboto (UniAlumni / Codeboxr template primary) --}}
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
     {{-- Inline script to detect system dark mode preference and apply it immediately --}}
     <script>
@@ -83,8 +82,6 @@
         }
     </style>
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     @routes
     @viteReactRefresh

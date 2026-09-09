@@ -18,7 +18,7 @@ export function Breadcrumbs({ breadcrumbs }) {
                         <Fragment key={key}>
                             <BreadcrumbItem className="max-w-[10rem] sm:max-w-xs">
                                 {isLast ? (
-                                    <BreadcrumbPage className="truncate font-semibold text-[rgb(29,84,114)] dark:text-sky-300">
+                                    <BreadcrumbPage className="truncate font-semibold text-brand">
                                         {item.title}
                                     </BreadcrumbPage>
                                 ) : (
@@ -26,7 +26,7 @@ export function Breadcrumbs({ breadcrumbs }) {
                                         <Link
                                             href={item.href}
                                             prefetch
-                                            className="truncate text-neutral-600 transition-colors hover:text-[rgb(29,84,114)] dark:text-neutral-400 dark:hover:text-sky-300"
+                                            className="truncate text-brand-muted transition-colors hover:text-brand"
                                         >
                                             {item.title}
                                         </Link>

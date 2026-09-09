@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\SiteContentRepository;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -57,6 +58,26 @@ class HandleInertiaRequests extends Middleware
 
                     return $user instanceof \App\Models\User ? $user->permissionNames() : [];
                 },
+                'capabilities' => function () use ($request) {
+                    $user = $request->user();
+                    if (! $user instanceof \App\Models\User) {
+                        return [
+                            'manage_users' => false,
+                            'edit_content' => false,
+                        ];
+                    }
+
+                    return [
+                        'manage_users' => $user->canManageUsers(),
+                        'edit_content' => $user->canEditContent(),
+                    ];
+                },
+            ],
+            'site' => fn () => SiteContentRepository::get(),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+                'uploaded_image' => $request->session()->get('uploaded_image'),
             ],
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

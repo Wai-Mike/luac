@@ -22,9 +22,13 @@ import {
     Building2,
     ChevronRight,
     FileText,
+    Globe,
     GraduationCap,
+    HeartHandshake,
     Home,
+    Image,
     LayoutGrid,
+    Mail,
     Settings,
     Store,
     Users,
@@ -60,8 +64,7 @@ function getSidebarPlan(user, permissions) {
         };
     }
 
-    const canViewAdmin = permissions.includes('view_dashboard');
-    const canManageDepartments = permissions.includes('manage_departments');
+    const canViewAdmin = permissions.includes('view_dashboard') || Boolean(user.is_executive) || user.role === 'admin';
 
     if (!canViewAdmin) {
         return {
@@ -91,20 +94,40 @@ function getSidebarPlan(user, permissions) {
         dashboardGroup: { title: 'Dashboard', icon: LayoutGrid, children: dashboardChildren },
         generalFlat: [
             {
-                title: 'Comments',
-                url: route('admin.content.comments'),
-                icon: FileText,
-                badge: null,
+                title: 'Website content',
+                url: route('admin.content.site.edit'),
+                icon: Globe,
+            },
+            {
+                title: 'Photos & videos',
+                url: route('admin.media.index'),
+                icon: Image,
             },
             {
                 title: 'Youth census',
                 url: route('admin.youth-members.index'),
                 icon: GraduationCap,
             },
+            {
+                title: 'Donations',
+                url: route('admin.donations.index'),
+                icon: HeartHandshake,
+            },
+            {
+                title: 'Messages',
+                url: route('admin.contacts.index'),
+                icon: Mail,
+            },
+            {
+                title: 'Comments',
+                url: route('admin.content.comments'),
+                icon: FileText,
+                badge: null,
+            },
         ],
         managementFlat: [
             { title: 'Users', url: route('admin.users'), icon: Users },
-            ...(canManageDepartments ? [{ title: 'Departments', url: route('admin.departments.index'), icon: Store }] : []),
+            { title: 'Departments', url: route('admin.departments.index'), icon: Store },
             { title: 'Settings', url: route('admin.settings'), icon: Settings },
         ],
     };
@@ -136,7 +159,7 @@ function DashboardNavSection({ dashboardGroup, currentUrl }) {
                             asChild
                             tooltip={child.title}
                             isActive={normalizePath(child.url, currentUrl)}
-                            className="rounded-lg transition-colors [&>svg]:text-[rgb(29,84,114)] dark:[&>svg]:text-sky-300"
+                            className="rounded-lg transition-colors [&>svg]:text-cream"
                         >
                             <Link href={child.url} prefetch>
                                 <child.icon />
@@ -160,7 +183,7 @@ function DashboardNavSection({ dashboardGroup, currentUrl }) {
                     <CollapsibleTrigger asChild>
                         <SidebarMenuButton
                             tooltip={dashboardGroup.title}
-                            className={`rounded-lg [&>svg]:text-[rgb(29,84,114)] dark:[&>svg]:text-sky-300 ${anyActive ? 'bg-sidebar-accent/90 font-semibold shadow-sm ring-1 ring-[rgb(29,84,114)]/12 dark:bg-white/10 dark:ring-white/15' : ''}`}
+                            className={`rounded-lg [&>svg]:text-cream ${anyActive ? 'bg-brand font-semibold text-cream shadow-sm ring-1 ring-white/15' : ''}`}
                             isActive={anyActive}
                         >
                             <dashboardGroup.icon />
@@ -169,7 +192,7 @@ function DashboardNavSection({ dashboardGroup, currentUrl }) {
                         </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                        <SidebarMenuSub className="ml-3 border-[rgb(29,84,114)]/20 dark:border-white/15">
+                        <SidebarMenuSub className="ml-3 border-white/15">
                             {filteredChildren.map((child) => (
                                 <SidebarMenuSubItem key={child.title}>
                                     <SidebarMenuSubButton asChild isActive={normalizePath(child.url, currentUrl)}>
@@ -200,16 +223,16 @@ function FlatNavLinks({ items, currentUrl }) {
                     <SidebarMenuButton
                         asChild
                         tooltip={item.title}
-                        className="rounded-lg [&>svg]:text-[rgb(29,84,114)] dark:[&>svg]:text-sky-300"
+                        className="rounded-lg text-white/85 [&>svg]:text-cream data-[active=true]:bg-brand data-[active=true]:text-cream"
                         isActive={normalizePath(item.url, currentUrl)}
                     >
                         <Link href={item.url} prefetch>
                             <item.icon />
                             <span>{item.title}</span>
                             {item.badge !== null && item.badge !== undefined && item.badge > 0 && (
-                                <SidebarMenuBadge className="bg-orange-500/90 font-semibold text-white">{item.badge}</SidebarMenuBadge>
+                                <SidebarMenuBadge className="bg-amber font-semibold text-brand-ink">{item.badge}</SidebarMenuBadge>
                             )}
-                            {item.dot && <span className="absolute right-2 top-1/2 flex size-2 -translate-y-1/2 rounded-full bg-orange-500 ring-4 ring-transparent" />}
+                            {item.dot && <span className="absolute right-2 top-1/2 flex size-2 -translate-y-1/2 rounded-full bg-amber ring-4 ring-transparent" />}
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -236,8 +259,12 @@ export function AppSidebar() {
     const homeHref = user ? route('dashboard') : route('home');
 
     return (
-        <Sidebar collapsible="icon" variant="sidebar" className="[--sidebar:transparent]">
-            <div className="flex h-full min-h-0 w-full flex-col rounded-none border-0 bg-white/72 shadow-none ring-0 backdrop-blur-2xl dark:bg-zinc-950/55 [&_[data-sidebar=header]]:px-4 [&_[data-sidebar=footer]]:px-4 [&_[data-sidebar=content]]:gap-4 [&_[data-sidebar=content]]:px-4">
+        <Sidebar
+            collapsible="icon"
+            variant="sidebar"
+            className="border-white/10 [--sidebar:#003838] [--sidebar-foreground:#f7fbfb] [--sidebar-primary:#c9b15c] [--sidebar-primary-foreground:#0c1f1f] [--sidebar-accent:#004d4d] [--sidebar-accent-foreground:#ead9a0] [--sidebar-border:rgba(255,255,255,0.12)] [--sidebar-ring:#c9b15c]"
+        >
+            <div className="flex h-full min-h-0 w-full flex-col rounded-none border-0 bg-brand-dark text-white shadow-none ring-0 [&_[data-sidebar=header]]:px-4 [&_[data-sidebar=footer]]:px-4 [&_[data-sidebar=content]]:gap-4 [&_[data-sidebar=content]]:px-4">
                 <SidebarHeader className="gap-2 pb-2 pt-4">
                     <SidebarMenu>
                         <SidebarMenuItem>
@@ -245,18 +272,18 @@ export function AppSidebar() {
                                 size="lg"
                                 asChild
                                 tooltip="LAYYA"
-                                className="rounded-xl border border-white/25 bg-white/35 shadow-sm backdrop-blur-sm hover:bg-white/50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/12"
+                                className="rounded-xl border border-white/15 bg-white/10 text-white shadow-sm hover:bg-white/15"
                             >
                                 <Link href={homeHref} prefetch>
                                     <img
                                         src="/images/logo.jpg"
                                         alt="LAYYA"
-                                        className="size-10 shrink-0 rounded-full object-cover ring-2 ring-white/40 shadow-sm dark:ring-white/15"
+                                        className="size-10 shrink-0 rounded-full object-cover ring-2 ring-cream/50 shadow-sm"
                                     />
                                     <div className="grid min-w-0 flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                                        <span className="truncate font-bold tracking-tight text-sidebar-foreground">LAYYA</span>
-                                        <span className="truncate text-[11px] font-medium uppercase tracking-wide text-sidebar-foreground/65">
-                                            Luac Akok Yieu Youth Association
+                                        <span className="truncate font-bold tracking-tight text-white">LAYYA</span>
+                                        <span className="truncate text-[11px] font-medium uppercase tracking-wide text-cream/80">
+                                            Luac Akook Yieu Youth Association
                                         </span>
                                     </div>
                                 </Link>
@@ -268,7 +295,7 @@ export function AppSidebar() {
                 <SidebarContent className="pb-4">
                     {hasGeneral && (
                         <SidebarGroup className="p-0">
-                            <SidebarGroupLabel className="mb-1 px-3 text-[11px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/55">
+                            <SidebarGroupLabel className="mb-1 px-3 text-[11px] font-bold uppercase tracking-[0.18em] text-cream/70">
                                 General
                             </SidebarGroupLabel>
                             <DashboardNavSection dashboardGroup={effectiveDashboard} currentUrl={page.url} />
@@ -278,9 +305,9 @@ export function AppSidebar() {
 
                     {showManagementHeading && (
                         <>
-                            <SidebarSeparator className="my-1 bg-gradient-to-r from-transparent via-sidebar-border to-transparent opacity-80" />
+                            <SidebarSeparator className="my-1 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-80" />
                             <SidebarGroup className="p-0">
-                                <SidebarGroupLabel className="mb-1 px-3 text-[11px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/55">
+                                <SidebarGroupLabel className="mb-1 px-3 text-[11px] font-bold uppercase tracking-[0.18em] text-cream/70">
                                     Management
                                 </SidebarGroupLabel>
                                 <FlatNavLinks items={managementFlat} currentUrl={page.url} />

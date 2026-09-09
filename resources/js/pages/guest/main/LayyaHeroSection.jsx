@@ -1,76 +1,64 @@
-import { Link } from '@inertiajs/react';
-import { motion } from 'framer-motion';
-import { brand, hero } from '../data/siteContent';
+import { ArrowRight, ChevronDown, ChevronRight } from 'lucide-react';
+import GuestButton from '@/components/GuestButton';
+import useSiteContent, { splitLines } from '@/hooks/useSiteContent';
 
 export default function LayyaHeroSection({ heroImage }) {
+    const { hero, heroStats } = useSiteContent();
+    const headlineLines = splitLines(hero.headline);
+
     return (
-        <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-teal-50/40">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-200/40 via-transparent to-transparent" />
-            <div className="pointer-events-none absolute -right-32 top-24 h-96 w-96 rounded-full bg-teal-400/25 blur-3xl" />
-            <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:flex lg:items-center lg:gap-12 lg:py-24 lg:px-8">
-                <div className="flex-1">
-                    <motion.p
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.45 }}
-                        className="text-sm font-bold uppercase tracking-[0.25em] text-teal-700"
-                    >
-                        {brand.shortName}
-                    </motion.p>
-                    <motion.h1
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.05 }}
-                        className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-[3.25rem] lg:leading-[1.08]"
-                    >
-                        {hero.headline}
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.12 }}
-                        className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600"
-                    >
-                        {hero.subtext}
-                    </motion.p>
-                    <motion.div
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.18 }}
-                        className="mt-10 flex flex-col gap-4 sm:flex-row"
-                    >
-                        <Link
-                            href={route('get-involved')}
-                            className="inline-flex min-h-12 items-center justify-center rounded-full bg-teal-600 px-8 text-base font-bold text-white shadow-lg shadow-teal-600/25 transition hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
-                        >
-                            Get Involved
-                        </Link>
-                        <Link
-                            href={route('fundraising')}
-                            className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#ffe156] px-8 text-base font-bold text-teal-950 shadow-md transition hover:bg-[#edd245] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe156] focus-visible:ring-offset-2"
-                        >
-                            Donate Now
-                        </Link>
-                    </motion.div>
+        <section className="bg-brand-dark pt-16">
+            <div className="relative">
+                {heroImage ? (
+                    <img
+                        src={heroImage}
+                        alt="Luac Akook Yieu Youth Association"
+                        className="mx-auto block h-[calc(100svh-4rem)] w-full max-w-none object-contain object-center"
+                    />
+                ) : (
+                    <div className="h-[50vh] bg-brand-dark" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/25 to-transparent" />
+                <div className="absolute right-4 top-4 sm:right-8">
+                    <span className="rounded-full border border-white/20 bg-white/12 px-3 py-1.5 text-xs text-brand-light backdrop-blur-sm">
+                        {hero.location || 'Juba · Khorfulus'}
+                    </span>
                 </div>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.55, delay: 0.1 }}
-                    className="mt-12 flex-1 lg:mt-0"
-                >
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-slate-200/80 bg-slate-100 shadow-2xl shadow-teal-900/10 ring-1 ring-slate-900/5">
-                        {heroImage ? (
-                            <img src={heroImage} alt="" className="h-full w-full object-cover" />
-                        ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-teal-100 to-teal-50 text-slate-400">
-                                Image placeholder
-                            </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-teal-900/20 to-transparent" />
-                    </div>
-                </motion.div>
             </div>
+
+            <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+                <div className="mb-4 flex items-center gap-3">
+                    <span className="h-px w-12 bg-amber" />
+                    <p className="text-[12px] font-semibold uppercase tracking-widest text-cream">Luac Akook Yieu Youth Association</p>
+                </div>
+                <h1 className="max-w-5xl font-semibold text-white">
+                    {headlineLines.map((line, index) => (
+                        <span key={line}>
+                            {index > 0 ? <br /> : null}
+                            {line}
+                        </span>
+                    ))}
+                </h1>
+                <p className="mt-6 max-w-xl text-[19px] leading-[1.65] text-white/75 md:text-[21px]">{hero.subtext}</p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <GuestButton href={route('get-involved')}>
+                        Get involved <ArrowRight className="h-4 w-4" />
+                    </GuestButton>
+                    <GuestButton href={route('programs')} variant="ghost">
+                        Explore programs <ChevronRight className="h-4 w-4" />
+                    </GuestButton>
+                </div>
+
+                <div className="mt-10 grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-4">
+                    {heroStats.map((stat) => (
+                        <div key={stat.label} className="bg-[rgba(0,40,40,0.45)] px-4 py-5 backdrop-blur-[8px]">
+                            <p className="font-display text-[28px] font-bold text-white md:text-[32px]">{stat.value}</p>
+                            <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-white/55">{stat.label}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <ChevronDown className="mx-auto mb-6 block h-6 w-6 animate-bounce text-white/50" />
         </section>
     );
 }

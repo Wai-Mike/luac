@@ -23,9 +23,7 @@ class EnsureAdminAccess
         }
 
         if (! $user->canAccessAdminPanel()) {
-            return in_array($user->role, ['member', 'management'], true)
-                ? redirect()->route('user.dashboard')->with('error', 'You do not have access to administration.')
-                : redirect()->route('home')->with('error', 'You do not have access to administration.');
+            return redirect()->route('home')->with('error', 'Only LAYYA executive members can access the backend.');
         }
 
         return $next($request);

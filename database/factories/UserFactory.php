@@ -19,8 +19,11 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => bcrypt('password'), // Default password for testing
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
             'role' => 'member',
+            'is_executive' => false,
+            'is_chairman' => false,
             'status' => 'active',
             'google_id' => null,
             'avatar' => null,
@@ -34,6 +37,30 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'role' => 'admin',
+            'is_executive' => true,
+            'is_chairman' => false,
+        ]);
+    }
+
+    public function executive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'viewer',
+            'is_executive' => true,
+            'is_chairman' => false,
+            'status' => 'active',
+            'email_verified_at' => now(),
+        ]);
+    }
+
+    public function chairman(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'admin',
+            'is_executive' => true,
+            'is_chairman' => true,
+            'status' => 'active',
+            'email_verified_at' => now(),
         ]);
     }
 }

@@ -1,38 +1,56 @@
+import { useMemo, useState } from 'react';
 import GuestLayout from '@/layouts/GuestLayout';
-import SectionHeader from './components/SectionHeader';
 import FadeIn from './components/FadeIn';
+import PageHero from './components/PageHero';
 import { galleryThemes } from './data/siteContent';
 
-export default function Gallery({ images = [] }) {
-    const items = galleryThemes.map((g, i) => ({
-        ...g,
-        src: images[i] ?? '/images/tawus.jpg',
-    }));
+const filters = ['All', 'Programs', 'Tawus Hub', 'Sports', 'Community', 'Culture'];
+const categories = ['Programs', 'Tawus Hub', 'Sports', 'Community'];
+
+export default function Gallery({ images = [], items: uploadedItems = [] }) {
+    const [active, setActive] = useState('All');
+    const items = (uploadedItems.length
+        ? uploadedItems
+        : (images.length ? images : ['/images/tawus.jpg']).map((src, i) => {
+            const theme = galleryThemes[i % galleryThemes.length];
+            const category = categories[i % categories.length];
+            return { src, caption: theme.caption, tag: theme.tag, category };
+        }));
+    const visible = useMemo(() => (active === 'All' ? items : items.filter((i) => i.category === active)), [active, items]);
 
     return (
-        <GuestLayout navbarVariant="layya" footerVariant="layya">
-            <div className="bg-slate-50 pb-20 pt-12">
+        <GuestLayout title="Gallery">
+            <PageHero label="Gallery" title="Youth, girls" italic="and community" image={images[0]} />
+            <section className="bg-white py-16 md:py-24">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <SectionHeader
-                        eyebrow="Gallery"
-                        title="Youth, girls & community"
-                        subtitle="Moments from trainings, Tawus Hub, sports, dialogue, and service across Luac Akok Yieu."
-                    />
-                    <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-                        {items.map((item, i) => (
-                            <FadeIn key={item.caption} delay={(i % 6) * 0.04}>
-                                <figure className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                                    <img src={item.src} alt="" className="w-full object-cover" loading="lazy" />
-                                    <figcaption className="px-4 py-3">
-                                        <p className="text-xs font-bold uppercase text-teal-600">{item.tag}</p>
-                                        <p className="mt-1 text-sm font-medium text-slate-800">{item.caption}</p>
+                    <div className="mb-8 flex flex-wrap gap-2">
+                        {filters.map((f) => (
+                            <button
+                                key={f}
+                                type="button"
+                                onClick={() => setActive(f)}
+                                className={`rounded-full px-4 py-2 text-sm font-semibold ${active === f ? 'bg-brand text-white' : 'bg-brand-soft text-brand'}`}
+                            >
+                                {f}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                        {visible.map((item, i) => (
+                            <FadeIn key={`${item.caption}-${i}`}>
+                                <figure className="group relative aspect-square overflow-hidden rounded-2xl bg-brand-dark">
+                                    <img src={item.src} alt="" className="photo-fill transition duration-500 group-hover:scale-105" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition group-hover:opacity-100" />
+                                    <figcaption className="absolute inset-x-0 bottom-0 p-4 text-white opacity-0 transition group-hover:opacity-100">
+                                        <p className="text-xs text-brand-light">{item.tag}</p>
+                                        <p className="font-display text-lg">{item.caption}</p>
                                     </figcaption>
                                 </figure>
                             </FadeIn>
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
         </GuestLayout>
     );
 }

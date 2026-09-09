@@ -34,14 +34,14 @@ export default defineConfig({
         },
     },
     server: {
-        host: '10.153.162.201',
+        host: 'localhost',
         port: 3000,
         cors: {
             origin: true,
             credentials: true,
         },
         hmr: {
-            host: '10.153.162.201',
+            host: 'localhost',
         },
     },
 });

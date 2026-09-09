@@ -20,7 +20,7 @@ const items = [
     {
         icon: HeartHandshake,
         title: 'Build our community',
-        text: 'Events like Tawus Day and Tawus Hub gatherings that celebrate culture, skills, and unity in Luac Akok Yieu and beyond.',
+        text: 'Events like Tawus Day and Tawus Hub gatherings that celebrate culture, skills, and unity in Luac Akook Yieu and beyond.',
     },
 ];
 

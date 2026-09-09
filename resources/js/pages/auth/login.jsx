@@ -1,9 +1,11 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 const LOGIN_HERO_IMAGE = '/images/pexels-pixabay-51953.jpg';
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, error, canResetPassword }) {
+    const flash = usePage().props.flash ?? {};
+    const bannerError = error || flash.error;
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -58,17 +60,17 @@ export default function Login({ status, canResetPassword }) {
                             <span className="text-left leading-tight">
                                 <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-white/85">Layya</span>
                                 <span className="mt-0.5 block max-w-[10rem] text-[10px] leading-snug text-white/65">
-                                    Luac Akok Yieu Youth Association
+                                    Luac Akook Yieu Youth Association
                                 </span>
                             </span>
                         </Link>
                         <div className="min-w-0 space-y-2 [@media(max-height:700px)]:space-y-1.5">
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-layya-star/95">Portal</p>
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-layya-star/95">Executive portal</p>
                             <h1 className="max-w-[18ch] text-2xl font-bold leading-[1.12] tracking-tight text-white xl:text-3xl [@media(max-height:700px)]:text-xl">
-                                Welcome back — your community is here.
+                                Sign in to manage LAYYA.
                             </h1>
                             <p className="hidden max-w-sm text-sm leading-relaxed text-white/75 lg:block [@media(max-height:720px)]:lg:hidden">
-                                Programs, updates, and member tools in one place.
+                                Only executive members can update the website and review public submissions.
                             </p>
                         </div>
                         <p className="shrink-0 text-[10px] text-white/35">Secure sign-in · Encrypted session</p>
@@ -106,18 +108,23 @@ export default function Login({ status, canResetPassword }) {
                                     {status}
                                 </div>
                             ) : null}
+                            {bannerError ? (
+                                <div className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-xs leading-snug text-red-700 sm:text-sm" role="alert">
+                                    {bannerError}
+                                </div>
+                            ) : null}
 
                             <div className="mb-4 lg:hidden [@media(max-height:640px)]:mb-3">
                                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand [@media(max-height:640px)]:hidden">Sign in</p>
                                 <h2 className="mt-0.5 text-lg font-bold tracking-tight text-navy [@media(min-height:700px)]:text-xl [@media(min-height:800px)]:text-2xl">
-                                    Access your account
+                                    Executive sign in
                                 </h2>
-                                <p className="mt-1 text-xs text-slate-500 [@media(max-height:640px)]:hidden sm:text-sm">Use the email on your profile.</p>
+                                <p className="mt-1 text-xs text-slate-500 [@media(max-height:640px)]:hidden sm:text-sm">Use your executive email.</p>
                             </div>
 
                             <div className="mb-4 hidden lg:block [@media(max-height:700px)]:mb-3">
-                                <h2 className="text-xl font-bold tracking-tight text-navy [@media(min-height:820px)]:text-2xl">Sign in</h2>
-                                <p className="mt-0.5 text-xs text-slate-500 sm:text-sm">Enter your credentials to continue.</p>
+                                <h2 className="text-xl font-bold tracking-tight text-navy [@media(min-height:820px)]:text-2xl">Executive sign in</h2>
+                                <p className="mt-0.5 text-xs text-slate-500 sm:text-sm">Only LAYYA executive members can access the backend.</p>
                                 <div className="mt-2 h-0.5 w-8 rounded-full bg-brand [@media(max-height:700px)]:mt-1.5" aria-hidden />
                             </div>
 
@@ -201,10 +208,7 @@ export default function Login({ status, canResetPassword }) {
                             </form>
 
                             <p className="mt-4 text-center text-xs text-slate-600 sm:mt-5 sm:text-sm [@media(max-height:680px)]:mt-3">
-                                Don&apos;t have an account?{' '}
-                                <Link href={route('register')} prefetch className="font-semibold text-brand hover:text-brand-dark">
-                                    Register
-                                </Link>
+                                Public registration is closed. Contact the Chairman or Secretary General for executive access.
                             </p>
 
                             <div className="relative my-4 sm:my-5 [@media(max-height:680px)]:my-3">
@@ -237,7 +241,7 @@ export default function Login({ status, canResetPassword }) {
                                 <Link href={route('home')} prefetch className="text-xs font-medium text-slate-500 hover:text-brand sm:text-sm">
                                     Back to home
                                 </Link>
-                                <p className="text-[10px] text-slate-400 [@media(max-height:620px)]:hidden">Luac Akok Yieu Youth Association</p>
+                                <p className="text-[10px] text-slate-400 [@media(max-height:620px)]:hidden">Luac Akook Yieu Youth Association</p>
                             </div>
                         </div>
                     </div>

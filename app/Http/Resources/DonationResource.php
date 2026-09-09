@@ -20,6 +20,8 @@ class DonationResource extends JsonResource
             'donor_phone' => $this->donor_phone,
             'donor_email' => $this->donor_email,
             'amount' => (string) $this->amount,
+            'currency' => $this->currency,
+            'amount_usd' => $this->amount_usd !== null ? (string) $this->amount_usd : null,
             'payment_method' => $this->payment_method,
             'reference_no' => $this->reference_no,
             'received_by' => $this->received_by,

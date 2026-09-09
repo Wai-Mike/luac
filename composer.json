@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "layya/luac-akok-yieu",
     "type": "project",
-    "description": "Luac Akok Yieu Youth Association (LAYYA) — Laravel + Inertia + React.",
+    "description": "Luac Akook Yieu Youth Association (LAYYA) — Laravel + Inertia + React.",
     "keywords": [
         "laravel",
         "framework"

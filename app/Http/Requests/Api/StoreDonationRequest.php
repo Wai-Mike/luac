@@ -22,6 +22,7 @@ class StoreDonationRequest extends FormRequest
             'donor_phone' => ['nullable', 'string', 'max:50'],
             'donor_email' => ['nullable', 'email', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0.01'],
+            'currency' => ['nullable', 'string', 'in:ssp,usd'],
             'payment_method' => ['required', 'string', 'in:cash,bank,mobile_money,other'],
             'reference_no' => ['nullable', 'string', 'max:255'],
             'received_by' => ['nullable', 'integer', 'exists:users,id'],

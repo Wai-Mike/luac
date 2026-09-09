@@ -1,12 +1,14 @@
 import GuestFooter from '@/components/GuestFooter';
 import GuestNavbar from '@/components/GuestNavbar';
+import { Head } from '@inertiajs/react';
 
-export default function GuestLayout({ children, navbarVariant = 'default', footerVariant = 'default' }) {
+export default function GuestLayout({ children, title }) {
     return (
-        <div className="min-w-0">
-            <GuestNavbar variant={navbarVariant} />
+        <div className="guest-site min-w-0">
+            {title ? <Head title={title} /> : null}
+            <GuestNavbar />
             {children}
-            <GuestFooter variant={footerVariant} />
+            <GuestFooter />
         </div>
     );
 }

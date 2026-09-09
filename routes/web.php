@@ -7,6 +7,12 @@ use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\YouthMemberController;
 use App\Http\Controllers\DepartmentDashboardController;
+use App\Http\Controllers\Admin\ContactInboxController;
+use App\Http\Controllers\Admin\DonationInboxController;
+use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\SiteContentController;
+use App\Http\Controllers\Guest\ContactController;
+use App\Http\Controllers\Guest\DonationController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Guest\YouthCensusController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -26,9 +32,15 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/faq', 'faq')->name('faq');
     Route::get('/team', 'team')->name('team');
+    Route::get('/videos', 'videos')->name('videos');
     Route::get('/reports', 'reports')->name('reports');
     Route::get('/tawus-hub', 'tawusHub')->name('tawus-hub');
 });
+
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:10,1')->name('contact.store');
+
+Route::get('/fundraising/thank-you', [DonationController::class, 'thankYou'])->name('fundraising.thank-you');
+Route::post('/fundraising/donate', [DonationController::class, 'store'])->middleware('throttle:10,1')->name('fundraising.donate');
 
 Route::redirect('/tawus', '/tawus-hub');
 
@@ -56,24 +68,52 @@ Route::middleware(['auth', 'verified', 'admin.access'])
         Route::get('/analytics', [AdminAnalyticsController::class, 'analytics'])->name('analytics.index');
 
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-        Route::post('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
+        Route::post('/settings', [AdminController::class, 'updateSettings'])->middleware('content.edit')->name('settings.update');
 
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
-        Route::patch('/users/{id}', [AdminController::class, 'updateUserRole'])->whereNumber('id')->name('users.role');
-        Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->whereNumber('id')->name('users.destroy');
+        Route::middleware('chairman')->group(function () {
+            Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+            Route::patch('/users/{id}', [AdminController::class, 'updateUserRole'])->whereNumber('id')->name('users.role');
+            Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->whereNumber('id')->name('users.destroy');
+        });
 
-        Route::resource('youth-members', YouthMemberController::class);
+        Route::get('youth-members', [YouthMemberController::class, 'index'])->name('youth-members.index');
+        Route::get('youth-members/create', [YouthMemberController::class, 'create'])->middleware('content.edit')->name('youth-members.create');
+        Route::post('youth-members', [YouthMemberController::class, 'store'])->middleware('content.edit')->name('youth-members.store');
+        Route::get('youth-members/{youth_member}', [YouthMemberController::class, 'show'])->name('youth-members.show');
+        Route::get('youth-members/{youth_member}/edit', [YouthMemberController::class, 'edit'])->middleware('content.edit')->name('youth-members.edit');
+        Route::put('youth-members/{youth_member}', [YouthMemberController::class, 'update'])->middleware('content.edit')->name('youth-members.update');
+        Route::patch('youth-members/{youth_member}', [YouthMemberController::class, 'update'])->middleware('content.edit');
+        Route::delete('youth-members/{youth_member}', [YouthMemberController::class, 'destroy'])->middleware('content.edit')->name('youth-members.destroy');
+
+        Route::get('/content/site', [SiteContentController::class, 'edit'])->name('content.site.edit');
+        Route::put('/content/site', [SiteContentController::class, 'update'])->middleware('content.edit')->name('content.site.update');
+        Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+        Route::post('/media', [MediaController::class, 'store'])->middleware('content.edit')->name('media.store');
+        Route::delete('/media/{site_media}', [MediaController::class, 'destroy'])->middleware('content.edit')->name('media.destroy');
+        Route::post('/media/portrait', [MediaController::class, 'uploadPortrait'])->middleware('content.edit')->name('media.portrait');
+        Route::get('/donations', [DonationInboxController::class, 'index'])->name('donations.index');
+        Route::get('/contacts', [ContactInboxController::class, 'index'])->name('contacts.index');
+        Route::patch('/contacts/{contactMessage}', [ContactInboxController::class, 'update'])->middleware('content.edit')->name('contacts.update');
 
         Route::get('/content/comments', [ContentController::class, 'comments'])->name('content.comments');
-        Route::post('/content/comments/{comment}/approve', [ContentController::class, 'approveComment'])->name('content.comments.approve');
-        Route::post('/content/comments/{comment}/reject', [ContentController::class, 'rejectComment'])->name('content.comments.reject');
-        Route::delete('/content/comments/{comment}', [ContentController::class, 'deleteComment'])->name('content.comments.destroy');
+        Route::post('/content/comments/{comment}/approve', [ContentController::class, 'approveComment'])->middleware('content.edit')->name('content.comments.approve');
+        Route::post('/content/comments/{comment}/reject', [ContentController::class, 'rejectComment'])->middleware('content.edit')->name('content.comments.reject');
+        Route::delete('/content/comments/{comment}', [ContentController::class, 'deleteComment'])->middleware('content.edit')->name('content.comments.destroy');
 
-        Route::middleware('permission:manage_departments')->group(function () {
+        Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+        Route::middleware('chairman')->group(function () {
+            Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+            Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+        });
+        Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('departments.show');
+        Route::middleware('chairman')->group(function () {
+            Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+            Route::put('/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update');
             Route::patch('/departments/{department}/toggle-status', [DepartmentController::class, 'toggleStatus'])
                 ->name('departments.toggle-status');
-            Route::resource('departments', DepartmentController::class);
+            Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
         });
     });
 
@@ -93,11 +133,8 @@ Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     if ($user->canAccessAdminPanel()) {
         return app(AdminController::class)->dashboard();
     }
-    if (in_array($user->role, ['member', 'management'], true)) {
-        return app(UserDashboardController::class)->index();
-    }
 
-    return redirect()->route('home');
+    return redirect()->route('home')->with('error', 'Only LAYYA executive members can access the backend.');
 })->name('dashboard');
 
 require __DIR__.'/auth.php';

@@ -1,102 +1,58 @@
+import BrandLogo from '@/components/BrandLogo';
+import useSiteContent from '@/hooks/useSiteContent';
 import { Link } from '@inertiajs/react';
 
-export default function GuestFooter({ variant = 'default' }) {
-    const civic = variant === 'association';
-
+export default function GuestFooter() {
+    const { contact } = useSiteContent();
     return (
-        <footer className={`py-12 text-slate-300 ${civic ? 'border-t-4 border-t-brand bg-[#0a1628]' : 'bg-navy'}`}>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
-                    <div>
-                        <div className="mb-4 flex items-center gap-3">
-                            <img
-                                src="/images/logo.jpg"
-                                alt="Luac Akok Yieu Youth Association"
-                                className="h-10 w-10 rounded-full object-cover ring-1 ring-slate-600"
-                            />
-                            <div>
-                                <h3 className={`text-base font-bold text-white ${civic ? 'font-association tracking-tight' : ''}`}>LAYYA</h3>
-                                <p className="text-xs text-slate-400">Juba, South Sudan</p>
-                            </div>
-                        </div>
-                        <p className="text-sm leading-relaxed text-slate-400">
-                            Youth-led association building skills, leadership, and community action in Luac Akok Yieu.
-                        </p>
+        <footer className="bg-brand-dark text-white">
+            <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-4 lg:px-8">
+                <div>
+                    <div className="mb-4">
+                        <BrandLogo href={route('home')} />
+                        <p className="mt-3 text-xs text-white/55">Together for a better future.</p>
                     </div>
-                    <div>
-                        <h4
-                            className={`mb-4 text-sm font-semibold uppercase tracking-wide text-white ${civic ? 'border-b border-white/10 pb-2' : ''}`}
-                        >
-                            Quick links
-                        </h4>
-                        <ul className="space-y-2 text-sm">
-                            <li>
-                                <Link href={route('programs')} className="transition-colors hover:text-brand-light">
-                                    Programs
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={route('youth-census.register')} className="transition-colors hover:text-brand-light">
-                                    Youth census
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={route('faq')} className="transition-colors hover:text-brand-light">
-                                    FAQ
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={route('tawus-hub')} className="transition-colors hover:text-brand-light">
-                                    Tawus Hub
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={route('reports')} className="transition-colors hover:text-brand-light">
-                                    Reports & updates
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className={`mb-4 text-sm font-semibold uppercase tracking-wide text-white ${civic ? 'border-b border-white/10 pb-2' : ''}`}>
-                            About
-                        </h4>
-                        <ul className="space-y-2 text-sm">
-                            <li>
-                                <Link href={route('about')} className="transition-colors hover:text-brand-light">
-                                    About LAYYA
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={route('team')} className="transition-colors hover:text-brand-light">
-                                    Team
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href={route('contact')} className="transition-colors hover:text-brand-light">
-                                    Contact
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 className={`mb-4 text-sm font-semibold uppercase tracking-wide text-white ${civic ? 'border-b border-white/10 pb-2' : ''}`}>
-                            Contact
-                        </h4>
-                        <ul className="space-y-2 text-sm">
-                            <li>
-                                <a href="mailto:layya.youth@gmail.com" className="transition-colors hover:text-brand-light">
-                                    layya.youth@gmail.com
-                                </a>
-                            </li>
-                            <li>
-                                <span className="text-slate-400">Phone: 0927 779 952</span>
-                            </li>
-                        </ul>
-                    </div>
+                    <p className="text-sm leading-relaxed text-white/55">
+                        Non-political youth association building unity and patriotic participation in Luac community.
+                    </p>
                 </div>
-                <div className="mt-10 border-t border-slate-700 pt-8 text-center text-sm text-slate-500">
-                    <p>&copy; {new Date().getFullYear()} Luac Akok Yieu Youth Association (LAYYA). All rights reserved.</p>
+                <div>
+                    <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Explore</h4>
+                    <ul className="space-y-2 text-sm text-white/55">
+                        <li><Link href={route('programs')} className="hover:text-white">Programs</Link></li>
+                        <li><Link href={route('youth-census.register')} className="hover:text-white">Youth census</Link></li>
+                        <li><Link href={route('gallery')} className="hover:text-white">Gallery</Link></li>
+                        <li><Link href={route('videos')} className="hover:text-white">Community videos</Link></li>
+                        <li><Link href={route('tawus-hub')} className="hover:text-white">Tawus Hub</Link></li>
+                        <li><Link href={route('fundraising')} className="hover:text-white">Fundraising</Link></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Organisation</h4>
+                    <ul className="space-y-2 text-sm text-white/55">
+                        <li><Link href={route('about')} className="hover:text-white">About LAYYA</Link></li>
+                        <li><Link href={route('team')} className="hover:text-white">Leadership</Link></li>
+                        <li><Link href={route('news')} className="hover:text-white">News</Link></li>
+                        <li><Link href={route('contact')} className="hover:text-white">Contact</Link></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Contact</h4>
+                    <ul className="space-y-2 text-sm text-white/55">
+                        <li>
+                            <a href={`mailto:${contact.email}`} className="hover:text-white">
+                                {contact.email}
+                            </a>
+                        </li>
+                        <li>{contact.phone}</li>
+                        <li>{contact.address}</li>
+                    </ul>
+                </div>
+            </div>
+            <div className="border-t border-white/10">
+                <div className="mx-auto flex max-w-7xl flex-col justify-between gap-2 px-4 py-5 text-xs text-white/35 sm:flex-row sm:px-6 lg:px-8">
+                    <p>© {new Date().getFullYear()} Luac Akook Yieu Youth Association (LAYYA).</p>
+                    <p>Juba and Khorfulus · South Sudan</p>
                 </div>
             </div>
         </footer>

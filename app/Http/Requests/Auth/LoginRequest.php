@@ -49,6 +49,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = Auth::user();
+        if (! $user || ! $user->isExecutive() || $user->status !== 'active') {
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => 'Only LAYYA executive members can sign in to the backend.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

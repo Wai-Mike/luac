@@ -1,227 +1,348 @@
-import GuestFooter from '@/components/GuestFooter';
-import GuestNavbar from '@/components/GuestNavbar';
-import { Head, useForm } from '@inertiajs/react';
-import { useState } from 'react';
+import GuestButton from '@/components/GuestButton';
+import GuestLayout from '@/layouts/GuestLayout';
+import { useForm } from '@inertiajs/react';
+import { Check } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+const STEPS = [
+    { id: 1, label: 'You' },
+    { id: 2, label: 'School & work' },
+    { id: 3, label: 'Skills' },
+    { id: 4, label: 'Interests' },
+    { id: 5, label: 'Finish' },
+];
+
+const TECHNICAL = [
+    'Braiding',
+    'Manicure',
+    'Pedicure',
+    'Decor',
+    'Catering',
+    'Tailoring',
+    'Agriculture',
+    'Business',
+    'Digital literacy',
+    'Photography',
+];
+
+const SOFT = ['Leadership', 'Public speaking', 'Teamwork', 'Mentoring', 'Problem solving', 'Creativity', 'Communication'];
+
+const VOCATIONAL = [
+    'Skills training',
+    'Business start-up',
+    'Mentorship',
+    'Scholarships',
+    'Leadership training',
+    'Arts & culture',
+    'Sports',
+    'Digital careers',
+];
+
+const HOBBIES = ['Football', 'Music', 'Dance', 'Reading', 'Farming', 'Volunteering', 'Faith groups'];
+
+const MONTHS = [
+    { value: '1', label: 'January' },
+    { value: '2', label: 'February' },
+    { value: '3', label: 'March' },
+    { value: '4', label: 'April' },
+    { value: '5', label: 'May' },
+    { value: '6', label: 'June' },
+    { value: '7', label: 'July' },
+    { value: '8', label: 'August' },
+    { value: '9', label: 'September' },
+    { value: '10', label: 'October' },
+    { value: '11', label: 'November' },
+    { value: '12', label: 'December' },
+];
+
+const BIRTH_YEARS = Array.from({ length: 80 }, (_, i) => String(new Date().getFullYear() - 10 - i));
+
+function isoBirthDate(day, month, year) {
+    const d = Number(day);
+    const m = Number(month);
+    const y = Number(year);
+    if (!d || !m || !y || String(year).length !== 4) {
+        return '';
+    }
+    const date = new Date(y, m - 1, d);
+    if (date.getFullYear() !== y || date.getMonth() !== m - 1 || date.getDate() !== d) {
+        return '';
+    }
+    return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+}
+
+const BARRIERS = [
+    'School fees',
+    'Transport',
+    'Family duties',
+    'Limited mentors',
+    'No safe space',
+    'Unemployment',
+    'Health',
+    'Other',
+];
+
+function Field({ label, error, children }) {
+    return (
+        <div>
+            <label className="field-label">{label}</label>
+            {children}
+            {error ? <p className="mt-1 text-xs text-red-600">{error}</p> : null}
+        </div>
+    );
+}
+
+function CheckPill({ selected, onClick, children }) {
+    return (
+        <button
+            type="button"
+            onClick={onClick}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition duration-150 ${
+                selected ? 'bg-brand text-white' : 'bg-brand-soft text-brand'
+            }`}
+        >
+            {children}
+        </button>
+    );
+}
 
 export default function YouthCensusRegister() {
     const [step, setStep] = useState(1);
-
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, transform } = useForm({
         first_name: '',
         last_name: '',
         gender: '',
-        date_of_birth: '',
+        birth_day: '',
+        birth_month: '',
+        birth_year: '',
         phone: '',
         email: '',
-        county: '',
+        county: 'PIGI (Khorfulus)',
         payam: '',
         boma: '',
+        residential_area: '',
         education_level: '',
-        current_school: '',
+        student_status: '',
         employment_status: '',
-        skills: [],
-        interests: [],
+        current_school: '',
+        technical_skills: [],
+        soft_skills: [],
+        vocational: [],
+        hobbies: [],
+        goals: '',
+        barriers: [],
         heard_about_layya: '',
     });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route('youth-census.store'));
-    };
+    useEffect(() => {
+        transform((d) => ({
+            first_name: d.first_name,
+            last_name: d.last_name,
+            gender: d.gender,
+            date_of_birth: isoBirthDate(d.birth_day, d.birth_month, d.birth_year),
+            phone: d.phone,
+            email: d.email,
+            county: 'PIGI (Khorfulus)',
+            payam: d.payam,
+            boma: [d.boma, d.residential_area].filter(Boolean).join(' · '),
+            education_level: d.education_level,
+            current_school: d.current_school,
+            employment_status: d.employment_status || (d.student_status === 'student' ? 'student' : ''),
+            skills: [...(d.technical_skills || []), ...(d.soft_skills || [])],
+            interests: [
+                ...(d.vocational || []),
+                ...(d.hobbies || []),
+                ...(d.barriers || []),
+                d.goals ? `Goal: ${d.goals}` : null,
+            ].filter(Boolean),
+            heard_about_layya: d.heard_about_layya,
+        }));
+    }, [transform]);
 
-    const toggleArrayValue = (field, value) => {
+    function toggle(field, value, max) {
         const current = data[field] || [];
         if (current.includes(value)) {
             setData(field, current.filter((item) => item !== value));
-        } else {
-            setData(field, [...current, value]);
+            return;
         }
-    };
+        if (max && current.length >= max) {
+            return;
+        }
+        setData(field, [...current, value]);
+    }
+
+    function canContinue() {
+        if (step === 1) {
+            return (
+                data.first_name &&
+                data.last_name &&
+                data.gender &&
+                isoBirthDate(data.birth_day, data.birth_month, data.birth_year) &&
+                data.payam &&
+                data.phone
+            );
+        }
+        if (step === 2) {
+            return Boolean(data.education_level);
+        }
+        return true;
+    }
+
+    function next() {
+        if (!canContinue()) {
+            return;
+        }
+        setStep((s) => Math.min(5, s + 1));
+    }
+
+    function submit(e) {
+        e.preventDefault();
+        post(route('youth-census.store'));
+    }
+
+    const showInstitution = data.student_status === 'student' || data.employment_status === 'employed';
+    const progress = ((step - 1) / 4) * 100;
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-brand-surface via-brand-surface/60 to-slate-50">
-            <Head title="LAYYA Youth Census Registration" />
-            <GuestNavbar />
+        <GuestLayout title="Youth Census">
+            <section className="bg-brand-soft pt-32 pb-20 md:pb-28">
+                <div className="mx-auto max-w-2xl px-4 sm:px-6">
+                    <div className="mb-10 text-center">
+                        <p className="text-xs font-semibold uppercase tracking-widest text-amber">Youth Census</p>
+                        <h1 className="mt-2 text-[clamp(2rem,4vw,3rem)]">Register a youth</h1>
+                        <p className="mt-3 text-brand-muted">
+                            Five short steps. Your answers help LAYYA plan trainings and opportunities for Luac Akook Yieu.
+                        </p>
+                    </div>
 
-            <main className="mx-auto max-w-4xl px-4 py-12">
-                <div className="mb-8 text-center">
-                    <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-brand">
-                        Luac Akok Yieu Youth Association
-                    </p>
-                    <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-                        Youth Census Registration
-                    </h1>
-                    <p className="mt-3 text-sm text-slate-600">
-                        Help us understand and serve the youth of Luac Akok Yieu better. This form takes just a few minutes
-                        and your responses will shape programs, trainings, and opportunities.
-                    </p>
-                </div>
+                    <div className="mb-8">
+                        <div className="flex items-start justify-between">
+                            {STEPS.map((s) => {
+                                const done = step > s.id;
+                                const current = step === s.id;
+                                return (
+                                    <div key={s.id} className="flex flex-1 flex-col items-center">
+                                        <span
+                                            className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${
+                                                done
+                                                    ? 'bg-brand text-white'
+                                                    : current
+                                                      ? 'bg-amber text-brand-ink'
+                                                      : 'bg-white/70 text-brand/40'
+                                            }`}
+                                        >
+                                            {done ? <Check className="h-4 w-4" /> : s.id}
+                                        </span>
+                                        <span
+                                            className={`mt-2 hidden text-center text-xs md:block ${
+                                                current ? 'font-semibold text-brand-ink' : 'text-brand-muted'
+                                            }`}
+                                        >
+                                            {s.label}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/70">
+                            <div className="h-full rounded-full bg-brand transition-all duration-300" style={{ width: `${progress}%` }} />
+                        </div>
+                    </div>
 
-                {/* Step indicator */}
-                <div className="mb-8 flex items-center justify-center space-x-4">
-                    {['Demographics', 'Education & Skills', 'Interests'].map((label, index) => {
-                        const current = index + 1;
-                        const isActive = step === current;
-                        const isCompleted = step > current;
-
-                        return (
-                            <div key={label} className="flex items-center">
-                                <div
-                                    className={`flex h-9 w-9 items-center justify-center rounded-full border text-sm font-semibold ${
-                                        isActive
-                                            ? 'border-brand/30 bg-brand text-white shadow'
-                                            : isCompleted
-                                              ? 'border-brand/30 bg-brand text-brand'
-                                              : 'border-slate-300 bg-white text-slate-500'
-                                    }`}
-                                >
-                                    {current}
+                    <form onSubmit={submit} className="rounded-3xl bg-white p-6 md:p-8">
+                        {step === 1 && (
+                            <div className="space-y-4">
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="First name" error={errors.first_name}>
+                                        <input className="field-input" value={data.first_name} onChange={(e) => setData('first_name', e.target.value)} />
+                                    </Field>
+                                    <Field label="Last name" error={errors.last_name}>
+                                        <input className="field-input" value={data.last_name} onChange={(e) => setData('last_name', e.target.value)} />
+                                    </Field>
                                 </div>
-                                <span className="ml-2 text-xs font-medium text-slate-600">{label}</span>
-                                {index < 2 && (
-                                    <div className="mx-2 h-px w-10 bg-gradient-to-r from-slate-200 via-brand/20 to-slate-200" />
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <form
-                    onSubmit={handleSubmit}
-                    className="rounded-2xl bg-white/90 p-6 shadow-xl shadow-brand/10 ring-1 ring-slate-100 backdrop-blur"
-                >
-                    {/* Step 1: Demographics */}
-                    {step === 1 && (
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold text-slate-900">Demographic Information</h2>
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">First Name *</label>
-                                    <input
-                                        type="text"
-                                        value={data.first_name}
-                                        onChange={(e) => setData('first_name', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.first_name && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.first_name}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Last Name *</label>
-                                    <input
-                                        type="text"
-                                        value={data.last_name}
-                                        onChange={(e) => setData('last_name', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.last_name && <p className="mt-1 text-xs text-red-600">{errors.last_name}</p>}
-                                </div>
-                            </div>
-
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Gender *</label>
-                                    <select
-                                        value={data.gender}
-                                        onChange={(e) => setData('gender', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    >
-                                        <option value="">Select gender</option>
+                                <Field label="Gender" error={errors.gender}>
+                                    <select className="field-input" value={data.gender} onChange={(e) => setData('gender', e.target.value)}>
+                                        <option value="">Select</option>
                                         <option value="female">Female</option>
                                         <option value="male">Male</option>
-                                        <option value="other">Other / Prefer not to say</option>
                                     </select>
-                                    {errors.gender && <p className="mt-1 text-xs text-red-600">{errors.gender}</p>}
+                                </Field>
+                                <div>
+                                    <p className="field-label">Date of birth</p>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        <select
+                                            className="field-input"
+                                            value={data.birth_day}
+                                            onChange={(e) => setData('birth_day', e.target.value)}
+                                            aria-label="Day"
+                                        >
+                                            <option value="">Day</option>
+                                            {Array.from({ length: 31 }, (_, i) => (
+                                                <option key={i + 1} value={String(i + 1)}>
+                                                    {i + 1}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <select
+                                            className="field-input"
+                                            value={data.birth_month}
+                                            onChange={(e) => setData('birth_month', e.target.value)}
+                                            aria-label="Month"
+                                        >
+                                            <option value="">Month</option>
+                                            {MONTHS.map((month) => (
+                                                <option key={month.value} value={month.value}>
+                                                    {month.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <select
+                                            className="field-input"
+                                            value={data.birth_year}
+                                            onChange={(e) => setData('birth_year', e.target.value)}
+                                            aria-label="Year"
+                                        >
+                                            <option value="">Year</option>
+                                            {BIRTH_YEARS.map((year) => (
+                                                <option key={year} value={year}>
+                                                    {year}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <p className="mt-1 text-xs text-brand-muted">Day, month, then year</p>
+                                    {errors.date_of_birth ? <p className="mt-1 text-xs text-red-600">{errors.date_of_birth}</p> : null}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700">
-                                        Date of Birth *
-                                        <span className="ml-1 text-xs text-slate-400">(approximate is okay)</span>
-                                    </label>
-                                    <input
-                                        type="date"
-                                        value={data.date_of_birth}
-                                        onChange={(e) => setData('date_of_birth', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.date_of_birth && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.date_of_birth}</p>
-                                    )}
+                                    <p className="field-label">County</p>
+                                    <div className="rounded-xl bg-brand-soft px-4 py-3 text-sm font-medium text-brand">PIGI (Khorfulus)</div>
                                 </div>
-                            </div>
-
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Phone Number *</label>
-                                    <input
-                                        type="tel"
-                                        value={data.phone}
-                                        onChange={(e) => setData('phone', e.target.value)}
-                                        placeholder="+211 ..."
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="Payam" error={errors.payam}>
+                                        <input className="field-input" value={data.payam} onChange={(e) => setData('payam', e.target.value)} />
+                                    </Field>
+                                    <Field label="Boma" error={errors.boma}>
+                                        <input className="field-input" value={data.boma} onChange={(e) => setData('boma', e.target.value)} />
+                                    </Field>
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Email (optional)</label>
-                                    <input
-                                        type="email"
-                                        value={data.email}
-                                        onChange={(e) => setData('email', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
-                                </div>
-                            </div>
-
-                            <div className="grid gap-4 sm:grid-cols-3">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">County *</label>
-                                    <input
-                                        type="text"
-                                        value={data.county}
-                                        onChange={(e) => setData('county', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.county && <p className="mt-1 text-xs text-red-600">{errors.county}</p>}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Payam *</label>
-                                    <input
-                                        type="text"
-                                        value={data.payam}
-                                        onChange={(e) => setData('payam', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.payam && <p className="mt-1 text-xs text-red-600">{errors.payam}</p>}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Boma (optional)</label>
-                                    <input
-                                        type="text"
-                                        value={data.boma}
-                                        onChange={(e) => setData('boma', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.boma && <p className="mt-1 text-xs text-red-600">{errors.boma}</p>}
+                                <Field label="Residential area">
+                                    <input className="field-input" value={data.residential_area} onChange={(e) => setData('residential_area', e.target.value)} />
+                                </Field>
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <Field label="Phone" error={errors.phone}>
+                                        <input type="tel" className="field-input" placeholder="+211 …" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
+                                    </Field>
+                                    <Field label="Email" error={errors.email}>
+                                        <input type="email" className="field-input" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+                                    </Field>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* Step 2: Education & skills */}
-                    {step === 2 && (
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold text-slate-900">Education & Skills</h2>
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Highest level of education *</label>
-                                    <select
-                                        value={data.education_level}
-                                        onChange={(e) => setData('education_level', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    >
+                        {step === 2 && (
+                            <div className="space-y-4">
+                                <Field label="Education level" error={errors.education_level}>
+                                    <select className="field-input" value={data.education_level} onChange={(e) => setData('education_level', e.target.value)}>
                                         <option value="">Select level</option>
                                         <option value="none">No formal education</option>
                                         <option value="primary">Primary</option>
@@ -230,185 +351,139 @@ export default function YouthCensusRegister() {
                                         <option value="diploma">Diploma</option>
                                         <option value="degree">University degree</option>
                                     </select>
-                                    {errors.education_level && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.education_level}</p>
-                                    )}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">
-                                        Current school or institution (if any)
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={data.current_school}
-                                        onChange={(e) => setData('current_school', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    />
-                                    {errors.current_school && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.current_school}</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700">Employment status</label>
-                                    <select
-                                        value={data.employment_status}
-                                        onChange={(e) => setData('employment_status', e.target.value)}
-                                        className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                    >
+                                </Field>
+                                <Field label="Student status">
+                                    <select className="field-input" value={data.student_status} onChange={(e) => setData('student_status', e.target.value)}>
+                                        <option value="">Select</option>
+                                        <option value="student">Currently a student</option>
+                                        <option value="not-student">Not a student</option>
+                                    </select>
+                                </Field>
+                                <Field label="Employment" error={errors.employment_status}>
+                                    <select className="field-input" value={data.employment_status} onChange={(e) => setData('employment_status', e.target.value)}>
                                         <option value="">Select status</option>
                                         <option value="student">Student</option>
                                         <option value="employed">Employed</option>
                                         <option value="self-employed">Self-employed</option>
                                         <option value="unemployed">Unemployed</option>
                                     </select>
-                                    {errors.employment_status && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.employment_status}</p>
-                                    )}
-                                </div>
+                                </Field>
+                                {showInstitution ? (
+                                    <Field label="Institution" error={errors.current_school}>
+                                        <input
+                                            className="field-input"
+                                            value={data.current_school}
+                                            onChange={(e) => setData('current_school', e.target.value)}
+                                            placeholder="School, college, or workplace"
+                                        />
+                                    </Field>
+                                ) : null}
                             </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700">
-                                    Practical skills you already have (select all that apply)
-                                </label>
-                                <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                                    {['Braiding', 'Manicure', 'Catering', 'Decor', 'Tailoring', 'Agriculture', 'Business'].map(
-                                        (skill) => (
-                                            <button
-                                                type="button"
-                                                key={skill}
-                                                onClick={() => toggleArrayValue('skills', skill)}
-                                                className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition ${
-                                                    data.skills.includes(skill)
-                                                        ? 'border-brand/30 bg-brand text-brand'
-                                                        : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-brand/30 hover:bg-white'
-                                                }`}
-                                            >
-                                                <span>{skill}</span>
-                                                {data.skills.includes(skill) && (
-                                                    <span className="ml-2 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">
-                                                        Selected
-                                                    </span>
-                                                )}
-                                            </button>
-                                        ),
-                                    )}
-                                </div>
-                                {errors.skills && <p className="mt-1 text-xs text-red-600">{errors.skills}</p>}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Step 3: Interests */}
-                    {step === 3 && (
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold text-slate-900">Interests & Opportunities</h2>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700">
-                                    What opportunities are you most interested in? (select all that apply)
-                                </label>
-                                <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                                    {[
-                                        'Skills training',
-                                        'Business start-up support',
-                                        'Mentorship',
-                                        'Scholarships',
-                                        'Leadership training',
-                                        'Arts & culture',
-                                        'Sports',
-                                    ].map((interest) => (
-                                        <button
-                                            type="button"
-                                            key={interest}
-                                            onClick={() => toggleArrayValue('interests', interest)}
-                                            className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition ${
-                                                data.interests.includes(interest)
-                                                    ? 'border-brand/30 bg-brand text-brand'
-                                                    : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-brand/30 hover:bg-white'
-                                            }`}
-                                        >
-                                            <span>{interest}</span>
-                                            {data.interests.includes(interest) && (
-                                                <span className="ml-2 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">
-                                                    Selected
-                                                </span>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                                {errors.interests && <p className="mt-1 text-xs text-red-600">{errors.interests}</p>}
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700">
-                                    How did you hear about LAYYA?
-                                </label>
-                                <select
-                                    value={data.heard_about_layya}
-                                    onChange={(e) => setData('heard_about_layya', e.target.value)}
-                                    className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm shadow-sm focus:border-brand/30 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/25"
-                                >
-                                    <option value="">Select an option</option>
-                                    <option value="friend">Friend / Family</option>
-                                    <option value="church">Church / Mosque</option>
-                                    <option value="school">School</option>
-                                    <option value="radio">Radio / Media</option>
-                                    <option value="social-media">Social media</option>
-                                    <option value="community-leader">Community leader</option>
-                                </select>
-                                {errors.heard_about_layya && (
-                                    <p className="mt-1 text-xs text-red-600">{errors.heard_about_layya}</p>
-                                )}
-                            </div>
-
-                            <p className="text-xs text-slate-500">
-                                By submitting this form you consent to LAYYA using your data in aggregated, anonymized form to
-                                plan youth programs and opportunities. Your contact details will only be used to reach you
-                                about relevant opportunities.
-                            </p>
-                        </div>
-                    )}
-
-                    {/* Navigation buttons */}
-                    <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-4">
-                        <button
-                            type="button"
-                            onClick={() => setStep((prev) => Math.max(1, prev - 1))}
-                            disabled={step === 1}
-                            className="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                            Back
-                        </button>
-
-                        {step < 3 && (
-                            <button
-                                type="button"
-                                onClick={() => setStep((prev) => Math.min(3, prev + 1))}
-                                className="inline-flex items-center rounded-full bg-gradient-to-r from-brand via-brand-soft to-brand-light px-6 py-2 text-sm font-semibold text-white shadow-md shadow-brand/15 transition hover:shadow-lg hover:brightness-105"
-                            >
-                                Next
-                            </button>
                         )}
 
                         {step === 3 && (
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-dark via-brand to-brand-light px-6 py-2 text-sm font-semibold text-white shadow-md shadow-brand/20 transition hover:shadow-lg hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
-                            >
-                                {processing ? 'Submitting...' : 'Submit registration'}
-                            </button>
+                            <div className="space-y-6">
+                                <div>
+                                    <p className="field-label">Technical skills</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {TECHNICAL.map((skill) => (
+                                            <CheckPill key={skill} selected={data.technical_skills.includes(skill)} onClick={() => toggle('technical_skills', skill)}>
+                                                {skill}
+                                            </CheckPill>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="field-label">Soft skills</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {SOFT.map((skill) => (
+                                            <CheckPill key={skill} selected={data.soft_skills.includes(skill)} onClick={() => toggle('soft_skills', skill)}>
+                                                {skill}
+                                            </CheckPill>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         )}
-                    </div>
-                </form>
-            </main>
 
-            <GuestFooter />
-        </div>
+                        {step === 4 && (
+                            <div className="space-y-6">
+                                <div>
+                                    <div className="mb-2 flex items-center justify-between">
+                                        <p className="field-label mb-0">Vocational interests</p>
+                                        <p className="text-xs text-brand-muted">{data.vocational.length}/3 selected</p>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {VOCATIONAL.map((item) => (
+                                            <CheckPill key={item} selected={data.vocational.includes(item)} onClick={() => toggle('vocational', item, 3)}>
+                                                {item}
+                                            </CheckPill>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="field-label">Hobbies</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {HOBBIES.map((item) => (
+                                            <CheckPill key={item} selected={data.hobbies.includes(item)} onClick={() => toggle('hobbies', item)}>
+                                                {item}
+                                            </CheckPill>
+                                        ))}
+                                    </div>
+                                </div>
+                                <Field label="After skills training, what is your goal?">
+                                    <textarea rows={4} className="field-input resize-y" value={data.goals} onChange={(e) => setData('goals', e.target.value)} />
+                                </Field>
+                            </div>
+                        )}
+
+                        {step === 5 && (
+                            <div className="space-y-6">
+                                <div>
+                                    <p className="field-label">Barriers you face</p>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {BARRIERS.map((item) => (
+                                            <CheckPill key={item} selected={data.barriers.includes(item)} onClick={() => toggle('barriers', item)}>
+                                                {item}
+                                            </CheckPill>
+                                        ))}
+                                    </div>
+                                </div>
+                                <Field label="How did you hear about LAYYA?" error={errors.heard_about_layya}>
+                                    <select className="field-input" value={data.heard_about_layya} onChange={(e) => setData('heard_about_layya', e.target.value)}>
+                                        <option value="">Select an option</option>
+                                        <option value="friend">Friend / Family</option>
+                                        <option value="church">Church / Mosque</option>
+                                        <option value="school">School</option>
+                                        <option value="radio">Radio / Media</option>
+                                        <option value="social-media">Social media</option>
+                                        <option value="community-leader">Community leader</option>
+                                    </select>
+                                </Field>
+                                <div className="rounded-2xl bg-brand-soft p-4 text-sm text-brand-muted">
+                                    By submitting, you consent to LAYYA using your answers in aggregated form to plan youth programs.
+                                    Contact details are used only to share relevant opportunities.
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="mt-8 flex items-center justify-between border-t border-brand/10 pt-5">
+                            <GuestButton variant="outline" onClick={() => setStep((s) => Math.max(1, s - 1))} disabled={step === 1}>
+                                Back
+                            </GuestButton>
+                            {step < 5 ? (
+                                <GuestButton onClick={next} disabled={!canContinue()}>
+                                    Continue
+                                </GuestButton>
+                            ) : (
+                                <GuestButton type="submit" variant="amber" disabled={processing}>
+                                    {processing ? 'Submitting…' : 'Submit'}
+                                </GuestButton>
+                            )}
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </GuestLayout>
     );
 }
-

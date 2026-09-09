@@ -1,4 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
+import useCapabilities from '@/hooks/useCapabilities';
 import { Head, useForm } from '@inertiajs/react';
 
 const breadcrumbs = [
@@ -7,6 +8,7 @@ const breadcrumbs = [
 ];
 
 export default function AdminSettings() {
+    const { canEditContent } = useCapabilities();
 
     const { data, setData, post, processing, errors } = useForm({
         site_name: '',
@@ -25,9 +27,14 @@ export default function AdminSettings() {
 
             <div className="mx-auto max-w-2xl">
                 <h1 className="text-2xl font-semibold text-slate-900">Site settings</h1>
-                <p className="mt-1 text-sm text-slate-600">Update public site metadata (requires matching backend route).</p>
+                <p className="mt-1 text-sm text-slate-600">
+                    {canEditContent
+                        ? 'Update public site metadata.'
+                        : 'View only. The Chairman or an assigned admin can change settings.'}
+                </p>
 
-                <form onSubmit={submit} className="mt-6 space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <form onSubmit={canEditContent ? submit : (e) => e.preventDefault()} className="mt-6 space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <fieldset disabled={!canEditContent} className="space-y-4">
                     <div>
                         <label className="mb-1 block text-sm font-medium text-slate-700">Site name</label>
                         <input
@@ -60,13 +67,16 @@ export default function AdminSettings() {
                         />
                         {errors.contact_email && <p className="mt-1 text-xs text-red-600">{errors.contact_email}</p>}
                     </div>
-                    <button
-                        type="submit"
-                        disabled={processing}
-                        className="rounded-lg bg-[rgb(4,50,75)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
-                    >
-                        {processing ? 'Saving…' : 'Save settings'}
-                    </button>
+                    {canEditContent ? (
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="rounded-lg bg-[rgb(4,50,75)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+                        >
+                            {processing ? 'Saving…' : 'Save settings'}
+                        </button>
+                    ) : null}
+                    </fieldset>
                 </form>
             </div>
         </AppLayout>

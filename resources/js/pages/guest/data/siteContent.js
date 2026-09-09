@@ -1,16 +1,17 @@
-/** Static marketing copy & arrays — Luac Akok Yieu Youth Association (LAYYA) */
+/** Official copy from the LAYYA Constitution (January 2021 / assent 2022) */
 
 export const brand = {
-    fullName: 'Luac Akok Yieu Youth Association (LAYYA)',
+    officialName: 'Luac Akook Yieu Youth Association',
+    fullName: 'Luac Akook Yieu Youth Association (LAYYA)',
     shortName: 'LAYYA',
-    tagline: 'Building Community. Supporting Youth. Creating Change.',
-    location: 'South Sudan',
+    tagline: 'Building unity and patriotic participation of youth in the development of Luac community.',
+    location: 'Juba and Khorfulus, South Sudan',
 };
 
 export const hero = {
     headline: 'Building Community. Supporting Youth. Creating Change.',
     subtext:
-        'Luac Akok Yieu Youth Association (LAYYA) empowers young people through leadership, skills-building, creativity, gender equality, and community action — connecting youth to mentors, opportunities, and safe spaces where their ideas can grow.',
+        'Luac Akook De Yieu Youth Association (LAYYA) empowers young people through leadership, skills-building, creativity, gender equality, and community action — connecting youth to mentors, opportunities, and safe spaces where their ideas can grow.',
 };
 
 export const aboutPreview = {
@@ -120,24 +121,111 @@ export const galleryThemes = [
     { caption: 'Volunteer service', tag: 'Service' },
 ];
 
+const portraits = [
+    '/images/akur.jpg',
+    '/images/chuchu.jpg',
+    '/images/mareng.jpg',
+    '/images/nyalith.jpg',
+    '/images/nyantet.jpg',
+    '/images/rehan.jpg',
+    '/images/sabrina.jpg',
+    '/images/yaba.jpg',
+    '/images/youth.jpg',
+];
+
+export const executiveMembers = [
+    { name: 'Eng. Wai Michael Kat', role: 'Chairman', image: '/images/rehan.jpg', lead: true },
+    { name: 'Akur', role: 'Deputy Chairman', image: '/images/akur.jpg' },
+    { name: 'Mr. Jok Wuor Miyen', role: 'Secretary General', image: '/images/youth.jpg' },
+    { name: 'Mareng', role: 'Deputy Secretary General', image: '/images/mareng.jpg' },
+    { name: 'Nyalith', role: 'Treasurer', image: '/images/nyalith.jpg' },
+    { name: 'Nyantet', role: 'Deputy Treasurer', image: '/images/nyantet.jpg' },
+    { name: 'To be confirmed', role: 'Secretary for Information & ICT', image: '/images/sabrina.jpg' },
+    { name: 'Nyadak Suzan', role: 'Secretary for Programs & Welfare', image: '/images/youth.jpg' },
+    { name: 'Yaba', role: 'Secretary for Education', image: '/images/yaba.jpg' },
+    { name: 'To be confirmed', role: 'Secretary for Gender & Women Affairs', image: portraits[0] },
+    { name: 'To be confirmed', role: 'Secretary for Sports & Culture', image: portraits[1] },
+    { name: 'To be confirmed', role: 'Secretary for External Relations', image: portraits[2] },
+    { name: 'To be confirmed', role: 'Secretary for Mobilization', image: portraits[3] },
+    { name: 'To be confirmed', role: 'Secretary for Protocol & Security', image: portraits[4] },
+    { name: 'To be confirmed', role: 'Secretary for Health & Wellbeing', image: portraits[5] },
+    { name: 'To be confirmed', role: 'Secretary for Livelihoods', image: portraits[6] },
+    { name: 'To be confirmed', role: 'Organizing Secretary', image: portraits[7] },
+];
+
+export const councilMembers = [
+    { name: 'Counsel Chol Gach Abiel', role: 'Speaker', image: portraits[8], lead: true },
+    { name: 'To be confirmed', role: 'Deputy Speaker', image: portraits[0] },
+    { name: 'To be confirmed', role: 'Clerk of the Council', image: portraits[1] },
+    { name: 'To be confirmed', role: 'Council Member', image: portraits[2] },
+    { name: 'To be confirmed', role: 'Council Member', image: portraits[3] },
+    { name: 'To be confirmed', role: 'Council Member', image: portraits[4] },
+    { name: 'To be confirmed', role: 'Council Member', image: portraits[5] },
+];
+
 export const teamMembers = [
     {
-        name: 'Nyadak Suzan',
-        role: 'Youth Programs Lead',
-        bio: 'A passionate youth organizer with experience in mentoring, facilitation, and program design. Nyadak supports young people to turn community challenges into practical projects and youth-led solutions.',
-        image: '/images/youth.jpg',
-    },
-    {
-        name: 'Eng. Wai Michael',
-        role: 'Head of Digital & Innovation',
-        bio: 'A skilled full-stack engineer passionate about using technology to amplify youth voices. Eng. Michael leads the development of LAYYA’s digital platforms, connecting young people to stories, opportunities, and each other.',
+        name: 'Eng. Wai Michael Kat',
+        role: 'Chairman',
+        bio: 'The Chairman leads the 17-member executive and represents Luac youth.',
         image: '/images/rehan.jpg',
     },
     {
-        name: 'Mrs. Anok George Athor',
-        role: 'Founder & Executive Director',
-        bio: 'A community leader and entrepreneur with deep roots in Luac Akok Yieu. Anok leads LAYYA’s vision, building partnerships and creating spaces where youth can dream bigger, organize together, and lead change.',
-        image: '/images/sabrina.jpg',
+        name: 'Mr. Jok Wuor Miyen',
+        role: 'Secretary General',
+        bio: 'The Secretary General coordinates the work of the executive and the association.',
+        image: '/images/youth.jpg',
+    },
+    {
+        name: 'Counsel Chol Gach Abiel',
+        role: 'Speaker',
+        bio: 'The Speaker heads the seven-member council and speaks for Luac youth.',
+        image: portraits[8],
+    },
+];
+
+export const communityVideos = [
+    {
+        title: 'Tawus Day — cultural celebration',
+        year: 'Archive',
+        category: 'Tawus Hub',
+        poster: '/images/cover.jpg',
+        description: 'Girls, mentors, and families mark the year with skills, song, and community gathering.',
+    },
+    {
+        title: 'Youth cultural parade',
+        year: 'Archive',
+        category: 'Culture',
+        poster: '/images/cover1.jpg',
+        description: 'LAYYA youth in procession — a living record of identity, discipline, and pride.',
+    },
+    {
+        title: 'Community gathering',
+        year: 'Archive',
+        category: 'Events',
+        poster: '/images/cover.jpg',
+        description: 'Open meetings and celebrations that keep Luac youth connected.',
+    },
+    {
+        title: 'Education & skills sessions',
+        year: 'Archive',
+        category: 'Programs',
+        poster: '/images/education.jpg',
+        description: 'Workshops and classrooms where young people learn together.',
+    },
+    {
+        title: 'Learning circles',
+        year: 'Archive',
+        category: 'Programs',
+        poster: '/images/education1.jpg',
+        description: 'Peer learning and mentorship captured for the association’s record.',
+    },
+    {
+        title: 'Sports & unity matches',
+        year: 'Archive',
+        category: 'Sports',
+        poster: '/images/football.jpg',
+        description: 'Football and field days that build teamwork across the community.',
     },
 ];
 
@@ -147,16 +235,37 @@ export const newsEvents = [
     { title: 'Fundraising updates', type: 'Fundraising', excerpt: 'Transparent milestones for campaigns and donor gratitude.', date: 'Seasonal' },
     { title: 'Gender equality campaigns', type: 'Advocacy', excerpt: 'Safe circles, media, and peer advocacy for inclusion.', date: 'Year-round' },
     { title: 'Sports and cultural events', type: 'Culture', excerpt: 'Tournaments, arts showcases, and neighborhood celebrations.', date: 'Quarterly' },
+    { title: 'Tawus Day community story', type: 'Tawus Hub', excerpt: 'Girls lead skills showcases, mentorship circles, and cultural celebration.', date: 'Annual' },
 ];
 
 export const missionVision = {
     mission:
-        'To empower youth through leadership, skills-building, creativity, and community action — connecting them to mentors, opportunities, and safe spaces where their ideas can grow.',
+        'Bring Luac youth together to serve our community — through unity, skills, culture, and care for one another.',
     vision:
-        'We envision a South Sudan where every young person has access to safe spaces, mentors, and practical opportunities to learn, create, and lead — regardless of background.',
+        'A strong Luac community where young people grow up, work, and lead at home.',
 };
 
-export const values = ['Equality', 'Community', 'Leadership', 'Integrity', 'Inclusion', 'Innovation'];
+export const values = ['Unity', 'Self-reliance', 'Leadership', 'Equality', 'Peace', 'Culture'];
+
+export const constitutionFacts = {
+    status: 'LAYYA is a non-political youth association.',
+    aim: 'Building unity and patriotic participation of youth in the development of Luac community.',
+    languages: 'Thong-de-Jieng (Dinka), English and Arabic. All religions are respected equally.',
+    places: 'Juba, Khorfulus, Bor, Malakal, Renk, and other branches where Luac youth live.',
+    membership: 'Luac youth aged 18–45. Women have the right to take part in all leadership.',
+    term: 'Central and Branch Executive offices last two years, with one possible extra term.',
+    symbols: [
+        { name: 'Crocodile', meaning: 'Cultural identity of Luac' },
+        { name: 'Shield', meaning: 'Bravery and defence of our forefathers' },
+        { name: 'Land', meaning: 'The fertile land of our community' },
+    ],
+    pillars: [
+        { label: 'Youth and women', description: 'Spiritual, moral, physical, academic and substantial development.' },
+        { label: 'Leadership and work', description: 'Skills, self-reliance projects, and care for the environment.' },
+        { label: 'Luac first', description: 'The interest of Luac comes first in every activity.' },
+        { label: 'Peace and unity', description: 'Peaceful co-existence with neighbouring youth and within Luac.' },
+    ],
+};
 
 export const getInvolvedOptions = [
     { title: 'Become a Member', description: 'Join LAYYA programs and community circles.', icon: 'Users' },

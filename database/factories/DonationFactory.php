@@ -20,6 +20,7 @@ class DonationFactory extends Factory
             'fundraising_campaign_id' => FundraisingCampaign::factory(),
             'donor_name' => $this->faker->name(),
             'amount' => 50,
+            'currency' => 'usd',
             'payment_method' => 'cash',
             'donated_at' => now(),
             'received_by' => User::factory(),

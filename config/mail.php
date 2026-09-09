@@ -110,7 +110,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'noreply@layya.org'),
-        'name' => env('MAIL_FROM_NAME', 'Luac Akok Yieu Youth Association (LAYYA)'),
+        'name' => env('MAIL_FROM_NAME', 'Luac Akook Yieu Youth Association (LAYYA)'),
     ],
 
 ];

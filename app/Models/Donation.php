@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\FundraisingPrograms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,8 @@ class Donation extends Model
         'donor_phone',
         'donor_email',
         'amount',
+        'currency',
+        'amount_usd',
         'payment_method',
         'reference_no',
         'received_by',
@@ -28,8 +31,18 @@ class Donation extends Model
     {
         return [
             'amount' => 'decimal:2',
+            'amount_usd' => 'decimal:2',
             'donated_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (Donation $donation): void {
+            $currency = in_array($donation->currency, ['usd', 'ssp'], true) ? $donation->currency : 'usd';
+            $donation->currency = $currency;
+            $donation->amount_usd = FundraisingPrograms::toUsd((float) $donation->amount, $currency);
+        });
     }
 
     public function campaign(): BelongsTo

@@ -8,7 +8,7 @@ export default function JobOpportunitySection() {
         {
             href: route('youth-census.register'),
             title: 'Youth census — register your voice',
-            excerpt: 'Help us map needs and strengths across Luac Akok Yieu so programs and partners can respond with precision.',
+            excerpt: 'Help us map needs and strengths across Luac Akook Yieu so programs and partners can respond with precision.',
             cta: 'Apply now',
             expired: false,
         },

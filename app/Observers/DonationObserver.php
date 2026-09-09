@@ -21,7 +21,7 @@ class DonationObserver
     {
         $sum = (float) Donation::query()
             ->where('fundraising_campaign_id', $campaignId)
-            ->sum('amount');
+            ->sum('amount_usd');
 
         FundraisingCampaign::query()->whereKey($campaignId)->update(['raised_amount' => $sum]);
     }

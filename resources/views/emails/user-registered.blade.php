@@ -233,7 +233,7 @@
         <div class="email-header">
             <div class="logo-container">
                 <h1 class="logo-text">{{ $appName }}</h1>
-                <p class="logo-subtitle">Luac Akok Yieu Youth Association (LAYYA)</p>
+                <p class="logo-subtitle">Luac Akook Yieu Youth Association (LAYYA)</p>
             </div>
         </div>
 
@@ -243,7 +243,7 @@
             </div>
 
             <div class="content-body">
-                <p>Thank you for joining the Luac Akok Yieu Youth Association (LAYYA) online community. Your account
+                <p>Thank you for joining the Luac Akook Yieu Youth Association (LAYYA) online community. Your account
                     is ready to use.</p>
 
                 <p>Sign in to view your member dashboard, update your profile, and stay connected with our programs and

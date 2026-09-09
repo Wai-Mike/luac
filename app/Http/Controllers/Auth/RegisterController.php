@@ -4,16 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\User;
-use App\Notifications\VerificationWelcomeNotification;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,9 +16,9 @@ class RegisterController extends Controller
     /**
      * Display the registration view.
      */
-    public function showRegistrationForm(): Response
+    public function showRegistrationForm(): RedirectResponse
     {
-        return Inertia::render('auth/register');
+        return redirect()->route('login')->with('error', 'Public registration is closed. Only executive members can sign in.');
     }
 
     /**
@@ -35,6 +29,7 @@ class RegisterController extends Controller
         return Inertia::render('auth/login', [
             'canResetPassword' => Route::has('auth.password.request'),
             'status' => $request->session()->get('status'),
+            'error' => $request->session()->get('error'),
         ]);
     }
 
@@ -43,41 +38,9 @@ class RegisterController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function register(Request $request): RedirectResponse
+    public function register(): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:users,email',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'role' => 'member',
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Fire the Registered event (this will trigger the welcome email listener)
-        event(new Registered($user));
-
-        // Send custom verification email
-        $user->notify(new VerificationWelcomeNotification);
-
-        // Auto-login the user after registration
-        Auth::login($user);
-
-        // Check if user has a profile, if not redirect to profile setup
-        if (Schema::hasTable('profiles')) {
-            $user->load('profile');
-        }
-        if (Schema::hasTable('profiles') && ! isset($user->profile)) {
-            return redirect()->route('user.profile.setup')->with('info', 'Please complete your profile to get started.');
-        }
-
-        return redirect()
-            ->intended(route('dashboard'))
-            ->with('success', 'Registration successful! Welcome.');
+        return redirect()->route('login')->with('error', 'Public registration is closed. Only executive members can sign in.');
     }
 
     /**
@@ -90,21 +53,7 @@ class RegisterController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-
-        // Try to load profile if table exists, otherwise skip
-        if (Schema::hasTable('profiles')) {
-            $user->load('profile');
-        }
-
-        // If email is not verified, redirect to verification page
-        if (! $user->hasVerifiedEmail()) {
-            return redirect()->route('verification.notice');
-        }
-
-        // If user doesn't have a profile, redirect to profile setup
-        if (Schema::hasTable('profiles') && ! isset($user->profile)) {
-            return redirect()->route('user.profile.setup')->with('info', 'Please complete your profile to continue.');
-        }
+        $user?->forceFill(['last_login_at' => now()])->save();
 
         return redirect()->intended(route('dashboard'));
     }
