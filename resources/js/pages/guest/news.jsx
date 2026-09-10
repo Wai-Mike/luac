@@ -29,7 +29,7 @@ export default function News() {
                                 </div>
                                 <div className="p-5">
                                     <div className="flex items-center justify-between text-xs">
-                                        <span className="rounded-full bg-brand-soft px-2 py-1 font-semibold text-brand">{n.type}</span>
+                                        <span className="font-semibold uppercase tracking-wide text-brand">{n.type}</span>
                                         <span className="text-brand-muted">{n.date}</span>
                                     </div>
                                     <h3 className="mt-3">{n.title}</h3>

@@ -3,7 +3,6 @@ import { useForm, usePage } from '@inertiajs/react';
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './FadeIn';
 import SectionLabel from './SectionLabel';
-import { interestAreas } from '../data/siteContent';
 
 export default function ContactCTA() {
     const { contact } = useSiteContent();
@@ -59,13 +58,6 @@ export default function ContactCTA() {
                             </li>
                         ))}
                     </ul>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                        {interestAreas.map((area) => (
-                            <span key={area} className="rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-brand">
-                                {area}
-                            </span>
-                        ))}
-                    </div>
                 </FadeIn>
                 <FadeIn delay={0.08}>
                     <div className="rounded-3xl bg-brand-soft p-6 md:p-8">

@@ -8,7 +8,7 @@
     {{-- SEO Meta Tags --}}
     <title>@yield('title', 'Luac Akook Yieu Youth Association (LAYYA)')</title>
     <meta name="description" content="@yield('description', 'Luac Akook Yieu Youth Association (LAYYA) — building unity and patriotic participation of youth in the development of Luac community.')">
-    <meta name="keywords" content="@yield('keywords', 'Luac Akook Yieu, LAYYA, youth association, Khorfulus, South Sudan')">
+    <meta name="keywords" content="@yield('keywords', 'Luac Akook Yieu, LAYYA, youth association, Juba, South Sudan')">
     <meta name="author" content="Luac Akook Yieu Youth Association (LAYYA)">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 

@@ -19,11 +19,6 @@ export default function LayyaHeroSection({ heroImage }) {
                     <div className="h-[50vh] bg-brand-dark" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/25 to-transparent" />
-                <div className="absolute right-4 top-4 sm:right-8">
-                    <span className="rounded-full border border-white/20 bg-white/12 px-3 py-1.5 text-xs text-brand-light backdrop-blur-sm">
-                        {hero.location || 'Juba · Khorfulus'}
-                    </span>
-                </div>
             </div>
 
             <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
@@ -33,6 +28,7 @@ export default function LayyaHeroSection({ heroImage }) {
                         <span className="hidden sm:inline">Luac Akook Yieu Youth Association</span>
                         <span className="sm:hidden">LAYYA</span>
                     </p>
+                    {hero.location ? <span className="text-[12px] text-white/50">· {hero.location}</span> : null}
                 </div>
                 <h1 className="max-w-5xl font-semibold text-white">
                     {headlineLines.map((line, index) => (

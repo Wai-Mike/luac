@@ -52,7 +52,7 @@ export default function GuestFooter() {
             <div className="border-t border-white/10">
                 <div className="mx-auto flex max-w-7xl flex-col justify-between gap-2 px-4 py-5 text-xs text-white/35 sm:flex-row sm:px-6 lg:px-8">
                     <p>© {new Date().getFullYear()} Luac Akook Yieu Youth Association (LAYYA).</p>
-                    <p>Juba and Khorfulus · South Sudan</p>
+                    <p>Juba · South Sudan</p>
                 </div>
             </div>
         </footer>

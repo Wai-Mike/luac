@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Support\FundraisingPrograms;
+use App\Support\SiteContentRepository;
 use App\Support\SiteMediaRepository;
 use Inertia\Inertia;
 
@@ -126,9 +127,11 @@ class PageController extends Controller
 
     public function programs()
     {
+        $programs = SiteContentRepository::get()['programs'] ?? [];
+        $hero = collect($programs)->pluck('image')->first(fn ($image) => filled($image));
+
         return Inertia::render('guest/programs', [
-            'programsGallery' => $this->randomGalleryImages(8),
-            'programsHeroImage' => $this->pickRandomHeroImage(),
+            'programsHeroImage' => $hero ?: '/images/education.jpg',
         ]);
     }
 

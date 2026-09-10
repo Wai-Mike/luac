@@ -41,7 +41,7 @@ export default function AdminPrograms({ programs: initialPrograms = [] }) {
                 className="space-y-6"
             >
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm text-brand-muted">These cards appear on the public Programs page and the homepage preview.</p>
+                    <p className="text-sm text-brand-muted">These cards appear on the public Programs page and the homepage preview. Each photo stays until you replace it here.</p>
                     <div className="flex gap-2">
                         {canEditContent ? (
                             <>

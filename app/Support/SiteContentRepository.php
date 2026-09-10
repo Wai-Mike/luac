@@ -13,7 +13,7 @@ class SiteContentRepository
             'hero' => [
                 'headline' => "Building Unity.\nServing Luac.\nLeading Together.",
                 'subtext' => 'LAYYA builds unity and patriotic participation of youth in the development of Luac community. We are a non-political association.',
-                'location' => 'Juba · Khorfulus',
+                'location' => 'Juba',
             ],
             'hero_stats' => [
                 ['value' => '1,200+', 'label' => 'Youth reached'],
@@ -29,7 +29,7 @@ class SiteContentRepository
             'contact' => [
                 'phone' => '0927 779 952',
                 'email' => 'layya.youth@gmail.com',
-                'address' => 'Juba and Khorfulus · South Sudan',
+                'address' => 'Juba · South Sudan',
                 'hours' => 'Monday–Friday, 9:00–17:00',
             ],
             'executive_members' => [
@@ -108,7 +108,7 @@ class SiteContentRepository
                 'status' => 'LAYYA is a non-political youth association.',
                 'aim' => 'Building unity and patriotic participation of youth in the development of Luac community.',
                 'languages' => 'Thong-de-Jieng (Dinka), English and Arabic. All religions are respected equally.',
-                'places' => 'Juba, Khorfulus, Bor, Malakal, Renk, and other branches where Luac youth live.',
+                'places' => 'Juba and other branches where Luac youth live.',
                 'membership' => 'Luac youth aged 18–45. Women have the right to take part in all leadership.',
                 'term' => 'Central and Branch Executive offices last two years, with one possible extra term.',
                 'symbols' => [
@@ -148,6 +148,14 @@ class SiteContentRepository
                     ? $stored[$key]
                     : array_replace_recursive($default, $stored[$key]);
             }
+        }
+
+        if (str_contains((string) ($merged['hero']['location'] ?? ''), 'Khorfulus')) {
+            $merged['hero']['location'] = 'Juba';
+        }
+
+        if (str_contains((string) ($merged['contact']['address'] ?? ''), 'Khorfulus')) {
+            $merged['contact']['address'] = 'Juba · South Sudan';
         }
 
         return $merged;

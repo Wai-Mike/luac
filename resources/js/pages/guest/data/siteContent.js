@@ -5,7 +5,7 @@ export const brand = {
     fullName: 'Luac Akook Yieu Youth Association (LAYYA)',
     shortName: 'LAYYA',
     tagline: 'Building unity and patriotic participation of youth in the development of Luac community.',
-    location: 'Juba and Khorfulus, South Sudan',
+    location: 'Juba, South Sudan',
 };
 
 export const hero = {
@@ -47,30 +47,37 @@ export const programsDetail = [
     {
         title: 'Youth Empowerment',
         body: 'Peer-led sessions, public speaking, and project design so young people can turn ideas into community action.',
+        image: '/images/education.jpg',
     },
     {
         title: 'Gender Equality & Advocacy',
         body: 'Safe circles, advocacy skills, and collaborative campaigns that challenge barriers and celebrate leadership.',
+        image: '/images/akur.jpg',
     },
     {
         title: 'Community Engagement',
         body: 'Volunteering, neighborhood dialogue, and sports and culture events that build trust and teamwork.',
+        image: '/images/cover.jpg',
     },
     {
         title: 'Digital Innovation',
         body: 'Digital literacy, content creation, and platforms that help youth share stories and opportunities.',
+        image: '/images/education1.jpg',
     },
     {
         title: 'Learning & Development',
         body: 'Workshops in life skills, civic education, and pathways to work and entrepreneurship.',
+        image: '/images/youth.jpg',
     },
     {
         title: 'Sports, Culture & Creativity',
         body: 'Tournaments, arts, and cultural programs that keep young people active, expressive, and connected.',
+        image: '/images/football.jpg',
     },
     {
         title: 'Mentorship & Safe Spaces',
         body: 'Trusted mentors and consistent spaces where youth can learn, rest, and plan their next step.',
+        image: '/images/cover1.jpg',
     },
 ];
 
@@ -284,7 +291,7 @@ export const constitutionFacts = {
     status: 'LAYYA is a non-political youth association.',
     aim: 'Building unity and patriotic participation of youth in the development of Luac community.',
     languages: 'Thong-de-Jieng (Dinka), English and Arabic. All religions are respected equally.',
-    places: 'Juba, Khorfulus, Bor, Malakal, Renk, and other branches where Luac youth live.',
+    places: 'Juba and other branches where Luac youth live.',
     membership: 'Luac youth aged 18–45. Women have the right to take part in all leadership.',
     term: 'Central and Branch Executive offices last two years, with one possible extra term.',
     symbols: [

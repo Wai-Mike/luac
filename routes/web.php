@@ -19,8 +19,13 @@ use App\Http\Controllers\Guest\ContactController;
 use App\Http\Controllers\Guest\DonationController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Guest\YouthCensusController;
+use App\Http\Controllers\ServePublicStorageController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/storage/{path}', ServePublicStorageController::class)
+    ->where('path', '.*')
+    ->name('storage.public');
 
 Route::permanentRedirect('/services', '/programs');
 

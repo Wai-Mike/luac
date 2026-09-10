@@ -15,10 +15,10 @@ export default function index({ heroImage, homeGallery = [], videos = [], raised
         <GuestLayout title="LAYYA">
             <LayyaHeroSection heroImage={heroImage} />
             <AboutPreviewSection aboutImage={homeGallery[0]} visionImage={homeGallery[1]} />
-            <ProgramsPreviewHome images={homeGallery} />
+            <ProgramsPreviewHome />
             <TawusHubSpotlight image={homeGallery[2] ?? heroImage} insetImage={homeGallery[3]} />
             <FundraisingPreview raisedByProgram={raisedByProgram} raisedSspByProgram={raisedSspByProgram} />
-            <CommunityStory image={homeGallery[4] ?? homeGallery[0]} />
+            <CommunityStory />
             <CommunityVideos preview videos={videos} />
             <LeadershipPreview />
             <FocusAreasSection />

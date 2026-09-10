@@ -117,6 +117,22 @@ class SiteMediaTest extends TestCase
         $this->assertNotEmpty(session('uploaded_image'));
     }
 
+    public function test_public_storage_files_are_served_over_http(): void
+    {
+        $relative = 'media/portraits/chairman-test.jpg';
+        $full = storage_path('app/public/'.$relative);
+        @mkdir(dirname($full), 0777, true);
+        copy(public_path('images/logo.jpg'), $full);
+
+        try {
+            $this->get('/storage/'.$relative)
+                ->assertOk()
+                ->assertHeader('content-type', 'image/jpeg');
+        } finally {
+            @unlink($full);
+        }
+    }
+
     private function uploadedJpeg(string $name): UploadedFile
     {
         $source = public_path('images/logo.jpg');

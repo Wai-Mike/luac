@@ -16,6 +16,7 @@ class WebsiteOperationsTest extends TestCase
         $admin = User::factory()->admin()->create();
         $programs = SiteContentRepository::defaults()['programs'];
         $programs[0]['title'] = 'Youth Empowerment Lab';
+        $programs[0]['image'] = '/images/education.jpg';
 
         $this->actingAs($admin)
             ->put(route('admin.content.site.update'), [
@@ -28,7 +29,16 @@ class WebsiteOperationsTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->component('guest/programs')
-                ->where('site.programs.0.title', 'Youth Empowerment Lab'));
+                ->missing('programsGallery')
+                ->where('programsHeroImage', '/images/education.jpg')
+                ->where('site.programs.0.title', 'Youth Empowerment Lab')
+                ->where('site.programs.0.image', '/images/education.jpg'));
+
+        $this->get(route('programs'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('programsHeroImage', '/images/education.jpg')
+                ->where('site.programs.0.image', '/images/education.jpg'));
     }
 
     public function test_executive_can_schedule_a_meeting_and_assign_a_task(): void
