@@ -80,35 +80,45 @@ export const campaigns = [
         description: 'Scholarship support, learning materials, and safe transport where possible.',
         targetLabel: 'Goal (placeholder)',
         target: 25000,
-        raised: 8200,
+        target_ssp: 0,
+        raised: 0,
+        raised_ssp: 0,
     },
     {
         title: 'Youth Skills Training',
         description: 'Vocational and digital skills sessions for employability and confidence.',
         targetLabel: 'Goal (placeholder)',
         target: 18000,
-        raised: 6400,
+        target_ssp: 0,
+        raised: 0,
+        raised_ssp: 0,
     },
     {
         title: 'Community Safe Spaces',
         description: 'Rent, utilities, and supplies for youth-friendly hubs and mentors.',
         targetLabel: 'Goal (placeholder)',
         target: 32000,
-        raised: 12100,
+        target_ssp: 0,
+        raised: 0,
+        raised_ssp: 0,
     },
     {
         title: 'Sports & Culture Program',
         description: 'Equipment, events, and coaches for football, culture, and wellness.',
         targetLabel: 'Goal (placeholder)',
         target: 14000,
-        raised: 5100,
+        target_ssp: 0,
+        raised: 0,
+        raised_ssp: 0,
     },
     {
         title: 'Digital Youth Lab',
         description: 'Devices, connectivity stipends, and peer trainers for digital literacy.',
         targetLabel: 'Goal (placeholder)',
         target: 22000,
-        raised: 7800,
+        target_ssp: 0,
+        raised: 0,
+        raised_ssp: 0,
     },
 ];
 
@@ -236,6 +246,29 @@ export const newsEvents = [
     { title: 'Gender equality campaigns', type: 'Advocacy', excerpt: 'Safe circles, media, and peer advocacy for inclusion.', date: 'Year-round' },
     { title: 'Sports and cultural events', type: 'Culture', excerpt: 'Tournaments, arts showcases, and neighborhood celebrations.', date: 'Quarterly' },
     { title: 'Tawus Day community story', type: 'Tawus Hub', excerpt: 'Girls lead skills showcases, mentorship circles, and cultural celebration.', date: 'Annual' },
+];
+
+export const faqs = [
+    {
+        q: 'Who can join LAYYA?',
+        a: 'Luac youth aged 18–45 may apply. Women have the right to take part in all leadership. LAYYA is a non-political association.',
+    },
+    {
+        q: 'What is the Youth Census?',
+        a: 'A short registration that helps us understand skills, interests, and barriers so we can design better programs. Individual records stay with authorized staff.',
+    },
+    {
+        q: 'What is Tawus Hub?',
+        a: 'A girls-centred space for vocational skills, mentorship, wellbeing, and Tawus Day — our annual cultural celebration.',
+    },
+    {
+        q: 'How can I donate?',
+        a: 'Visit the Fundraising page, choose a program, and fill in your name, phone, amount in South Sudanese pounds or US dollars, and how you are paying.',
+    },
+    {
+        q: 'How do I volunteer or partner?',
+        a: 'Use the contact form and select Volunteering or Partnership. We will follow up with next steps.',
+    },
 ];
 
 export const missionVision = {

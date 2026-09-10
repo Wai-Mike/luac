@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\SiteMedia;
 use App\Models\YouthMember;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -58,6 +59,40 @@ class AdminController extends Controller
             ->limit(8)
             ->get();
 
+        $monthly = collect(range(11, 0))->map(function (int $ago) {
+            $date = now()->subMonths($ago)->startOfMonth();
+
+            return [
+                'month' => $date->format('M'),
+                'count' => YouthMember::query()
+                    ->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count(),
+            ];
+        })->values();
+
+        $gender = YouthMember::query()
+            ->select('gender', DB::raw('count(*) as total'))
+            ->groupBy('gender')
+            ->get()
+            ->map(fn ($row) => [
+                'name' => $row->gender ?: 'Unspecified',
+                'value' => (int) $row->total,
+            ])
+            ->values();
+
+        $payam = YouthMember::query()
+            ->selectRaw("COALESCE(NULLIF(payam, ''), NULLIF(county, ''), 'Unspecified') as name, count(*) as total")
+            ->groupBy('name')
+            ->orderByDesc('total')
+            ->limit(7)
+            ->get()
+            ->map(fn ($row) => [
+                'name' => $row->name,
+                'total' => (int) $row->total,
+            ])
+            ->values();
+
         return Inertia::render('admin/dashboard', [
             'user' => $user,
             'stats' => $stats,
@@ -66,6 +101,25 @@ class AdminController extends Controller
             'recent_messages' => $recent_messages,
             'executives' => $executives,
             'recent_activity' => $recent_activity,
+            'charts' => [
+                'monthly' => $monthly,
+                'gender' => $gender,
+                'payam' => $payam,
+            ],
+        ]);
+    }
+
+    public function programs()
+    {
+        return Inertia::render('admin/programs/index', [
+            'programs' => \App\Support\SiteContentRepository::get()['programs'] ?? [],
+        ]);
+    }
+
+    public function news()
+    {
+        return Inertia::render('admin/news/index', [
+            'stories' => \App\Support\SiteContentRepository::get()['news_events'] ?? [],
         ]);
     }
 

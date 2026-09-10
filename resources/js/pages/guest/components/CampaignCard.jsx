@@ -1,9 +1,13 @@
 import GuestButton from '@/components/GuestButton';
-import { dualMoney } from '../data/money';
+import { campaignFigures, formatSsp, formatUsd } from '../data/money';
 import FadeIn from './FadeIn';
 
-export default function CampaignCard({ title, description, target, raised, targetLabel = 'Goal', delay = 0 }) {
-    const pct = target > 0 ? Math.min(100, Math.round((raised / target) * 100)) : 0;
+export default function CampaignCard({ title, description, target, target_ssp, raised, raised_ssp, targetLabel = 'Goal', delay = 0 }) {
+    const { raisedUsd, raisedSsp, targetUsd, targetSsp, pct } = campaignFigures(
+        { title, target, target_ssp, raised, raised_ssp },
+        {},
+        {},
+    );
 
     return (
         <FadeIn delay={delay}>
@@ -14,9 +18,9 @@ export default function CampaignCard({ title, description, target, raised, targe
                     <div className="flex justify-between text-sm text-brand-muted">
                         <span>{targetLabel}</span>
                         <span className="text-right font-medium text-brand-ink">
-                            <span className="block">{dualMoney(raised).usd} / {dualMoney(target).usd}</span>
+                            <span className="block">{formatUsd(raisedUsd)} / {formatUsd(targetUsd)}</span>
                             <span className="block text-xs font-normal text-brand-muted">
-                                {dualMoney(raised).ssp} / {dualMoney(target).ssp}
+                                {formatSsp(raisedSsp)} / {formatSsp(targetSsp)}
                             </span>
                         </span>
                     </div>

@@ -1,15 +1,14 @@
 import AppLayout from '@/layouts/app-layout';
+import RoleBadge from '@/components/admin/RoleBadge';
+import { AdminRow, AdminTable, PaginationBar } from '@/components/admin/AdminTable';
 import useCapabilities from '@/hooks/useCapabilities';
+import { BORDER, TEAL } from '@/lib/admin-theme';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { paginatorItems } from '../useAdminPageProps';
 
-const breadcrumbs = [
-    { title: 'Admin', href: '/admin' },
-    { title: 'Users' },
-];
-
-const fieldClass = 'w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[rgb(29,84,114)]';
+const fieldClass = 'w-full rounded-xl border px-3 py-2 text-sm outline-none focus:border-brand';
+const fieldStyle = { borderColor: BORDER };
 
 export default function AdminUsersIndex({ users: usersPaginator, departments = [] }) {
     const { canManageUsers } = useCapabilities();
@@ -18,72 +17,27 @@ export default function AdminUsersIndex({ users: usersPaginator, departments = [
     const meta = usersPaginator && !Array.isArray(usersPaginator) ? usersPaginator : null;
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout title="Users" subtitle="Executive access levels across LAYYA">
             <Head title="Admin · Users" />
 
-            <div className="mx-auto max-w-6xl space-y-6">
-                <div className="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                        <h1 className="text-2xl font-semibold text-slate-900">Users</h1>
-                        <p className="mt-1 text-sm text-slate-600">
-                            {canManageUsers
-                                ? 'Add executives and assign an admin or viewer role by department.'
-                                : 'Executive accounts. Only the Chairman can add users or change roles.'}
-                        </p>
-                    </div>
-                    <Link href="/admin" className="text-sm font-medium text-[rgb(29,84,114)] hover:underline">
-                        ← Dashboard
-                    </Link>
-                </div>
-
-                {flash.success ? <div className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{flash.success}</div> : null}
-                {flash.error ? <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{flash.error}</div> : null}
+            <div className="space-y-6">
+                {flash.success ? <div className="rounded-2xl bg-white px-4 py-3 text-sm text-brand">{flash.success}</div> : null}
+                {flash.error ? <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700">{flash.error}</div> : null}
 
                 {canManageUsers ? <CreateUserForm departments={departments} /> : null}
 
-                <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                    <table className="min-w-full divide-y divide-slate-100 text-sm">
-                        <thead className="bg-slate-50 text-left text-xs font-medium uppercase text-slate-500">
-                            <tr>
-                                <th className="px-4 py-3">Name</th>
-                                <th className="px-4 py-3">Email</th>
-                                <th className="px-4 py-3">Department</th>
-                                <th className="px-4 py-3">Access</th>
-                                <th className="px-4 py-3 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {rows.length === 0 ? (
-                                <tr>
-                                    <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
-                                        No users found.
-                                    </td>
-                                </tr>
-                            ) : (
-                                rows.map((u) => <UserRow key={u.id} u={u} departments={departments} canManage={canManageUsers} />)
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-
-                {meta?.links && (
-                    <nav className="flex flex-wrap justify-center gap-2 text-sm">
-                        {meta.links.map((link, i) => (
-                            <button
-                                key={i}
-                                type="button"
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
-                                className={`rounded-lg px-3 py-1 ${
-                                    link.active
-                                        ? 'bg-[rgb(4,50,75)] text-white'
-                                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                                } disabled:cursor-not-allowed disabled:opacity-40`}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </nav>
-                )}
+                <AdminTable
+                    columns={['Name', 'Email', 'Department', 'Access', '']}
+                    footer={<PaginationBar meta={meta} onPage={(url) => router.get(url, {}, { preserveState: true })} />}
+                >
+                    {rows.length === 0 ? (
+                        <tr>
+                            <td colSpan={5} className="px-4 py-8 text-center text-brand-muted">No users found.</td>
+                        </tr>
+                    ) : (
+                        rows.map((u) => <UserRow key={u.id} u={u} departments={departments} canManage={canManageUsers} />)
+                    )}
+                </AdminTable>
             </div>
         </AppLayout>
     );
@@ -108,12 +62,12 @@ function CreateUserForm({ departments }) {
     };
 
     return (
-        <form onSubmit={submit} className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-medium text-slate-900">Add executive</h2>
+        <form onSubmit={submit} className="space-y-4 rounded-2xl bg-white p-6" style={{ border: `1px solid ${BORDER}` }}>
+            <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Add executive</h2>
             <div className="grid gap-4 md:grid-cols-2">
                 <div>
                     <label className="mb-1 block text-sm font-medium text-slate-700">Name</label>
-                    <input value={data.name} onChange={(e) => setData('name', e.target.value)} className={fieldClass} required />
+                    <input value={data.name} onChange={(e) => setData('name', e.target.value)} className={fieldClass} style={fieldStyle} required />
                     {errors.name ? <p className="mt-1 text-xs text-red-600">{errors.name}</p> : null}
                 </div>
                 <div>
@@ -152,7 +106,8 @@ function CreateUserForm({ departments }) {
             <button
                 type="submit"
                 disabled={processing}
-                className="rounded-lg bg-[rgb(4,50,75)] px-4 py-2 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50"
+                className="rounded-full px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50"
+                style={{ background: TEAL }}
             >
                 {processing ? 'Saving…' : 'Add user'}
             </button>
@@ -164,7 +119,6 @@ function UserRow({ u, departments, canManage }) {
     const [role, setRole] = useState(u.role === 'admin' ? 'admin' : 'viewer');
     const [departmentId, setDepartmentId] = useState(u.department_id ? String(u.department_id) : '');
     const [saving, setSaving] = useState(false);
-    const accessLabel = u.is_chairman ? 'Chairman' : u.role === 'admin' ? 'Admin' : 'Viewer';
 
     const submitRole = (e) => {
         e.preventDefault();
@@ -185,21 +139,22 @@ function UserRow({ u, departments, canManage }) {
     };
 
     return (
-        <tr className="hover:bg-slate-50/50">
-            <td className="px-4 py-3 font-medium text-slate-900">{u.name}</td>
-            <td className="px-4 py-3 text-slate-600">{u.email}</td>
-            <td className="px-4 py-3 text-slate-600">{u.department?.name || '—'}</td>
+        <AdminRow>
+            <td className="px-4 py-3 font-medium text-brand-ink">{u.name}</td>
+            <td className="px-4 py-3 text-brand-muted">{u.email}</td>
+            <td className="px-4 py-3 text-brand-muted">{u.department?.name || '—'}</td>
             <td className="px-4 py-3">
                 {canManage && !u.is_chairman ? (
                     <form onSubmit={submitRole} className="flex flex-wrap items-center gap-2">
-                        <select value={role} onChange={(e) => setRole(e.target.value)} className="rounded-lg border border-slate-300 px-2 py-1 text-sm">
+                        <select value={role} onChange={(e) => setRole(e.target.value)} className="rounded-lg px-2 py-1 text-sm" style={{ border: `1px solid ${BORDER}` }}>
                             <option value="viewer">Viewer</option>
                             <option value="admin">Admin</option>
                         </select>
                         <select
                             value={departmentId}
                             onChange={(e) => setDepartmentId(e.target.value)}
-                            className="rounded-lg border border-slate-300 px-2 py-1 text-sm"
+                            className="rounded-lg px-2 py-1 text-sm"
+                            style={{ border: `1px solid ${BORDER}` }}
                         >
                             <option value="">No department</option>
                             {departments.map((department) => (
@@ -208,28 +163,24 @@ function UserRow({ u, departments, canManage }) {
                                 </option>
                             ))}
                         </select>
-                        <button
-                            type="submit"
-                            disabled={saving}
-                            className="rounded-lg bg-slate-100 px-2 py-1 text-xs font-medium text-slate-800 hover:bg-slate-200 disabled:opacity-50"
-                        >
+                        <button type="submit" disabled={saving} className="rounded-lg px-2 py-1 text-xs font-semibold text-white disabled:opacity-50" style={{ background: TEAL }}>
                             Save
                         </button>
                     </form>
                 ) : (
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold uppercase text-slate-700">{accessLabel}</span>
+                    <RoleBadge role={u.is_chairman ? 'admin' : u.role === 'admin' ? 'admin' : 'viewer'} />
                 )}
             </td>
             <td className="px-4 py-3 text-right">
-                <Link href={`/admin/users/${u.id}`} className="mr-2 text-[rgb(29,84,114)] hover:underline">
+                <Link href={`/admin/users/${u.id}`} className="mr-2 text-xs font-semibold" style={{ color: TEAL }}>
                     View
                 </Link>
                 {canManage && !u.is_chairman ? (
-                    <button type="button" onClick={deleteUser} className="text-xs font-medium text-red-600 hover:underline">
+                    <button type="button" onClick={deleteUser} className="text-xs font-semibold text-red-600">
                         Delete
                     </button>
                 ) : null}
             </td>
-        </tr>
+        </AdminRow>
     );
 }

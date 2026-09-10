@@ -1,7 +1,7 @@
 import GuestLayout from '@/layouts/GuestLayout';
+import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
-import { newsEvents } from './data/siteContent';
 
 const newsPhotos = [
     '/images/youth.jpg',
@@ -13,16 +13,19 @@ const newsPhotos = [
 ];
 
 export default function News() {
+    const { newsEvents } = useSiteContent();
+    const published = newsEvents.filter((n) => (n.status || 'published') !== 'draft');
+
     return (
         <GuestLayout title="News">
             <PageHero label="News" title="Stay in" italic="the loop" subtitle="Meetings, trainings, campaigns, and cultural moments." />
             <section className="bg-white py-20 md:py-28">
                 <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
-                    {newsEvents.map((n, i) => (
+                    {published.map((n, i) => (
                         <FadeIn key={n.title} delay={i * 0.05}>
                             <article className="overflow-hidden rounded-2xl border border-brand/10">
                                 <div className="relative h-48 overflow-hidden bg-brand-dark">
-                                    <img src={newsPhotos[i % newsPhotos.length]} alt="" className="photo-fill transition duration-500 hover:scale-105" />
+                                    <img src={n.image || newsPhotos[i % newsPhotos.length]} alt="" className="photo-fill transition duration-500 hover:scale-105" />
                                 </div>
                                 <div className="p-5">
                                     <div className="flex items-center justify-between text-xs">

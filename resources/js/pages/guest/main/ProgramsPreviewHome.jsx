@@ -1,12 +1,13 @@
 import { HeartHandshake, Lightbulb, Sparkles, Users, Wallet, Palette } from 'lucide-react';
 import GuestButton from '@/components/GuestButton';
+import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
-import { programsPreview } from '../data/siteContent';
 
 const icons = [Users, HeartHandshake, Sparkles, Lightbulb, Wallet, Palette];
 
 export default function ProgramsPreviewHome({ images = [] }) {
+    const { programs } = useSiteContent();
     return (
         <section className="bg-brand-soft py-20 md:py-28">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -24,7 +25,7 @@ export default function ProgramsPreviewHome({ images = [] }) {
                     </GuestButton>
                 </div>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {programsPreview.map((p, i) => {
+                    {programs.slice(0, 5).map((p, i) => {
                         const Icon = icons[i % icons.length];
                         return (
                             <FadeIn key={p.title} delay={i * 0.08}>
@@ -42,7 +43,7 @@ export default function ProgramsPreviewHome({ images = [] }) {
                                     </div>
                                     <div className="absolute inset-x-0 bottom-0 p-6">
                                         <h3 className="font-display text-xl text-white">{p.title}</h3>
-                                        <p className="mt-2 text-sm text-white/70">{p.summary}</p>
+                                        <p className="mt-2 text-sm text-white/70">{p.summary || p.body}</p>
                                         <p className="mt-3 text-sm font-semibold text-brand-light">Learn more →</p>
                                     </div>
                                 </a>

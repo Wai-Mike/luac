@@ -18,6 +18,7 @@ class DepartmentController extends Controller
     public function index(): Response
     {
         $departments = Department::query()
+            ->withCount('users')
             ->orderBy('name')
             ->paginate(15)
             ->withQueryString();

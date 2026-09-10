@@ -1,10 +1,11 @@
 import GuestButton from '@/components/GuestButton';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
-import { dualMoney } from '../data/money';
-import { campaigns } from '../data/siteContent';
+import { campaignFigures, formatSsp, formatUsd } from '../data/money';
+import useSiteContent from '@/hooks/useSiteContent';
 
-export default function FundraisingPreview() {
+export default function FundraisingPreview({ raisedByProgram = {}, raisedSspByProgram = {} }) {
+    const { campaigns } = useSiteContent();
     return (
         <section className="bg-brand-dark py-20 md:py-28">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -23,7 +24,7 @@ export default function FundraisingPreview() {
                 </div>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {campaigns.map((c, i) => {
-                        const pct = c.target > 0 ? Math.min(100, Math.round((c.raised / c.target) * 100)) : 0;
+                        const { raisedUsd, raisedSsp, targetUsd, targetSsp, pct } = campaignFigures(c, raisedByProgram, raisedSspByProgram);
                         return (
                             <FadeIn key={c.title} delay={i * 0.08}>
                                 <article className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 transition duration-200 hover:-translate-y-1">
@@ -34,12 +35,12 @@ export default function FundraisingPreview() {
                                             style={{ width: `${pct}%` }}
                                         />
                                     </div>
-                                    <div className="mt-3 flex justify-between gap-3 text-sm">
-                                        <span className="text-white/60">{pct}%</span>
-                                        <span className="text-right text-white">
-                                            <span className="block">{dualMoney(c.raised).usd} / {dualMoney(c.target).usd}</span>
-                                            <span className="block text-xs text-white/60">
-                                                {dualMoney(c.raised).ssp} / {dualMoney(c.target).ssp}
+                                    <div className="mt-3 flex items-start justify-between gap-3 text-sm">
+                                        <span className="shrink-0 text-white/60">{pct}%</span>
+                                        <span className="min-w-0 text-right text-white">
+                                            <span className="block break-words">{formatUsd(raisedUsd)} / {formatUsd(targetUsd)}</span>
+                                            <span className="mt-0.5 block break-words text-xs text-white/60">
+                                                {formatSsp(raisedSsp)} / {formatSsp(targetSsp)}
                                             </span>
                                         </span>
                                     </div>

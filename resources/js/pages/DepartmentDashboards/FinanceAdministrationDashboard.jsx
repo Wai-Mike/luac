@@ -74,10 +74,10 @@ export default function FinanceAdministrationDashboard() {
 
                 <DepartmentSectionCard title="Quick actions" subtitle="Finance workflows — connect to modules when available.">
                     <div className="flex flex-wrap gap-3">
-                        <DepartmentQuickAction href={null} label="Add expense" icon={Receipt} comingSoon />
-                        <DepartmentQuickAction href={null} label="Add contribution" icon={PiggyBank} comingSoon />
+                        <DepartmentQuickAction href="/admin/finances" label="Add expense" icon={Receipt} />
+                        <DepartmentQuickAction href="/admin/memberships" label="Add contribution" icon={PiggyBank} />
                         <DepartmentQuickAction href={null} label="Create budget" icon={PieChart} comingSoon />
-                        <DepartmentQuickAction href="/admin/analytics" label="Generate finance report" icon={FileSpreadsheet} />
+                        <DepartmentQuickAction href="/admin/finances" label="Monthly finance report" icon={FileSpreadsheet} />
                     </div>
                 </DepartmentSectionCard>
 

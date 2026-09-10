@@ -2,9 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AdminNotification;
+use App\Models\PostComments;
+use App\Models\User;
 use App\Support\SiteContentRepository;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -74,6 +78,33 @@ class HandleInertiaRequests extends Middleware
                 },
             ],
             'site' => fn () => SiteContentRepository::get(),
+            'admin' => [
+                'pending_moderation' => function () {
+                    if (! Schema::hasTable('post_comments')) {
+                        return 0;
+                    }
+
+                    return PostComments::query()
+                        ->where(fn ($q) => $q->where('is_approved', false)->orWhereNull('is_approved'))
+                        ->count();
+                },
+                'notifications' => function () use ($request) {
+                    $empty = ['unread' => 0, 'items' => []];
+                    $user = $request->user();
+
+                    if (! $user instanceof User || ! $user->canAccessAdminPanel() || ! Schema::hasTable('admin_notifications')) {
+                        return $empty;
+                    }
+
+                    return [
+                        'unread' => AdminNotification::query()->whereNull('read_at')->count(),
+                        'items' => AdminNotification::query()
+                            ->latest()
+                            ->limit(12)
+                            ->get(['id', 'type', 'title', 'body', 'url', 'read_at', 'created_at']),
+                    ];
+                },
+            ],
             'flash' => [
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),

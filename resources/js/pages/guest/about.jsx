@@ -4,17 +4,15 @@ import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './components/FadeIn';
 import FocusAreasSection from './main/FocusAreasSection';
 import PageHero from './components/PageHero';
-import { constitutionFacts } from './data/siteContent';
-
-const facts = [
-    { icon: Shield, label: 'Non-political', description: constitutionFacts.status },
-    { icon: Users, label: 'Who may join', description: constitutionFacts.membership },
-    { icon: BookOpen, label: 'Languages', description: constitutionFacts.languages },
-    { icon: HeartHandshake, label: 'Where we work', description: constitutionFacts.places },
-];
 
 export default function About({ aboutGallery = [] }) {
-    const { missionVision } = useSiteContent();
+    const { missionVision, constitutionFacts } = useSiteContent();
+    const facts = [
+        { icon: Shield, label: 'Non-political', description: constitutionFacts.status },
+        { icon: Users, label: 'Who may join', description: constitutionFacts.membership },
+        { icon: BookOpen, label: 'Languages', description: constitutionFacts.languages },
+        { icon: HeartHandshake, label: 'Where we work', description: constitutionFacts.places },
+    ];
 
     return (
         <GuestLayout title="About">

@@ -1,17 +1,14 @@
 import { HeartHandshake, Lightbulb, Scale, ShieldCheck, Sparkles, Users } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
-
-const values = [
-    { name: 'Unity', icon: Users },
-    { name: 'Self-reliance', icon: ShieldCheck },
-    { name: 'Leadership', icon: Sparkles },
-    { name: 'Equality', icon: Scale },
-    { name: 'Peace', icon: HeartHandshake },
-    { name: 'Culture', icon: Lightbulb },
-];
+import useSiteContent from '@/hooks/useSiteContent';
 
 export default function FocusAreasSection() {
+    const { values: valueNames } = useSiteContent();
+    const values = (valueNames.length ? valueNames : ['Unity', 'Self-reliance', 'Leadership', 'Equality', 'Peace', 'Culture']).map((name, i) => ({
+        name,
+        icon: [Users, ShieldCheck, Sparkles, Scale, HeartHandshake, Lightbulb][i % 6],
+    }));
     return (
         <section className="bg-brand-soft py-20 md:py-28">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

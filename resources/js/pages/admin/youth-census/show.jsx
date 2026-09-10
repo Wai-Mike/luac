@@ -55,6 +55,7 @@ export default function YouthCensusShow({ member }) {
                     </h1>
                     <dl className="mt-6 grid gap-4 text-sm sm:grid-cols-2">
                         <Item label="Gender" value={member.gender} />
+                        <Item label="Age" value={member.age} />
                         <Item label="Date of birth" value={member.date_of_birth} />
                         <Item label="Phone" value={member.phone} />
                         <Item label="Email" value={member.email} />

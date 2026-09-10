@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
-use App\Models\FundraisingCampaign;
 use App\Support\FundraisingPrograms;
 use App\Support\SiteMediaRepository;
 use Inertia\Inertia;
@@ -102,6 +101,8 @@ class PageController extends Controller
             'heroImage' => $this->pickRandomHeroImage(),
             'homeGallery' => $this->randomGalleryImages(6),
             'videos' => SiteMediaRepository::videos(),
+            'raisedByProgram' => ($raised = FundraisingPrograms::raisedTotals())['usd'],
+            'raisedSspByProgram' => $raised['ssp'],
         ]);
     }
 
@@ -133,13 +134,12 @@ class PageController extends Controller
 
     public function fundraising()
     {
-        $raisedByProgram = FundraisingCampaign::query()
-            ->whereIn('title', FundraisingPrograms::titles())
-            ->pluck('raised_amount', 'title');
+        $raised = FundraisingPrograms::raisedTotals();
 
         return Inertia::render('guest/fundraising', [
             'heroImage' => $this->pickRandomHeroImage(),
-            'raisedByProgram' => $raisedByProgram->all(),
+            'raisedByProgram' => $raised['usd'],
+            'raisedSspByProgram' => $raised['ssp'],
             'selectedProgram' => request('program'),
         ]);
     }
@@ -186,28 +186,18 @@ class PageController extends Controller
 
     public function reports()
     {
+        $published = \Illuminate\Support\Facades\Schema::hasTable('association_reports')
+            ? \App\Models\AssociationReport::query()
+                ->where('is_public', true)
+                ->where('status', 'published')
+                ->latest()
+                ->get(['title', 'period', 'summary', 'status'])
+                ->all()
+            : [];
+
         return Inertia::render('guest/reports', [
             'reportGallery' => $this->randomGalleryImages(6),
-            'reports' => [
-                [
-                    'title' => 'LAYYA annual activity highlights',
-                    'period' => '2024',
-                    'summary' => 'Summary of youth programs, Tawus Hub sessions, and community events.',
-                    'status' => 'upcoming',
-                ],
-                [
-                    'title' => 'Tawus Hub — girls’ skills & wellbeing',
-                    'period' => '2024',
-                    'summary' => 'Participation in decor, braiding, manicure, pedicure, and mentorship circles.',
-                    'status' => 'upcoming',
-                ],
-                [
-                    'title' => 'Youth census & outreach (public summary)',
-                    'period' => 'When published',
-                    'summary' => 'Non-sensitive community-level summaries when approved for sharing.',
-                    'status' => 'placeholder',
-                ],
-            ],
+            'reports' => $published,
         ]);
     }
 

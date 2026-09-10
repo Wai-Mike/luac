@@ -1,31 +1,10 @@
 import { useState } from 'react';
 import GuestLayout from '@/layouts/GuestLayout';
+import useSiteContent from '@/hooks/useSiteContent';
 import PageHero from './components/PageHero';
 
-const faqs = [
-    {
-        q: 'Who can join LAYYA?',
-        a: 'Luac youth aged 18–45 may apply. Women have the right to take part in all leadership. LAYYA is a non-political association.',
-    },
-    {
-        q: 'What is the Youth Census?',
-        a: 'A short registration that helps us understand skills, interests, and barriers so we can design better programs. Individual records stay with authorized staff.',
-    },
-    {
-        q: 'What is Tawus Hub?',
-        a: 'A girls-centred space for vocational skills, mentorship, wellbeing, and Tawus Day — our annual cultural celebration.',
-    },
-    {
-        q: 'How can I donate?',
-        a: 'Visit the Fundraising page, choose a program, and fill in your name, phone, amount in South Sudanese pounds or US dollars, and how you are paying.',
-    },
-    {
-        q: 'How do I volunteer or partner?',
-        a: 'Use the contact form and select Volunteering or Partnership. We will follow up with next steps.',
-    },
-];
-
 export default function Faq() {
+    const { faqs } = useSiteContent();
     const [open, setOpen] = useState(0);
 
     return (

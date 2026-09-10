@@ -1,7 +1,7 @@
 import GuestLayout from '@/layouts/GuestLayout';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
-import { impactStats } from './data/siteContent';
+import useSiteContent from '@/hooks/useSiteContent';
 
 const testimonials = [
     {
@@ -17,6 +17,7 @@ const testimonials = [
 ];
 
 export default function Impact() {
+    const { impactStats } = useSiteContent();
     return (
         <GuestLayout title="Impact">
             <PageHero

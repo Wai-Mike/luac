@@ -23,7 +23,10 @@ class YouthCensusController extends Controller
      */
     public function store(YouthCensusRequest $request)
     {
-        YouthMember::create($this->prepareData($request));
+        YouthMember::create([
+            ...$this->prepareData($request),
+            'source' => 'census',
+        ]);
 
         return redirect()->route('youth-census.thank-you');
     }
@@ -41,13 +44,13 @@ class YouthCensusController extends Controller
      */
     public function overview()
     {
-        $total = YouthMember::count();
+        $total = YouthMember::query()->census()->count();
 
-        $byGender = YouthMember::select('gender', DB::raw('count(*) as total'))
+        $byGender = YouthMember::query()->census()->select('gender', DB::raw('count(*) as total'))
             ->groupBy('gender')
             ->get();
 
-        $byCounty = YouthMember::select('county', DB::raw('count(*) as total'))
+        $byCounty = YouthMember::query()->census()->select('county', DB::raw('count(*) as total'))
             ->groupBy('county')
             ->orderByDesc('total')
             ->limit(10)

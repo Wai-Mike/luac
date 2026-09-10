@@ -61,7 +61,10 @@
         (function() {
             const appearance = '{{ $appearance ?? 'system' }}';
 
-            if (appearance === 'system') {
+            const path = window.location.pathname;
+            const isAdminShell = path === '/dashboard' || path.startsWith('/admin') || path.startsWith('/user');
+
+            if (appearance === 'system' && !isAdminShell) {
                 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
                 if (prefersDark) {

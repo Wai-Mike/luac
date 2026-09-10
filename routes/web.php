@@ -1,15 +1,19 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\DashboardController as AdminAnalyticsController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\YouthMemberController;
+use App\Http\Controllers\Admin\YouthMembershipController;
 use App\Http\Controllers\DepartmentDashboardController;
 use App\Http\Controllers\Admin\ContactInboxController;
 use App\Http\Controllers\Admin\DonationInboxController;
+use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\OperationsController;
 use App\Http\Controllers\Admin\SiteContentController;
 use App\Http\Controllers\Guest\ContactController;
 use App\Http\Controllers\Guest\DonationController;
@@ -66,6 +70,8 @@ Route::middleware(['auth', 'verified', 'admin.access'])
     ->group(function () {
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/analytics', [AdminAnalyticsController::class, 'analytics'])->name('analytics.index');
+        Route::get('/programs', [AdminController::class, 'programs'])->name('programs.index');
+        Route::get('/news', [AdminController::class, 'news'])->name('news.index');
 
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
         Route::post('/settings', [AdminController::class, 'updateSettings'])->middleware('content.edit')->name('settings.update');
@@ -79,6 +85,7 @@ Route::middleware(['auth', 'verified', 'admin.access'])
         });
 
         Route::get('youth-members', [YouthMemberController::class, 'index'])->name('youth-members.index');
+        Route::get('youth-members/export', [YouthMemberController::class, 'export'])->name('youth-members.export');
         Route::get('youth-members/create', [YouthMemberController::class, 'create'])->middleware('content.edit')->name('youth-members.create');
         Route::post('youth-members', [YouthMemberController::class, 'store'])->middleware('content.edit')->name('youth-members.store');
         Route::get('youth-members/{youth_member}', [YouthMemberController::class, 'show'])->name('youth-members.show');
@@ -87,6 +94,14 @@ Route::middleware(['auth', 'verified', 'admin.access'])
         Route::patch('youth-members/{youth_member}', [YouthMemberController::class, 'update'])->middleware('content.edit');
         Route::delete('youth-members/{youth_member}', [YouthMemberController::class, 'destroy'])->middleware('content.edit')->name('youth-members.destroy');
 
+        Route::get('memberships', [YouthMembershipController::class, 'index'])->name('memberships.index');
+        Route::post('memberships', [YouthMembershipController::class, 'store'])->name('memberships.store');
+        Route::get('memberships/export', [YouthMembershipController::class, 'export'])->name('memberships.export');
+        Route::put('memberships/{youth_member}', [YouthMembershipController::class, 'update'])->name('memberships.update');
+
+        Route::post('notifications/read-all', [AdminNotificationController::class, 'markAllRead'])->name('notifications.read-all');
+        Route::post('notifications/{notification}/read', [AdminNotificationController::class, 'markRead'])->name('notifications.read');
+
         Route::get('/content/site', [SiteContentController::class, 'edit'])->name('content.site.edit');
         Route::put('/content/site', [SiteContentController::class, 'update'])->middleware('content.edit')->name('content.site.update');
         Route::get('/media', [MediaController::class, 'index'])->name('media.index');
@@ -94,8 +109,26 @@ Route::middleware(['auth', 'verified', 'admin.access'])
         Route::delete('/media/{site_media}', [MediaController::class, 'destroy'])->middleware('content.edit')->name('media.destroy');
         Route::post('/media/portrait', [MediaController::class, 'uploadPortrait'])->middleware('content.edit')->name('media.portrait');
         Route::get('/donations', [DonationInboxController::class, 'index'])->name('donations.index');
+        Route::post('/donations', [DonationInboxController::class, 'store'])->name('donations.store');
+        Route::put('/donations/campaigns', [DonationInboxController::class, 'updateCampaigns'])->middleware('content.edit')->name('donations.campaigns.update');
+        Route::get('/donations/export', [DonationInboxController::class, 'export'])->name('donations.export');
+        Route::get('/finances', [FinanceController::class, 'index'])->name('finances.index');
+        Route::get('/finances/export', [FinanceController::class, 'export'])->name('finances.export');
+        Route::post('/finances/expenses', [FinanceController::class, 'storeExpense'])->name('finances.expenses.store');
+        Route::delete('/finances/expenses/{association_expense}', [FinanceController::class, 'destroyExpense'])->name('finances.expenses.destroy');
         Route::get('/contacts', [ContactInboxController::class, 'index'])->name('contacts.index');
         Route::patch('/contacts/{contactMessage}', [ContactInboxController::class, 'update'])->middleware('content.edit')->name('contacts.update');
+
+        Route::get('/operations', [OperationsController::class, 'index'])->name('operations.index');
+        Route::post('/operations/reports', [OperationsController::class, 'storeReport'])->name('operations.reports.store');
+        Route::put('/operations/reports/{report}', [OperationsController::class, 'updateReport'])->name('operations.reports.update');
+        Route::delete('/operations/reports/{report}', [OperationsController::class, 'destroyReport'])->name('operations.reports.destroy');
+        Route::post('/operations/meetings', [OperationsController::class, 'storeMeeting'])->name('operations.meetings.store');
+        Route::put('/operations/meetings/{meeting}', [OperationsController::class, 'updateMeeting'])->name('operations.meetings.update');
+        Route::delete('/operations/meetings/{meeting}', [OperationsController::class, 'destroyMeeting'])->name('operations.meetings.destroy');
+        Route::post('/operations/tasks', [OperationsController::class, 'storeTask'])->name('operations.tasks.store');
+        Route::put('/operations/tasks/{task}', [OperationsController::class, 'updateTask'])->name('operations.tasks.update');
+        Route::delete('/operations/tasks/{task}', [OperationsController::class, 'destroyTask'])->name('operations.tasks.destroy');
 
         Route::get('/content/comments', [ContentController::class, 'comments'])->name('content.comments');
         Route::post('/content/comments/{comment}/approve', [ContentController::class, 'approveComment'])->middleware('content.edit')->name('content.comments.approve');

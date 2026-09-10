@@ -1,118 +1,119 @@
+import { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
+import StatusBadge from '@/components/admin/StatusBadge';
 import useCapabilities from '@/hooks/useCapabilities';
-import { Head, Link, router } from '@inertiajs/react';
+import { BORDER, CAT, CAT_LIGHT, initials, TEAL } from '@/lib/admin-theme';
+import { Head, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
-
-const breadcrumbs = [
-    { title: 'Admin', href: '/admin' },
-    { title: 'Comments' },
-];
 
 export default function AdminContentComments({ comments: commentsPaginator }) {
     const rows = paginatorItems(commentsPaginator);
-    const meta = commentsPaginator && !Array.isArray(commentsPaginator) ? commentsPaginator : null;
+    const [local, setLocal] = useState({});
+    const pending = rows.filter((c) => {
+        const status = local[c.id] || commentStatus(c);
+        return status === 'pending' || status === 'flagged';
+    }).length;
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Admin · Comments" />
+        <AppLayout title="Moderation" subtitle="Review public comments before they appear">
+            <Head title="Admin · Moderation" />
 
-            <div className="mx-auto max-w-5xl space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                        <h1 className="text-2xl font-semibold text-slate-900">Comment moderation</h1>
-                        <p className="mt-1 text-sm text-slate-600">Approve, reject, or remove comments</p>
-                    </div>
-                    <Link href="/admin" className="text-sm font-medium text-[rgb(29,84,114)] hover:underline">
-                        Dashboard
-                    </Link>
+            <div className="space-y-4">
+                <div className="rounded-2xl px-4 py-3 text-sm" style={{ background: '#fdf3e7', color: '#9a6b24' }}>
+                    {pending} comment{pending === 1 ? '' : 's'} waiting for review. Approve to publish, or reject to remove from the queue.
                 </div>
 
-                <div className="space-y-4">
-                    {rows.length === 0 ? (
-                        <p className="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
-                            No comments.
-                        </p>
-                    ) : (
-                        rows.map((c) => <CommentCard key={c.id} comment={c} />)
-                    )}
-                </div>
-
-                {meta?.links && (
-                    <nav className="flex flex-wrap justify-center gap-2 text-sm">
-                        {meta.links.map((link, i) => (
-                            <button
-                                key={i}
-                                type="button"
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url, {}, { preserveState: true })}
-                                className={`rounded-lg px-3 py-1 ${
-                                    link.active
-                                        ? 'bg-[rgb(4,50,75)] text-white'
-                                        : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                                } disabled:cursor-not-allowed disabled:opacity-40`}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
+                {rows.length === 0 ? (
+                    <p className="rounded-2xl bg-white p-8 text-center text-sm text-brand-muted" style={{ border: `1px solid ${BORDER}` }}>
+                        No comments in the queue.
+                    </p>
+                ) : (
+                    rows.map((comment, i) => {
+                        const status = local[comment.id] || commentStatus(comment);
+                        if (status === 'removed') {
+                            return null;
+                        }
+                        return (
+                            <CommentCard
+                                key={comment.id}
+                                comment={comment}
+                                index={i}
+                                status={status}
+                                onApprove={() => {
+                                    setLocal((prev) => ({ ...prev, [comment.id]: 'approved' }));
+                                    router.post(route('admin.content.comments.approve', comment.id), {}, { preserveScroll: true });
+                                }}
+                                onReject={() => {
+                                    setLocal((prev) => ({ ...prev, [comment.id]: 'removed' }));
+                                    router.post(route('admin.content.comments.reject', comment.id), {}, { preserveScroll: true });
+                                }}
+                                onDelete={() => {
+                                    setLocal((prev) => ({ ...prev, [comment.id]: 'removed' }));
+                                    router.delete(route('admin.content.comments.destroy', comment.id), { preserveScroll: true });
+                                }}
                             />
-                        ))}
-                    </nav>
+                        );
+                    })
                 )}
             </div>
         </AppLayout>
     );
 }
 
-function CommentCard({ comment }) {
+function commentStatus(comment) {
+    if (comment.is_approved === true || comment.is_approved === 1) {
+        return 'approved';
+    }
+    if (comment.rejection_reason) {
+        return 'flagged';
+    }
+    return 'pending';
+}
+
+function CommentCard({ comment, index, status, onApprove, onReject, onDelete }) {
     const { canEditContent } = useCapabilities();
-    const author = comment.user?.name || comment.user?.email || 'Unknown';
-    const approved = comment.is_approved === true || comment.is_approved === 1;
+    const author = comment.user?.name || comment.user?.email || 'Guest';
+    const color = CAT[index % CAT.length];
 
     return (
-        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                    <p className="text-sm font-medium text-slate-900">{author}</p>
-                    <p className="text-xs text-slate-500">#{comment.id}</p>
+        <article className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div className="flex min-w-0 gap-3">
+                    <span
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+                        style={{ background: CAT_LIGHT[index % CAT_LIGHT.length], color }}
+                    >
+                        {initials(author)}
+                    </span>
+                    <div>
+                        <p className="text-sm text-brand-ink">
+                            <span className="font-semibold">{author}</span>
+                            <span className="text-brand-muted"> on </span>
+                            <span className="font-medium" style={{ color: TEAL }}>community story</span>
+                            <span className="text-brand-muted"> · {comment.created_at ? new Date(comment.created_at).toLocaleString() : '—'}</span>
+                        </p>
+                        <p className="mt-2 text-sm text-brand-ink">{comment.body || comment.content || '—'}</p>
+                    </div>
                 </div>
-                <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                        approved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'
-                    }`}
-                >
-                    {approved ? 'Approved' : 'Pending / rejected'}
-                </span>
+                <div className="flex shrink-0 flex-wrap gap-2">
+                    {status === 'approved' ? <StatusBadge status="approved" /> : null}
+                    {canEditContent && status === 'pending' ? (
+                        <>
+                            <button type="button" onClick={onApprove} className="rounded-full px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#2e7d32' }}>
+                                Approve
+                            </button>
+                            <button type="button" onClick={onReject} className="rounded-full px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#c62828' }}>
+                                Reject
+                            </button>
+                        </>
+                    ) : null}
+                    {canEditContent && status === 'flagged' ? (
+                        <button type="button" onClick={onDelete} className="rounded-full px-3 py-1.5 text-xs font-semibold text-white" style={{ background: '#c62828' }}>
+                            Delete Spam
+                        </button>
+                    ) : null}
+                </div>
             </div>
-            <p className="mt-3 whitespace-pre-wrap text-sm text-slate-800">{comment.body || comment.content || '—'}</p>
-            {canEditContent ? (
-            <div className="mt-4 flex flex-wrap gap-2">
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.post(route('admin.content.comments.approve', comment.id), {}, { preserveScroll: true })
-                    }
-                    className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700"
-                >
-                    Approve
-                </button>
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.post(route('admin.content.comments.reject', comment.id), {}, { preserveScroll: true })
-                    }
-                    className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-amber-700"
-                >
-                    Reject
-                </button>
-                <button
-                    type="button"
-                    onClick={() => {
-                        if (!confirm('Delete this comment?')) return;
-                        router.delete(route('admin.content.comments.destroy', comment.id), { preserveScroll: true });
-                    }}
-                    className="rounded-lg border border-red-200 bg-white px-3 py-1.5 text-xs font-medium text-red-700 hover:bg-red-50"
-                >
-                    Delete
-                </button>
-            </div>
-            ) : null}
-        </div>
+        </article>
     );
 }

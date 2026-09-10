@@ -1,20 +1,27 @@
-export const SSP_PER_USD = 3500;
+export function asMoneyNumber(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+}
 
 export function formatUsd(value) {
-    return `USD ${Number(value).toLocaleString()}`;
+    return `USD ${asMoneyNumber(value).toLocaleString()}`;
 }
 
 export function formatSsp(value) {
-    return `SSP ${Number(value).toLocaleString()}`;
+    return `SSP ${asMoneyNumber(value).toLocaleString()}`;
 }
 
-export function sspFromUsd(usd) {
-    return Math.round(Number(usd) * SSP_PER_USD);
-}
+export function campaignFigures(campaign, raisedByProgram = {}, raisedSspByProgram = {}) {
+    const raisedUsd = asMoneyNumber(raisedByProgram[campaign?.title] ?? campaign?.raised);
+    const raisedSsp = asMoneyNumber(raisedSspByProgram[campaign?.title] ?? campaign?.raised_ssp);
+    const targetUsd = asMoneyNumber(campaign?.target);
+    const targetSsp = asMoneyNumber(campaign?.target_ssp);
+    const pct =
+        targetUsd > 0
+            ? Math.min(100, Math.round((raisedUsd / targetUsd) * 100))
+            : targetSsp > 0
+                ? Math.min(100, Math.round((raisedSsp / targetSsp) * 100))
+                : 0;
 
-export function dualMoney(usd) {
-    return {
-        usd: formatUsd(usd),
-        ssp: formatSsp(sspFromUsd(usd)),
-    };
+    return { raisedUsd, raisedSsp, targetUsd, targetSsp, pct };
 }

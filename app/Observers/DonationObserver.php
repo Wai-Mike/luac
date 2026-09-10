@@ -2,11 +2,25 @@
 
 namespace App\Observers;
 
+use App\Models\AdminNotification;
 use App\Models\Donation;
 use App\Models\FundraisingCampaign;
 
 class DonationObserver
 {
+    public function created(Donation $donation): void
+    {
+        $amount = rtrim(rtrim((string) $donation->amount, '0'), '.');
+        $currency = strtoupper((string) $donation->currency);
+
+        AdminNotification::record(
+            'donation',
+            'New donation',
+            trim($donation->donor_name).' gave '.$amount.' '.$currency.'.',
+            route('admin.donations.index')
+        );
+    }
+
     public function saved(Donation $donation): void
     {
         $this->recalculate($donation->fundraising_campaign_id);

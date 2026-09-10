@@ -14,6 +14,11 @@ export default function Reports({ reports = [], reportGallery = [] }) {
             />
             <section className="bg-white py-20 md:py-28">
                 <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
+                    {reports.length === 0 ? (
+                        <p className="col-span-full rounded-2xl border border-brand/10 bg-white p-8 text-sm text-brand-muted">
+                            Public reports will appear here when the executive publishes them from the admin portal.
+                        </p>
+                    ) : null}
                     {reports.map((r, i) => (
                         <FadeIn key={r.title} delay={i * 0.06}>
                             <article className="rounded-2xl border border-brand/10 bg-white p-6">

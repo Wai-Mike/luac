@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\YouthMemberRequest;
 use App\Models\YouthMember;
+use App\Support\ExcelWorkbook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class YouthMemberController extends Controller
 {
@@ -16,7 +18,7 @@ class YouthMemberController extends Controller
      */
     public function index(Request $request)
     {
-        $query = YouthMember::query();
+        $query = YouthMember::query()->census();
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -29,20 +31,27 @@ class YouthMemberController extends Controller
 
         $members = $query->latest()->paginate(20)->withQueryString();
 
-        // Aggregate data for charts
-        $byGender = YouthMember::select('gender', DB::raw('count(*) as total'))
+        $byGender = YouthMember::query()->census()->select('gender', DB::raw('count(*) as total'))
             ->groupBy('gender')
             ->get();
 
-        $byCounty = YouthMember::select('county', DB::raw('count(*) as total'))
+        $byCounty = YouthMember::query()->census()->select('county', DB::raw('count(*) as total'))
             ->groupBy('county')
             ->orderByDesc('total')
             ->limit(10)
             ->get();
 
-        $byEducation = YouthMember::select('education_level', DB::raw('count(*) as total'))
+        $byEducation = YouthMember::query()->census()->select('education_level', DB::raw('count(*) as total'))
             ->groupBy('education_level')
             ->orderByDesc('total')
+            ->get();
+
+        $byPayam = YouthMember::query()
+            ->census()
+            ->selectRaw("COALESCE(NULLIF(payam, ''), NULLIF(county, ''), 'Unspecified') as name, count(*) as total")
+            ->groupBy('name')
+            ->orderByDesc('total')
+            ->limit(7)
             ->get();
 
         return Inertia::render('admin/youth-census/index', [
@@ -54,32 +63,82 @@ class YouthMemberController extends Controller
                 'byGender' => $byGender,
                 'byCounty' => $byCounty,
                 'byEducation' => $byEducation,
+                'byPayam' => $byPayam,
             ],
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function export(): StreamedResponse
+    {
+        $members = YouthMember::query()->census()->latest()->get();
+
+        $rows = $members->map(function (YouthMember $member) {
+            $interests = is_array($member->interests) ? implode(', ', $member->interests) : '';
+
+            return [
+                $member->first_name,
+                $member->last_name,
+                $member->gender,
+                $member->age,
+                optional($member->date_of_birth)->format('Y-m-d'),
+                $member->phone,
+                $member->email,
+                $member->county,
+                $member->payam,
+                $member->boma,
+                $member->education_level,
+                $member->current_school,
+                $member->employment_status,
+                $interests,
+                $member->heard_about_layya,
+                optional($member->created_at)->format('Y-m-d'),
+            ];
+        })->all();
+
+        $xml = ExcelWorkbook::spreadsheetMl('Youth census', [
+            'First name',
+            'Last name',
+            'Gender',
+            'Age',
+            'Date of birth',
+            'Phone',
+            'Email',
+            'County',
+            'Payam',
+            'Boma',
+            'Education',
+            'School',
+            'Employment',
+            'Interests',
+            'Heard about LAYYA',
+            'Registered',
+        ], $rows);
+
+        $filename = 'layya-youth-census-'.now()->format('Y-m-d').'.xls';
+
+        return response()->streamDownload(function () use ($xml) {
+            echo $xml;
+        }, $filename, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=UTF-8',
+        ]);
+    }
+
     public function create()
     {
         return Inertia::render('admin/youth-census/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(YouthMemberRequest $request)
     {
-        YouthMember::create($this->prepareData($request));
+        YouthMember::create([
+            ...$this->prepareData($request),
+            'source' => 'census',
+        ]);
 
         return redirect()->route('admin.youth-members.index')
             ->with('success', 'Youth member added to census successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(YouthMember $youthMember)
     {
         return Inertia::render('admin/youth-census/show', [
@@ -87,9 +146,6 @@ class YouthMemberController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(YouthMember $youthMember)
     {
         return Inertia::render('admin/youth-census/edit', [
@@ -97,9 +153,6 @@ class YouthMemberController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(YouthMemberRequest $request, YouthMember $youthMember)
     {
         $youthMember->update($this->prepareData($request));
@@ -108,9 +161,6 @@ class YouthMemberController extends Controller
             ->with('success', 'Youth member updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(YouthMember $youthMember)
     {
         $youthMember->delete();
@@ -119,9 +169,6 @@ class YouthMemberController extends Controller
             ->with('success', 'Youth member removed from census.');
     }
 
-    /**
-     * Normalize incoming data for casting JSON fields.
-     */
     protected function prepareData(YouthMemberRequest $request): array
     {
         $data = $request->validated();
@@ -137,4 +184,3 @@ class YouthMemberController extends Controller
         return $data;
     }
 }
-

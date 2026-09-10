@@ -4,24 +4,18 @@ import GuestLayout from '@/layouts/GuestLayout';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
 import SectionLabel from './components/SectionLabel';
-
-const skills = [
-    'Decor & event styling',
-    'Braiding & beauty',
-    'Manicure & pedicure',
-    'Mentorship circles',
-    'Wellbeing support',
-    'Peer leadership',
-];
+import useSiteContent from '@/hooks/useSiteContent';
 
 export default function TawusHub({ galleryImages = [], heroImage }) {
+    const { tawusHub } = useSiteContent();
+    const skills = tawusHub.skills?.length ? tawusHub.skills : ['Decor & event styling', 'Braiding & beauty', 'Manicure & pedicure', 'Mentorship circles', 'Wellbeing support', 'Peer leadership'];
     return (
         <GuestLayout title="Tawus Hub">
             <PageHero
                 label="Tawus Hub"
                 title="A place for"
                 italic="girls to grow"
-                subtitle="LAYYA’s girls-centred space for skills, confidence, and community — from crafts and beauty labs to mentorship and Tawus Day."
+                subtitle={tawusHub.subtitle || 'LAYYA’s girls-centred space for skills, confidence, and community — from crafts and beauty labs to mentorship and Tawus Day.'}
                 image={heroImage}
             />
             <section className="bg-white py-20 md:py-28">
@@ -55,8 +49,7 @@ export default function TawusHub({ galleryImages = [], heroImage }) {
                             and celebration
                         </h2>
                         <p className="mt-5 text-[16px] leading-relaxed text-brand-muted">
-                            Tawus Hub is a trusted room for girls in Luac Akook Yieu — a place to learn a trade, practise
-                            leadership, and be seen.
+                            {tawusHub.body || 'Tawus Hub is a trusted room for girls in Luac Akook Yieu — a place to learn a trade, practise leadership, and be seen.'}
                         </p>
                         <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
                             {skills.map((item) => (

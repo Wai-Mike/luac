@@ -13,7 +13,13 @@ class GuestDonationTest extends TestCase
 
     public function test_fundraising_page_is_available(): void
     {
-        $this->get(route('fundraising'))->assertOk();
+        $this->get(route('fundraising'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('guest/fundraising')
+                ->has('raisedByProgram')
+                ->has('raisedSspByProgram')
+                ->where('site.campaigns.0.target', 25000));
     }
 
     public function test_guest_can_submit_a_donation(): void

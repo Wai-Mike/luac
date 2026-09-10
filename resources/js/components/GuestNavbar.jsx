@@ -36,35 +36,31 @@ export default function GuestNavbar() {
         return () => document.body.classList.remove('mobile-menu-open');
     }, [open]);
 
+    const linkClass = (active) =>
+        `inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-2.5 text-[12px] font-medium leading-none transition duration-150 ${
+            active ? 'bg-white/15 text-white' : 'text-white/72 hover:bg-white/10 hover:text-white'
+        }`;
+
     return (
         <header className={`fixed inset-x-0 top-0 z-50 h-16 bg-brand transition-[box-shadow] duration-150 ${scrolled ? 'shadow-[0_8px_24px_rgba(0,0,0,0.18)]' : ''}`}>
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                <BrandLogo href={route('home')} stacked />
+            <div className="flex h-16 w-full flex-nowrap items-center gap-3 px-4 sm:px-6 lg:px-8">
+                <BrandLogo href={route('home')} compact />
 
-                <nav className="hidden items-center gap-1 lg:flex">
+                <nav className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-0.5 lg:flex">
                     {links.map(([href, label, active]) => (
-                        <a
-                            key={href}
-                            href={href}
-                            className={`rounded-full px-2.5 py-1.5 text-[12px] font-medium transition duration-150 ${
-                                active ? 'bg-white/15 text-white' : 'text-white/72 hover:bg-white/10 hover:text-white'
-                            }`}
-                        >
+                        <a key={href} href={href} className={linkClass(active)}>
                             {label}
                         </a>
                     ))}
                 </nav>
 
-                <div className="hidden items-center gap-2 lg:flex">
-                    <GuestButton href={route('contact')} variant="amber" className="min-h-9 px-4 text-[13px]">
-                        Get in touch
-                    </GuestButton>
+                <div className="ml-auto hidden shrink-0 items-center lg:flex">
                     <GuestButton href={user ? route('dashboard') : route('login')} variant="ghost" className="min-h-9 px-4 text-[13px]">
                         {user ? 'Dashboard' : 'Executive login'}
                     </GuestButton>
                 </div>
 
-                <button type="button" className="text-white lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
+                <button type="button" className="ml-auto text-white lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
                     <Menu className="h-6 w-6" />
                 </button>
             </div>
@@ -92,9 +88,6 @@ export default function GuestNavbar() {
                             ))}
                         </div>
                         <div className="mt-6 flex flex-col gap-2">
-                            <GuestButton href={route('contact')} variant="amber" className="w-full">
-                                Get in touch
-                            </GuestButton>
                             <GuestButton href={user ? route('dashboard') : route('login')} variant="ghost" className="w-full">
                                 {user ? 'Dashboard' : 'Executive login'}
                             </GuestButton>

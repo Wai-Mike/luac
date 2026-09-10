@@ -1,0 +1,16 @@
+import{j as e}from"./app-CGbts8OF.js";import{G as i}from"./GuestButton-C7eSuK4g.js";import{u as c,s as x}from"./useSiteContent-CfxGmTHr.js";import{c as a}from"./createLucideIcon-DhFxbXGC.js";import"./siteContent-Cr5egO0Q.js";/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const m=[["path",{d:"M5 12h14",key:"1ays0h"}],["path",{d:"m12 5 7 7-7 7",key:"xquz4c"}]],d=a("ArrowRight",m);/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const h=[["path",{d:"m6 9 6 6 6-6",key:"qrunsl"}]],p=a("ChevronDown",h);/**
+ * @license lucide-react v0.475.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const b=[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]],u=a("ChevronRight",b);function f({heroImage:r}){const{hero:t,heroStats:o}=c(),l=x(t.headline);return e.jsxs("section",{className:"bg-brand-dark pt-16",children:[e.jsxs("div",{className:"relative",children:[r?e.jsx("img",{src:r,alt:"Luac Akook Yieu Youth Association",className:"mx-auto block h-[min(48svh,20rem)] w-full max-w-none object-contain object-center md:h-[calc(100svh-4rem)]"}):e.jsx("div",{className:"h-[50vh] bg-brand-dark"}),e.jsx("div",{className:"absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/25 to-transparent"}),e.jsx("div",{className:"absolute right-4 top-4 sm:right-8",children:e.jsx("span",{className:"rounded-full border border-white/20 bg-white/12 px-3 py-1.5 text-xs text-brand-light backdrop-blur-sm",children:t.location||"Juba · Khorfulus"})})]}),e.jsxs("div",{className:"relative mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 lg:px-8",children:[e.jsxs("div",{className:"mb-4 flex items-center gap-3",children:[e.jsx("span",{className:"h-px w-12 bg-amber"}),e.jsxs("p",{className:"text-[12px] font-semibold uppercase tracking-widest text-cream sm:text-[12px]",children:[e.jsx("span",{className:"hidden sm:inline",children:"Luac Akook Yieu Youth Association"}),e.jsx("span",{className:"sm:hidden",children:"LAYYA"})]})]}),e.jsx("h1",{className:"max-w-5xl font-semibold text-white",children:l.map((s,n)=>e.jsxs("span",{children:[n>0?e.jsx("br",{}):null,s]},s))}),e.jsx("p",{className:"mt-6 max-w-xl text-[16px] leading-[1.65] text-white/75 sm:text-[19px] md:text-[21px]",children:t.subtext}),e.jsxs("div",{className:"mt-8 flex flex-col gap-3 sm:flex-row",children:[e.jsxs(i,{href:route("get-involved"),children:["Get involved ",e.jsx(d,{className:"h-4 w-4"})]}),e.jsxs(i,{href:route("programs"),variant:"ghost",children:["Explore programs ",e.jsx(u,{className:"h-4 w-4"})]})]}),e.jsx("div",{className:"mt-10 grid grid-cols-2 gap-px bg-white/10 sm:grid-cols-4",children:o.map(s=>e.jsxs("div",{className:"bg-[rgba(0,40,40,0.45)] px-3 py-4 backdrop-blur-[8px] sm:px-4 sm:py-5",children:[e.jsx("p",{className:"font-display text-[22px] font-bold text-white sm:text-[28px] md:text-[32px]",children:s.value}),e.jsx("p",{className:"mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/55 sm:text-[11px]",children:s.label})]},s.label))})]}),e.jsx(p,{className:"mx-auto mb-6 block h-6 w-6 animate-bounce text-white/50"})]})}export{f as default};

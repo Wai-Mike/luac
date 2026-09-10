@@ -218,7 +218,11 @@ a {
 
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-fraunces: 'Fraunces', 'Instrument Sans', ui-serif, Georgia, serif;
     --font-association: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+
+    --color-admin-surface: #f7fafa;
+    --color-teal-pale: #f0f8f8;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -324,7 +328,7 @@ a {
 }
 
 .guest-site h1 {
-    font-size: clamp(2.6rem, 6vw, 5.2rem);
+    font-size: clamp(2rem, 8vw, 5.2rem);
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.01em;

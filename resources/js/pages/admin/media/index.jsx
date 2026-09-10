@@ -1,12 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
+import StatusBadge from '@/components/admin/StatusBadge';
 import useCapabilities from '@/hooks/useCapabilities';
+import { TEAL } from '@/lib/admin-theme';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
-
-const breadcrumbs = [
-    { title: 'Dashboard', href: '/admin' },
-    { title: 'Media' },
-];
+import { Plus } from 'lucide-react';
 
 const fieldClass =
     'w-full rounded-xl border border-brand/20 bg-white px-3 py-2 text-sm text-brand-ink outline-none focus:border-brand';
@@ -19,23 +17,16 @@ export default function AdminMediaIndex({ items, kind = 'gallery' }) {
     const isVideo = kind === 'video';
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs} contentClassName="bg-brand-soft">
+        <AppLayout title={isVideo ? 'Videos' : 'Gallery'} subtitle="Upload photos, or paste YouTube links for large videos">
             <Head title={isVideo ? 'Admin · Videos' : 'Admin · Gallery'} />
 
-            <div className="mx-auto max-w-6xl space-y-8">
-                <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber">Archive</p>
-                    <h1 className="mt-2 text-3xl font-semibold text-brand-ink">Photos and videos</h1>
-                    <p className="mt-2 max-w-2xl text-sm text-brand-muted">
-                        Upload gallery images from the backend. For large videos, paste a YouTube link instead of uploading the file.
-                    </p>
-                </div>
-
+            <div className="space-y-6">
                 {flash.success ? (
                     <div className="rounded-2xl bg-white px-4 py-3 text-sm text-brand">{flash.success}</div>
                 ) : null}
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-wrap gap-2">
                     <Link
                         href={route('admin.media.index', { kind: 'gallery' })}
                         className={`rounded-full px-4 py-2 text-sm font-semibold ${
@@ -52,6 +43,7 @@ export default function AdminMediaIndex({ items, kind = 'gallery' }) {
                     >
                         Videos
                     </Link>
+                    </div>
                 </div>
 
                 {canEditContent ? <MediaForm key={kind} kind={kind} /> : (
@@ -60,44 +52,53 @@ export default function AdminMediaIndex({ items, kind = 'gallery' }) {
                     </p>
                 )}
 
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {rows.length === 0 ? (
-                        <div className="rounded-3xl bg-white p-8 text-sm text-brand-muted sm:col-span-2 lg:col-span-3">
-                            No {isVideo ? 'videos' : 'images'} yet. {canEditContent ? 'Add the first one above.' : ''}
-                        </div>
-                    ) : (
-                        rows.map((item) => (
-                            <article key={item.id} className="overflow-hidden rounded-3xl bg-white shadow-sm">
-                                <div className="relative aspect-video bg-brand-dark">
-                                    <img
-                                        src={item.poster_url || item.url || '/images/cover.jpg'}
-                                        alt=""
-                                        className="h-full w-full object-cover"
-                                    />
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                    {rows.map((item) => (
+                        <article key={item.id} className="group relative overflow-hidden rounded-2xl">
+                            <div className="relative aspect-video bg-brand-dark">
+                                <img
+                                    src={item.poster_url || item.url || '/images/cover.jpg'}
+                                    alt=""
+                                    className="h-full w-full object-cover opacity-[0.85] transition group-hover:opacity-100"
+                                />
+                                <div className="absolute left-2 top-2">
+                                    <StatusBadge status="published" />
                                 </div>
-                                <div className="p-4">
-                                    <p className="text-[11px] font-semibold uppercase tracking-widest text-amber">
-                                        {item.category || (isVideo ? 'Video' : 'Gallery')}
-                                        {item.source === 'youtube' ? ' · YouTube' : ''}
-                                    </p>
-                                    <h2 className="mt-1 font-semibold text-brand-ink">{item.title}</h2>
-                                    {item.caption ? <p className="mt-1 line-clamp-2 text-sm text-brand-muted">{item.caption}</p> : null}
+                                <div className="absolute inset-0 flex flex-col justify-between p-3 opacity-0 transition group-hover:opacity-100" style={{ background: 'rgba(0,30,30,0.55)' }}>
                                     {canEditContent ? (
-                                        <button
-                                            type="button"
-                                            className="mt-3 text-xs font-semibold text-red-700 hover:underline"
-                                            onClick={() => {
-                                                if (!confirm('Remove this item from the website?')) return;
-                                                router.delete(route('admin.media.destroy', item.id), { preserveScroll: true });
-                                            }}
-                                        >
-                                            Remove
-                                        </button>
-                                    ) : null}
+                                        <div className="flex justify-end gap-1">
+                                            <button
+                                                type="button"
+                                                className="rounded-lg bg-white/90 px-2 py-1 text-[11px] font-semibold text-red-700"
+                                                onClick={() => {
+                                                    if (!confirm('Remove this item from the website?')) return;
+                                                    router.delete(route('admin.media.destroy', item.id), { preserveScroll: true });
+                                                }}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <span />
+                                    )}
+                                    <div className="text-white">
+                                        <p className="text-xs uppercase tracking-wide text-white/70">{item.category || (isVideo ? 'Video' : 'Gallery')}</p>
+                                        <p className="font-fraunces text-lg font-semibold">{item.title}</p>
+                                    </div>
                                 </div>
-                            </article>
-                        ))
-                    )}
+                            </div>
+                        </article>
+                    ))}
+                    {canEditContent ? (
+                        <label className="flex min-h-[140px] cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl text-sm font-semibold text-brand" style={{ border: '2px dashed rgba(0,77,77,0.2)' }}>
+                            <Plus className="h-5 w-5" />
+                            Upload
+                            <input type="file" className="hidden" onChange={() => document.querySelector('form input[type=file]')?.click()} />
+                        </label>
+                    ) : null}
+                    {rows.length === 0 && !canEditContent ? (
+                        <div className="col-span-full rounded-2xl bg-white p-8 text-sm text-brand-muted">No {isVideo ? 'videos' : 'images'} yet.</div>
+                    ) : null}
                 </div>
 
                 {meta?.links ? (
@@ -228,7 +229,8 @@ function MediaForm({ kind }) {
             <button
                 type="submit"
                 disabled={processing}
-                className="rounded-full bg-amber px-5 py-2.5 text-sm font-semibold text-brand-ink hover:opacity-90 disabled:opacity-50"
+                className="rounded-full px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50"
+                style={{ background: TEAL }}
             >
                 {processing ? 'Saving…' : isVideo ? 'Add video' : 'Upload photo'}
             </button>

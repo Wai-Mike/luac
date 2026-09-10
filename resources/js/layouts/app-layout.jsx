@@ -1,11 +1,11 @@
-import AppSidebarLayout from '@/layouts/app/app-sidebar-layout';
-import { cn } from '@/lib/utils';
+import AdminLayout from '@/layouts/admin-layout';
 
-/** Inertia app shell: sidebar, sticky header with breadcrumbs, padded main column. Pass `contentClassName` for full-bleed layouts. */
-export default function AppLayout({ children, breadcrumbs = [], contentClassName }) {
+export default function AppLayout({ children, breadcrumbs = [], title, subtitle }) {
+    const last = breadcrumbs[breadcrumbs.length - 1];
+
     return (
-        <AppSidebarLayout breadcrumbs={breadcrumbs} contentClassName={cn('motion-safe:scroll-smooth', contentClassName)}>
+        <AdminLayout title={title || last?.title || 'Dashboard'} subtitle={subtitle}>
             {children}
-        </AppSidebarLayout>
+        </AdminLayout>
     );
 }

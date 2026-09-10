@@ -1,6 +1,6 @@
 import { useForm, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
-import { campaigns } from '../data/siteContent';
+import useSiteContent from '@/hooks/useSiteContent';
 
 const paymentMethods = [
     { value: 'mobile_money', label: 'Mobile money' },
@@ -11,6 +11,7 @@ const paymentMethods = [
 
 export default function DonateForm({ selectedProgram = '' }) {
     const { flash } = usePage().props;
+    const { campaigns } = useSiteContent();
     const programs = campaigns.map((c) => c.title);
 
     const { data, setData, post, processing, errors } = useForm({

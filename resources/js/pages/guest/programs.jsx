@@ -1,10 +1,11 @@
 import GuestButton from '@/components/GuestButton';
 import GuestLayout from '@/layouts/GuestLayout';
+import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
-import { programsDetail } from './data/siteContent';
 
 export default function Programs({ programsHeroImage, programsGallery = [] }) {
+    const { programs } = useSiteContent();
     return (
         <GuestLayout title="Programs">
             <PageHero
@@ -16,12 +17,12 @@ export default function Programs({ programsHeroImage, programsGallery = [] }) {
             />
             <section className="bg-white py-20 md:py-28">
                 <div className="mx-auto max-w-7xl space-y-16 px-4 sm:px-6 lg:px-8">
-                    {programsDetail.slice(0, 5).map((p, i) => (
+                    {programs.map((p, i) => (
                         <FadeIn key={p.title}>
                             <article className="grid items-center gap-10 lg:grid-cols-2">
                                 <div className={`relative aspect-video overflow-hidden rounded-3xl bg-brand-dark ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
                                     <img
-                                        src={programsGallery[i % programsGallery.length] ?? '/images/education.jpg'}
+                                        src={p.image || programsGallery[i % programsGallery.length] || '/images/education.jpg'}
                                         alt=""
                                         className="photo-fill"
                                     />

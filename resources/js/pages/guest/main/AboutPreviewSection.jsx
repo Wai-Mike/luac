@@ -28,9 +28,9 @@ export default function AboutPreviewSection({ aboutImage, visionImage }) {
                                 <img src={aboutImage} alt="" className="photo-fill opacity-60 transition duration-500 hover:opacity-75" />
                             ) : null}
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/55 to-transparent" />
-                            <div className="relative flex h-full flex-col justify-end p-8">
+                            <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
                                 <span className="mb-3 w-fit rounded-full bg-amber px-3 py-1 text-xs font-semibold text-brand-ink">Mission</span>
-                                <p className="max-w-md text-2xl font-semibold leading-snug text-white md:text-3xl">
+                                <p className="max-w-md text-xl font-semibold leading-snug text-white sm:text-2xl md:text-3xl">
                                     {missionVision.mission}
                                 </p>
                             </div>
@@ -42,11 +42,11 @@ export default function AboutPreviewSection({ aboutImage, visionImage }) {
                                 <img src={visionImage} alt="" className="photo-fill opacity-60 transition duration-500 hover:opacity-75" />
                             ) : null}
                             <div className="absolute inset-0 bg-gradient-to-t from-[#1a3333] via-[#1a3333]/55 to-transparent" />
-                            <div className="relative flex h-full flex-col justify-end p-8">
+                            <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
                                 <span className="mb-3 w-fit rounded-full border border-brand-light px-3 py-1 text-xs font-semibold text-brand-light">
                                     Vision
                                 </span>
-                                <p className="max-w-md text-2xl font-semibold leading-snug text-white md:text-3xl">
+                                <p className="max-w-md text-xl font-semibold leading-snug text-white sm:text-2xl md:text-3xl">
                                     {missionVision.vision}
                                 </p>
                             </div>
