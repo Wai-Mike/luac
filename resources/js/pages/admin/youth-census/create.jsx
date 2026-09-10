@@ -21,6 +21,7 @@ const empty = {
     education_level: '',
     current_school: '',
     employment_status: '',
+    profession: '',
     skills: '',
     interests: '',
     heard_about_layya: '',
@@ -164,6 +165,14 @@ export default function YouthCensusCreate() {
                             value={data.employment_status}
                             onChange={(e) => setData('employment_status', e.target.value)}
                             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                        />
+                    </Field>
+                    <Field label="Profession or career" error={errors.profession}>
+                        <input
+                            value={data.profession}
+                            onChange={(e) => setData('profession', e.target.value)}
+                            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                            placeholder="e.g. Engineer, Nurse"
                         />
                     </Field>
                     <Field label="Skills (comma-separated)" error={errors.skills}>

@@ -25,7 +25,8 @@ class YouthMemberController extends Controller
                 $q->where('first_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('profession', 'like', "%{$search}%");
             });
         }
 
@@ -46,6 +47,14 @@ class YouthMemberController extends Controller
             ->orderByDesc('total')
             ->get();
 
+        $byProfession = YouthMember::query()
+            ->census()
+            ->selectRaw("COALESCE(NULLIF(profession, ''), 'Unspecified') as name, count(*) as total")
+            ->groupBy('name')
+            ->orderByDesc('total')
+            ->limit(12)
+            ->get();
+
         $byPayam = YouthMember::query()
             ->census()
             ->selectRaw("COALESCE(NULLIF(payam, ''), NULLIF(county, ''), 'Unspecified') as name, count(*) as total")
@@ -63,6 +72,7 @@ class YouthMemberController extends Controller
                 'byGender' => $byGender,
                 'byCounty' => $byCounty,
                 'byEducation' => $byEducation,
+                'byProfession' => $byProfession,
                 'byPayam' => $byPayam,
             ],
         ]);
@@ -89,6 +99,7 @@ class YouthMemberController extends Controller
                 $member->education_level,
                 $member->current_school,
                 $member->employment_status,
+                $member->profession,
                 $interests,
                 $member->heard_about_layya,
                 optional($member->created_at)->format('Y-m-d'),
@@ -109,6 +120,7 @@ class YouthMemberController extends Controller
             'Education',
             'School',
             'Employment',
+            'Profession',
             'Interests',
             'Heard about LAYYA',
             'Registered',

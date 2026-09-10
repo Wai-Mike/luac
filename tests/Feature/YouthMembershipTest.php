@@ -13,6 +13,16 @@ class YouthMembershipTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_census_registration_requires_consent(): void
+    {
+        $this->from(route('youth-census.register'))
+            ->post(route('youth-census.store'), $this->censusPayload(['consent' => false]))
+            ->assertRedirect(route('youth-census.register'))
+            ->assertSessionHasErrors('consent');
+
+        $this->assertDatabaseCount('youth_members', 0);
+    }
+
     public function test_census_registration_opens_this_years_membership_and_notifies_admins(): void
     {
         $this->post(route('youth-census.store'), $this->censusPayload())->assertRedirect(route('youth-census.thank-you'));
@@ -20,6 +30,8 @@ class YouthMembershipTest extends TestCase
         $member = YouthMember::query()->first();
         $this->assertNotNull($member);
         $this->assertSame(20, $member->age);
+        $this->assertSame('Nurse', $member->profession);
+        $this->assertSame('masters', $member->education_level);
 
         $this->assertDatabaseHas('youth_memberships', [
             'youth_member_id' => $member->id,
@@ -45,6 +57,8 @@ class YouthMembershipTest extends TestCase
 
         $this->assertStringContainsString('Nyandeng', $xml);
         $this->assertStringContainsString('Age', $xml);
+        $this->assertStringContainsString('Nurse', $xml);
+        $this->assertStringContainsString('Profession', $xml);
         $this->assertStringContainsString('Sports', $xml);
         $this->assertStringNotContainsString('Skills', $xml);
         $this->assertStringNotContainsString('Welding-secret', $xml);
@@ -190,12 +204,13 @@ class YouthMembershipTest extends TestCase
             'county' => 'PIGI (Khorfulus)',
             'payam' => 'Khorfulus',
             'boma' => 'Luac',
-            'education_level' => 'Secondary',
+            'education_level' => 'masters',
             'current_school' => 'Malou Secondary',
             'employment_status' => 'Student',
+            'profession' => 'Nurse',
             'skills' => ['Welding-secret'],
             'interests' => ['Sports'],
-            'heard_about_layya' => 'Church',
+            'consent' => true,
         ], $overrides);
     }
 }

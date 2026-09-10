@@ -65,7 +65,7 @@ class YouthCensusController extends Controller
 
     protected function prepareData(YouthCensusRequest $request): array
     {
-        $data = $request->validated();
+        $data = $request->safe()->except('consent');
 
         if (isset($data['skills']) && is_string($data['skills'])) {
             $data['skills'] = array_filter(array_map('trim', explode(',', $data['skills'])));

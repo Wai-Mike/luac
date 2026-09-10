@@ -23,6 +23,7 @@ class YouthMember extends Model
         'education_level',
         'current_school',
         'employment_status',
+        'profession',
         'skills',
         'interests',
         'heard_about_layya',

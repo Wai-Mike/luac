@@ -22,6 +22,7 @@ function toFormState(member) {
         education_level: member.education_level || '',
         current_school: member.current_school || '',
         employment_status: member.employment_status || '',
+        profession: member.profession || '',
         skills: Array.isArray(member.skills) ? member.skills.join(', ') : '',
         interests: Array.isArray(member.interests) ? member.interests.join(', ') : '',
         heard_about_layya: member.heard_about_layya || '',
@@ -182,6 +183,14 @@ export default function YouthCensusEdit({ member }) {
                             value={data.employment_status}
                             onChange={(e) => setData('employment_status', e.target.value)}
                             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                        />
+                    </Field>
+                    <Field label="Profession or career" error={errors.profession}>
+                        <input
+                            value={data.profession}
+                            onChange={(e) => setData('profession', e.target.value)}
+                            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                            placeholder="e.g. Engineer, Nurse"
                         />
                     </Field>
                     <Field label="Skills (comma-separated)" error={errors.skills}>

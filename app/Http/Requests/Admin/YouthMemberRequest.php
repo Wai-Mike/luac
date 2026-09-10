@@ -35,6 +35,7 @@ class YouthMemberRequest extends FormRequest
             'education_level' => ['nullable', 'string', 'max:150'],
             'current_school' => ['nullable', 'string', 'max:255'],
             'employment_status' => ['nullable', 'string', 'max:150'],
+            'profession' => ['nullable', 'string', 'max:150'],
             'skills' => ['nullable', 'array'],
             'skills.*' => ['string', 'max:150'],
             'interests' => ['nullable', 'array'],

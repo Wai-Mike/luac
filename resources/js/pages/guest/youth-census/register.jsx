@@ -40,6 +40,33 @@ const VOCATIONAL = [
 
 const HOBBIES = ['Football', 'Music', 'Dance', 'Reading', 'Farming', 'Volunteering', 'Faith groups'];
 
+const PROFESSIONS = [
+    'Student',
+    'Engineer',
+    'Nurse',
+    'Midwife',
+    'Doctor',
+    'Teacher',
+    'Accountant',
+    'Lawyer',
+    'Agriculture / Farmer',
+    'Business / Trader',
+    'IT / Computer',
+    'Journalist',
+    'Mechanic',
+    'Driver',
+    'Civil servant',
+    'Police / Security',
+    'Other',
+];
+
+function resolvedProfession(choice, other) {
+    if (choice === 'Other') {
+        return String(other || '').trim();
+    }
+    return choice || '';
+}
+
 const MONTHS = [
     { value: '1', label: 'January' },
     { value: '2', label: 'February' },
@@ -124,6 +151,8 @@ export default function YouthCensusRegister() {
         education_level: '',
         student_status: '',
         employment_status: '',
+        profession: '',
+        profession_other: '',
         current_school: '',
         technical_skills: [],
         soft_skills: [],
@@ -131,7 +160,7 @@ export default function YouthCensusRegister() {
         hobbies: [],
         goals: '',
         barriers: [],
-        heard_about_layya: '',
+        consent: false,
     });
 
     useEffect(() => {
@@ -148,6 +177,7 @@ export default function YouthCensusRegister() {
             education_level: d.education_level,
             current_school: d.current_school,
             employment_status: d.employment_status || (d.student_status === 'student' ? 'student' : ''),
+            profession: resolvedProfession(d.profession, d.profession_other),
             skills: [...(d.technical_skills || []), ...(d.soft_skills || [])],
             interests: [
                 ...(d.vocational || []),
@@ -155,7 +185,7 @@ export default function YouthCensusRegister() {
                 ...(d.barriers || []),
                 d.goals ? `Goal: ${d.goals}` : null,
             ].filter(Boolean),
-            heard_about_layya: d.heard_about_layya,
+            consent: d.consent,
         }));
     }, [transform]);
 
@@ -183,7 +213,7 @@ export default function YouthCensusRegister() {
             );
         }
         if (step === 2) {
-            return Boolean(data.education_level);
+            return Boolean(data.education_level && resolvedProfession(data.profession, data.profession_other));
         }
         return true;
     }
@@ -197,6 +227,9 @@ export default function YouthCensusRegister() {
 
     function submit(e) {
         e.preventDefault();
+        if (!data.consent) {
+            return;
+        }
         post(route('youth-census.store'));
     }
 
@@ -349,7 +382,9 @@ export default function YouthCensusRegister() {
                                         <option value="secondary">Secondary</option>
                                         <option value="certificate">Certificate / Vocational</option>
                                         <option value="diploma">Diploma</option>
-                                        <option value="degree">University degree</option>
+                                        <option value="degree">Bachelor's / University degree</option>
+                                        <option value="masters">Master's</option>
+                                        <option value="doctorate">Doctorate / PhD</option>
                                     </select>
                                 </Field>
                                 <Field label="Student status">
@@ -368,6 +403,26 @@ export default function YouthCensusRegister() {
                                         <option value="unemployed">Unemployed</option>
                                     </select>
                                 </Field>
+                                <Field label="Profession or career" error={errors.profession}>
+                                    <select className="field-input" value={data.profession} onChange={(e) => setData('profession', e.target.value)}>
+                                        <option value="">Select profession</option>
+                                        {PROFESSIONS.map((item) => (
+                                            <option key={item} value={item}>
+                                                {item}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </Field>
+                                {data.profession === 'Other' ? (
+                                    <Field label="Your profession or career" error={errors.profession}>
+                                        <input
+                                            className="field-input"
+                                            value={data.profession_other}
+                                            onChange={(e) => setData('profession_other', e.target.value)}
+                                            placeholder="e.g. Pharmacist, Electrician"
+                                        />
+                                    </Field>
+                                ) : null}
                                 {showInstitution ? (
                                     <Field label="Institution" error={errors.current_school}>
                                         <input
@@ -449,20 +504,20 @@ export default function YouthCensusRegister() {
                                         ))}
                                     </div>
                                 </div>
-                                <Field label="How did you hear about LAYYA?" error={errors.heard_about_layya}>
-                                    <select className="field-input" value={data.heard_about_layya} onChange={(e) => setData('heard_about_layya', e.target.value)}>
-                                        <option value="">Select an option</option>
-                                        <option value="friend">Friend / Family</option>
-                                        <option value="church">Church / Mosque</option>
-                                        <option value="school">School</option>
-                                        <option value="radio">Radio / Media</option>
-                                        <option value="social-media">Social media</option>
-                                        <option value="community-leader">Community leader</option>
-                                    </select>
-                                </Field>
-                                <div className="rounded-2xl bg-brand-soft p-4 text-sm text-brand-muted">
-                                    By submitting, you consent to LAYYA using your answers in aggregated form to plan youth programs.
-                                    Contact details are used only to share relevant opportunities.
+                                <div>
+                                    <label className="flex cursor-pointer items-start gap-3 rounded-2xl bg-brand-soft p-4 text-sm text-brand-muted">
+                                        <input
+                                            type="checkbox"
+                                            className="mt-0.5 size-4 shrink-0 rounded border-brand/30 text-brand focus:ring-brand/30"
+                                            checked={data.consent}
+                                            onChange={(e) => setData('consent', e.target.checked)}
+                                        />
+                                        <span>
+                                            I consent to LAYYA using my answers in aggregated form to plan youth programs.
+                                            Contact details will be used only to share relevant opportunities.
+                                        </span>
+                                    </label>
+                                    {errors.consent ? <p className="mt-1 text-xs text-red-600">{errors.consent}</p> : null}
                                 </div>
                             </div>
                         )}
@@ -476,7 +531,7 @@ export default function YouthCensusRegister() {
                                     Continue
                                 </GuestButton>
                             ) : (
-                                <GuestButton type="submit" variant="amber" disabled={processing}>
+                                <GuestButton type="submit" variant="amber" disabled={processing || !data.consent}>
                                     {processing ? 'Submitting…' : 'Submit'}
                                 </GuestButton>
                             )}

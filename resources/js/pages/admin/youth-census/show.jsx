@@ -65,6 +65,7 @@ export default function YouthCensusShow({ member }) {
                         <Item label="Education" value={member.education_level} />
                         <Item label="School" value={member.current_school} />
                         <Item label="Employment" value={member.employment_status} />
+                        <Item label="Profession" value={member.profession} />
                         <Item label="Heard about LAYYA" value={member.heard_about_layya} />
                     </dl>
                     {Array.isArray(member.skills) && member.skills.length > 0 && (

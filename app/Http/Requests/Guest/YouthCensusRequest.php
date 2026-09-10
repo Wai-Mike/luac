@@ -34,11 +34,20 @@ class YouthCensusRequest extends FormRequest
             'education_level' => ['required', 'string', 'max:150'],
             'current_school' => ['nullable', 'string', 'max:255'],
             'employment_status' => ['nullable', 'string', 'max:150'],
+            'profession' => ['nullable', 'string', 'max:150'],
             'skills' => ['nullable', 'array'],
             'skills.*' => ['string', 'max:150'],
             'interests' => ['nullable', 'array'],
             'interests.*' => ['string', 'max:150'],
             'heard_about_layya' => ['nullable', 'string', 'max:255'],
+            'consent' => ['accepted'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'consent.accepted' => 'Please confirm consent before submitting.',
         ];
     }
 }
