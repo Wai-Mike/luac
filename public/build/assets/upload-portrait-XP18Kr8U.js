@@ -1,1 +1,0 @@
-import{S as s}from"./app-Cp8VRE8F.js";function i(r,a){if(!r)return;const e=new FormData;e.append("image",r),s.post(route("admin.media.portrait"),e,{forceFormData:!0,preserveScroll:!0,preserveState:!0,onSuccess:p=>{var t;const o=(t=p.props.flash)==null?void 0:t.uploaded_image;o&&a(o)}})}export{i as u};

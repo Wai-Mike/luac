@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import GuestLayout from '@/layouts/GuestLayout';
-import StatusBadge from '@/components/admin/StatusBadge';
 import useCapabilities from '@/hooks/useCapabilities';
 import { router } from '@inertiajs/react';
 import { Check, ChevronLeft, ChevronRight, Eye, Play } from 'lucide-react';
@@ -54,10 +53,6 @@ function formatViews(views) {
         return 'New';
     }
     return `${Number(views).toLocaleString()} views`;
-}
-
-function GalleryBadge({ status }) {
-    return <StatusBadge status={status || 'published'} />;
 }
 
 function EditorActions({ item, kind, className = '' }) {
@@ -140,7 +135,6 @@ function FeaturedCarousel({ photos, onShowMore }) {
                                 <span className="rounded-full bg-amber px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-dark">
                                     {current.category || current.tag || 'Gallery'}
                                 </span>
-                                <GalleryBadge status={current.status} />
                             </div>
                             <h2 className="font-fraunces text-2xl font-semibold text-white md:text-3xl">{current.title}</h2>
                             {current.date ? <p className="mt-1 text-sm text-white/70">{current.date}</p> : null}
@@ -292,9 +286,6 @@ function PhotoMasonry({ photos, onOpen, startIndex = 0 }) {
                         style={{ height: size.height }}
                     >
                         <img src={photo.src} alt="" className="h-full w-full object-cover" />
-                        <div className="absolute left-3 top-3 z-10">
-                            <GalleryBadge status={photo.status} />
-                        </div>
                         <EditorActions item={photo} kind="photo" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
                         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark/0 opacity-0 transition duration-300 group-hover:bg-brand-dark/70 group-hover:opacity-100">
                             <Eye className="h-8 w-8 text-white" />
@@ -326,9 +317,6 @@ function VideoGrid({ videos, onOpen }) {
                         <div className="relative aspect-video">
                             <img src={video.poster || '/images/cover.jpg'} alt="" className="h-full w-full object-cover" />
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_38%,rgba(0,20,20,0.62)_100%)]" />
-                            <div className="absolute left-3 top-3">
-                                <GalleryBadge status={video.status} />
-                            </div>
                             <EditorActions item={video} kind="video" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
                             {video.duration ? (
                                 <span className="absolute bottom-3 right-3 rounded-md bg-black/70 px-1.5 py-0.5 text-[11px] font-semibold text-white">
@@ -402,7 +390,6 @@ function Lightbox({ item, kind, onClose }) {
                             <span className="rounded-full bg-amber px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-dark">
                                 {item.category || item.tag || 'Gallery'}
                             </span>
-                            <GalleryBadge status={item.status} />
                         </div>
                         <p className="font-fraunces text-lg font-semibold">{item.title}</p>
                         {item.date ? <p className="text-sm text-white/65">{item.date}</p> : null}
