@@ -165,6 +165,29 @@ class SiteMediaTest extends TestCase
             ->assertOk();
     }
 
+    public function test_admin_gallery_includes_photos_already_on_the_website(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.media.index', ['kind' => 'gallery']))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('admin/media/index')
+                ->where('items.data.0.path', '/images/cover.jpg'));
+
+        $this->assertDatabaseHas('site_media', [
+            'kind' => SiteMedia::KIND_GALLERY,
+            'source' => 'bundled',
+            'path' => '/images/cover.jpg',
+        ]);
+
+        $this->get(route('gallery'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('items.0.src', '/images/cover.jpg'));
+    }
+
     public function test_admin_can_upload_a_leadership_portrait(): void
     {
         Storage::fake('public');

@@ -46,15 +46,15 @@ function normalizePhotos(uploadedItems, images) {
         date: item.date || '',
         status: item.status || 'published',
     }));
-    const seen = new Set(fromUploads.map((item) => item.src).filter(Boolean));
-    const extras = [...galleryPhotos.map((photo) => photo.src), ...images]
-        .filter((src) => src && !seen.has(src))
-        .filter((src, i, list) => list.indexOf(src) === i)
-        .map((src, i) => photoFromSrc(src, fromUploads.length + i));
 
     if (fromUploads.length) {
-        return [...fromUploads, ...extras];
+        return fromUploads;
     }
+
+    const extras = [...galleryPhotos.map((photo) => photo.src), ...images]
+        .filter((src) => src)
+        .filter((src, i, list) => list.indexOf(src) === i)
+        .map((src, i) => photoFromSrc(src, i));
 
     return extras;
 }

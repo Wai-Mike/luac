@@ -10,6 +10,7 @@ use App\Models\Donation;
 use App\Models\User;
 use App\Models\SiteMedia;
 use App\Models\YouthMember;
+use App\Support\SiteMediaRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,10 @@ class AdminController extends Controller
     public function dashboard()
     {
         $user = auth()->user();
+
+        if (Schema::hasTable('site_media')) {
+            SiteMediaRepository::syncBundledGallery();
+        }
 
         $stats = [
             'total_executives' => User::query()

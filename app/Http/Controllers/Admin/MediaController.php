@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteMedia;
+use App\Support\SiteMediaRepository;
 use App\Support\YoutubeUrl;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,10 +21,15 @@ class MediaController extends Controller
         $kind = $request->string('kind')->toString();
         $kind = in_array($kind, [SiteMedia::KIND_GALLERY, SiteMedia::KIND_VIDEO], true) ? $kind : SiteMedia::KIND_GALLERY;
 
+        if ($kind === SiteMedia::KIND_GALLERY) {
+            SiteMediaRepository::syncBundledGallery();
+        }
+
         $items = SiteMedia::query()
             ->where('kind', $kind)
+            ->orderBy('sort_order')
             ->latest()
-            ->paginate(18)
+            ->paginate(60)
             ->withQueryString();
 
         return Inertia::render('admin/media/index', [

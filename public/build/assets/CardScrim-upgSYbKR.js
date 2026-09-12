@@ -1,1 +1,0 @@
-import{j as t}from"./app-DNnhZH0H.js";function e(){return t.jsx("div",{"aria-hidden":!0,className:"pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent"})}export{e as default};

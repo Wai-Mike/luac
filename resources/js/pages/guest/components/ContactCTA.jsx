@@ -1,5 +1,6 @@
-import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import { useForm, usePage } from '@inertiajs/react';
+import WhatsAppIcon from '@/components/WhatsAppIcon';
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './FadeIn';
 import SectionLabel from './SectionLabel';
@@ -21,6 +22,7 @@ export default function ContactCTA() {
     const rows = [
         { icon: MapPin, label: 'Location', value: address },
         { icon: Phone, label: 'Phone', value: phone, href: `tel:+211927779952` },
+        { icon: WhatsAppIcon, label: 'WhatsApp', value: phone, href: whatsappHref, external: true },
         { icon: Mail, label: 'Email', value: 'info@luac-akook-yieu.org', href: 'mailto:info@luac-akook-yieu.org' },
         ...(contact.email && contact.email !== 'info@luac-akook-yieu.org'
             ? [{ icon: Mail, label: 'Alternate email', value: contact.email, href: `mailto:${contact.email}` }]
@@ -60,7 +62,11 @@ export default function ContactCTA() {
                                 <div>
                                     <p className="text-sm font-semibold text-brand-ink">{row.label}</p>
                                     {row.href ? (
-                                        <a href={row.href} className="text-sm text-brand hover:underline">
+                                        <a
+                                            href={row.href}
+                                            className="text-sm text-brand hover:underline"
+                                            {...(row.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                                        >
                                             {row.value}
                                         </a>
                                     ) : (
@@ -76,7 +82,7 @@ export default function ContactCTA() {
                         rel="noreferrer"
                         className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1ebe5d]"
                     >
-                        <MessageCircle className="h-4 w-4" />
+                        <WhatsAppIcon className="h-5 w-5" />
                         WhatsApp 0927 779 952
                     </a>
                 </FadeIn>

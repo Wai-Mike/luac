@@ -14,6 +14,8 @@ class SiteMediaRepository
             return self::fallbackGallery();
         }
 
+        self::syncBundledGallery();
+
         $items = SiteMedia::query()
             ->gallery()
             ->visible()
@@ -24,6 +26,54 @@ class SiteMediaRepository
             ->all();
 
         return $items !== [] ? $items : self::fallbackGallery();
+    }
+
+    public static function syncBundledGallery(): void
+    {
+        if (! Schema::hasTable('site_media')) {
+            return;
+        }
+
+        $existing = SiteMedia::query()
+            ->gallery()
+            ->pluck('path')
+            ->map(fn (?string $path) => self::normalizePath($path))
+            ->filter()
+            ->flip()
+            ->all();
+
+        foreach (self::fallbackGallery() as $index => $item) {
+            $path = $item['src'] ?? null;
+            $normalized = self::normalizePath($path);
+
+            if ($normalized === '' || isset($existing[$normalized])) {
+                continue;
+            }
+
+            SiteMedia::query()->create([
+                'kind' => SiteMedia::KIND_GALLERY,
+                'title' => $item['title'] ?? $item['caption'] ?? 'Gallery photo',
+                'caption' => $item['caption'] ?? null,
+                'category' => $item['category'] ?? 'Community',
+                'source' => 'bundled',
+                'path' => $path,
+                'status' => 'visible',
+                'sort_order' => 100 + $index,
+            ]);
+
+            $existing[$normalized] = true;
+        }
+    }
+
+    private static function normalizePath(?string $path): string
+    {
+        if (! $path) {
+            return '';
+        }
+
+        $parsed = parse_url($path, PHP_URL_PATH);
+
+        return '/'.ltrim(is_string($parsed) && $parsed !== '' ? $parsed : $path, '/');
     }
 
     /** @return list<array<string, mixed>> */

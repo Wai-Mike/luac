@@ -20,7 +20,7 @@ export default function AdminMediaIndex({ items, kind = 'gallery' }) {
     const editing = rows.find((row) => row.id === editingId) ?? null;
 
     return (
-        <AppLayout title={isVideo ? 'Videos' : 'Gallery'} subtitle="Upload photos, or paste YouTube links for large videos">
+        <AppLayout title={isVideo ? 'Videos' : 'Gallery'} subtitle={isVideo ? 'Upload videos, or paste YouTube links for large files' : 'Every photo visitors see on the website — including the original gallery set'}>
             <Head title={isVideo ? 'Admin · Videos' : 'Admin · Gallery'} />
 
             <div className="space-y-6">
@@ -58,6 +58,10 @@ export default function AdminMediaIndex({ items, kind = 'gallery' }) {
                         View only. Ask the Chairman to assign you as an admin before you can upload media.
                     </p>
                 )}
+
+                {!isVideo && rows.length ? (
+                    <p className="text-sm text-brand-muted">{meta?.total ?? rows.length} photos on the public gallery.</p>
+                ) : null}
 
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                     {rows.map((item) => (
