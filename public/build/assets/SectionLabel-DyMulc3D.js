@@ -1,1 +1,0 @@
-import{j as e}from"./app-CLUznI8n.js";function r({children:s,light:t=!1}){return e.jsxs("div",{className:"mb-3 flex items-center gap-3",children:[e.jsx("span",{className:"h-px w-12 bg-amber"}),e.jsx("p",{className:`text-[12px] font-semibold uppercase tracking-widest ${t?"text-cream":"text-amber"}`,children:s})]})}export{r as default};

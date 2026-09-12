@@ -44,7 +44,7 @@ export default function GuestNavbar() {
     return (
         <header className={`fixed inset-x-0 top-0 z-50 bg-brand transition-[box-shadow] duration-150 ${scrolled ? 'shadow-[0_8px_24px_rgba(0,0,0,0.18)]' : ''}`}>
             <div className="flex h-16 w-full flex-nowrap items-center gap-3 px-4 sm:px-6 lg:px-8">
-                <BrandLogo href={route('home')} />
+                <BrandLogo href={route('home')} showWordmark={false} />
 
                 <nav className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-0.5 lg:flex">
                     {links.map(([href, label, active]) => (
@@ -70,10 +70,7 @@ export default function GuestNavbar() {
                     <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close menu" onClick={() => setOpen(false)} />
                     <aside className="absolute inset-y-0 right-0 flex w-[min(20rem,86vw)] flex-col bg-brand px-5 py-6 transition-transform duration-300 ease-out">
                         <div className="mb-6 flex items-center justify-between">
-                            <p className="font-display text-sm leading-tight text-white">
-                                LAYYA
-                                <span className="block text-[10px] font-normal text-white/70">Luac Akook Yieu Youth Association</span>
-                            </p>
+                            <BrandLogo href={route('home')} showWordmark={false} />
                             <button type="button" onClick={() => setOpen(false)} aria-label="Close menu" className="text-white">
                                 <X className="h-6 w-6" />
                             </button>
