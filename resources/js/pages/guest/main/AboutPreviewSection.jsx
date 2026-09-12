@@ -1,5 +1,6 @@
 import GuestButton from '@/components/GuestButton';
 import useSiteContent, { splitLines } from '@/hooks/useSiteContent';
+import CardScrim from '../components/CardScrim';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 
@@ -29,10 +30,10 @@ export default function AboutPreviewSection() {
                             {aboutImage ? (
                                 <img src={aboutImage} alt="" className="photo-fill" />
                             ) : null}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+                            <CardScrim />
                             <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
-                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber drop-shadow">Mission</p>
-                                <p className="max-w-md text-xl font-semibold leading-snug text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] sm:text-2xl md:text-3xl">
+                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber">Mission</p>
+                                <p className="max-w-md text-xl font-semibold leading-snug text-[#f3ece0] sm:text-2xl md:text-3xl">
                                     {missionVision.mission}
                                 </p>
                             </div>
@@ -43,10 +44,10 @@ export default function AboutPreviewSection() {
                             {visionImage ? (
                                 <img src={visionImage} alt="" className="photo-fill" />
                             ) : null}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+                            <CardScrim />
                             <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
-                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber drop-shadow">Vision</p>
-                                <p className="max-w-md text-xl font-semibold leading-snug text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] sm:text-2xl md:text-3xl">
+                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber">Vision</p>
+                                <p className="max-w-md text-xl font-semibold leading-snug text-[#f3ece0] sm:text-2xl md:text-3xl">
                                     {missionVision.vision}
                                 </p>
                             </div>

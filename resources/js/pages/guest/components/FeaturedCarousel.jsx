@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import CardScrim from './CardScrim';
 
 const FEATURED_LIMIT = 8;
 
@@ -42,7 +43,7 @@ export default function FeaturedCarousel({ photos = [], contain = false }) {
                         } ${i === index ? 'translate-x-0 opacity-100' : 'translate-x-3 opacity-0'}`}
                     />
                 ))}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
+                <CardScrim />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
                     <div>
                         <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -50,8 +51,8 @@ export default function FeaturedCarousel({ photos = [], contain = false }) {
                                 {current.category || current.tag || 'Gallery'}
                             </span>
                         </div>
-                        <h2 className="font-fraunces text-2xl font-semibold text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)] md:text-3xl">{current.title || current.caption}</h2>
-                        {current.date ? <p className="mt-1 text-sm text-white drop-shadow">{current.date}</p> : null}
+                        <h2 className="font-fraunces text-2xl font-semibold text-[#f3ece0] md:text-3xl">{current.title || current.caption}</h2>
+                        {current.date ? <p className="mt-1 text-sm text-[#f3ece0]/80">{current.date}</p> : null}
                     </div>
                 </div>
                 <div className="absolute right-4 top-4 flex gap-2">

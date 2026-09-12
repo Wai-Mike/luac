@@ -3,6 +3,7 @@ import GuestLayout from '@/layouts/GuestLayout';
 import useCapabilities from '@/hooks/useCapabilities';
 import { router } from '@inertiajs/react';
 import { Check, Eye, Play } from 'lucide-react';
+import CardScrim from './components/CardScrim';
 import FeaturedCarousel from './components/FeaturedCarousel';
 import { galleryPhotos, galleryThemes } from './data/siteContent';
 
@@ -40,8 +41,8 @@ function photoFromSrc(src, i) {
 function normalizePhotos(uploadedItems, images) {
     const fromUploads = uploadedItems.map((item, i) => ({
         ...item,
-        title: captionFor(item.src, item.title || item.caption, i),
-        caption: captionFor(item.src, item.caption || item.title, i),
+        title: item.title || captionFor(item.src, item.caption, i),
+        caption: item.caption || item.title || captionFor(item.src, null, i),
         date: item.date || '',
         status: item.status || 'published',
     }));
@@ -183,8 +184,9 @@ function PhotoMasonry({ photos, onOpen, startIndex = 0 }) {
                     >
                         <img src={photo.src} alt={photo.caption || photo.title || ''} className="h-full w-full object-cover" />
                         <EditorActions item={photo} kind="photo" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
-                        <div className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/75 via-black/25 to-transparent px-3 py-3">
-                            <p className="text-left text-xs font-semibold leading-snug text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">{photo.caption || photo.title}</p>
+                        <CardScrim />
+                        <div className="pointer-events-none absolute inset-0 flex flex-col justify-end px-3 py-3">
+                            <p className="text-left text-xs font-semibold leading-snug text-[#f3ece0]">{photo.caption || photo.title}</p>
                         </div>
                         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark/0 opacity-0 transition duration-300 group-hover:bg-brand-dark/20 group-hover:opacity-100">
                             <Eye className="h-8 w-8 text-white" />

@@ -46,6 +46,44 @@ class MediaController extends Controller
             ->with('success', $kind === SiteMedia::KIND_VIDEO ? 'Video added to the archive.' : 'Image added to the gallery.');
     }
 
+    public function update(Request $request, SiteMedia $site_media): RedirectResponse
+    {
+        $validated = $this->validated($request, $site_media->kind, updating: true);
+
+        $payload = [
+            'title' => $validated['title'],
+            'caption' => $validated['caption'] ?? null,
+            'category' => $validated['category'] ?? $site_media->category,
+            'year' => $validated['year'] ?? $site_media->year,
+        ];
+
+        if ($site_media->kind === SiteMedia::KIND_VIDEO && filled($validated['youtube_url'] ?? null)) {
+            $payload['youtube_url'] = $validated['youtube_url'];
+            $payload['youtube_id'] = YoutubeUrl::id($validated['youtube_url']);
+            $payload['source'] = 'youtube';
+        }
+
+        if ($request->hasFile('file')) {
+            $this->deleteStored($site_media->path);
+            $folder = $site_media->kind === SiteMedia::KIND_VIDEO ? 'media/videos' : 'media/gallery';
+            $payload['path'] = $request->file('file')->store($folder, 'public');
+            if ($site_media->kind === SiteMedia::KIND_VIDEO) {
+                $payload['source'] = 'upload';
+            }
+        }
+
+        if ($request->hasFile('poster')) {
+            $this->deleteStored($site_media->poster_path);
+            $payload['poster_path'] = $request->file('poster')->store('media/posters', 'public');
+        }
+
+        $site_media->update($payload);
+
+        return redirect()
+            ->route('admin.media.index', ['kind' => $site_media->kind])
+            ->with('success', 'Caption and details saved.');
+    }
+
     public function destroy(SiteMedia $site_media): RedirectResponse
     {
         $this->deleteStored($site_media->path);
@@ -76,28 +114,37 @@ class MediaController extends Controller
     /**
      * @return array<string, mixed>
      */
-    private function validated(Request $request, string $kind): array
+    private function validated(Request $request, string $kind, bool $updating = false): array
     {
         $rules = [
-            'kind' => ['required', Rule::in([SiteMedia::KIND_GALLERY, SiteMedia::KIND_VIDEO])],
             'title' => ['required', 'string', 'max:255'],
             'caption' => ['nullable', 'string', 'max:1000'],
             'category' => ['nullable', 'string', 'max:80'],
             'year' => ['nullable', 'string', 'max:40'],
         ];
 
+        if (! $updating) {
+            $rules['kind'] = ['required', Rule::in([SiteMedia::KIND_GALLERY, SiteMedia::KIND_VIDEO])];
+        }
+
         if ($kind === SiteMedia::KIND_VIDEO) {
-            $rules['source'] = ['required', Rule::in(['upload', 'youtube'])];
-            $rules['youtube_url'] = [$request->input('source') === 'youtube' ? 'required' : 'nullable', 'string', 'max:500'];
-            $rules['file'] = [$request->input('source') === 'upload' ? 'required' : 'nullable', 'file', 'mimetypes:video/mp4,video/quicktime,video/webm', 'max:51200'];
+            if ($updating) {
+                $rules['youtube_url'] = ['nullable', 'string', 'max:500'];
+                $rules['file'] = ['nullable', 'file', 'mimetypes:video/mp4,video/quicktime,video/webm', 'max:51200'];
+            } else {
+                $rules['source'] = ['required', Rule::in(['upload', 'youtube'])];
+                $rules['youtube_url'] = [$request->input('source') === 'youtube' ? 'required' : 'nullable', 'string', 'max:500'];
+                $rules['file'] = [$request->input('source') === 'upload' ? 'required' : 'nullable', 'file', 'mimetypes:video/mp4,video/quicktime,video/webm', 'max:51200'];
+            }
             $rules['poster'] = ['nullable', 'image', 'max:8192'];
         } else {
-            $rules['file'] = ['required', 'image', 'max:8192'];
+            $rules['file'] = [$updating ? 'nullable' : 'required', 'image', 'max:8192'];
         }
 
         $validated = $request->validate($rules);
 
-        if (($validated['source'] ?? null) === 'youtube' && ! YoutubeUrl::id($validated['youtube_url'] ?? null)) {
+        $youtubeRequired = ($validated['source'] ?? null) === 'youtube' || filled($validated['youtube_url'] ?? null);
+        if ($youtubeRequired && ! YoutubeUrl::id($validated['youtube_url'] ?? null)) {
             throw ValidationException::withMessages([
                 'youtube_url' => 'Enter a valid YouTube link.',
             ]);

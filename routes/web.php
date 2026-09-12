@@ -111,6 +111,7 @@ Route::middleware(['auth', 'verified', 'admin.access'])
         Route::put('/content/site', [SiteContentController::class, 'update'])->middleware('content.edit')->name('content.site.update');
         Route::get('/media', [MediaController::class, 'index'])->name('media.index');
         Route::post('/media', [MediaController::class, 'store'])->middleware('content.edit')->name('media.store');
+        Route::put('/media/{site_media}', [MediaController::class, 'update'])->middleware('content.edit')->name('media.update');
         Route::delete('/media/{site_media}', [MediaController::class, 'destroy'])->middleware('content.edit')->name('media.destroy');
         Route::post('/media/{site_media}/approve', [MediaController::class, 'approve'])->middleware('content.edit')->name('media.approve');
         Route::post('/media/portrait', [MediaController::class, 'uploadPortrait'])->middleware('content.edit')->name('media.portrait');

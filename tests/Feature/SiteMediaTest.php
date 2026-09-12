@@ -43,8 +43,70 @@ class SiteMediaTest extends TestCase
             ->assertInertia(fn ($page) => $page
                 ->component('guest/gallery')
                 ->has('videos')
-                ->where('items.0.caption', 'Tawus Day')
+                ->where('items.0.caption', 'Community gathering')
+                ->where('items.0.title', 'Tawus Day')
                 ->where('items.0.category', 'Tawus Hub'));
+    }
+
+    public function test_admin_can_edit_a_published_gallery_caption(): void
+    {
+        Storage::fake('public');
+        $admin = User::factory()->admin()->create();
+        $media = SiteMedia::query()->create([
+            'kind' => SiteMedia::KIND_GALLERY,
+            'title' => 'Tawus Day',
+            'caption' => 'Old caption',
+            'category' => 'Tawus Hub',
+            'source' => 'upload',
+            'path' => 'media/gallery/tawus.jpg',
+            'status' => 'visible',
+        ]);
+
+        $this->actingAs($admin)
+            ->put(route('admin.media.update', $media), [
+                'title' => 'Tawus Day 2025',
+                'caption' => 'Girls, mentors, and families celebrating at Tawus Hub.',
+                'category' => 'Tawus Hub',
+            ])
+            ->assertRedirect(route('admin.media.index', ['kind' => 'gallery']));
+
+        $this->assertDatabaseHas('site_media', [
+            'id' => $media->id,
+            'title' => 'Tawus Day 2025',
+            'caption' => 'Girls, mentors, and families celebrating at Tawus Hub.',
+        ]);
+
+        $this->get(route('gallery'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('items.0.title', 'Tawus Day 2025')
+                ->where('items.0.caption', 'Girls, mentors, and families celebrating at Tawus Hub.'));
+    }
+
+    public function test_viewer_cannot_edit_media(): void
+    {
+        $viewer = User::factory()->executive()->create();
+        $media = SiteMedia::query()->create([
+            'kind' => SiteMedia::KIND_GALLERY,
+            'title' => 'Tawus Day',
+            'caption' => 'Keep this',
+            'source' => 'upload',
+            'path' => 'media/gallery/tawus.jpg',
+            'status' => 'visible',
+        ]);
+
+        $this->actingAs($viewer)
+            ->put(route('admin.media.update', $media), [
+                'title' => 'Changed',
+                'caption' => 'Should not save',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('site_media', [
+            'id' => $media->id,
+            'title' => 'Tawus Day',
+            'caption' => 'Keep this',
+        ]);
     }
 
     public function test_admin_can_add_a_youtube_video(): void

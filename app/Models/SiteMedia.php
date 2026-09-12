@@ -101,7 +101,7 @@ class SiteMedia extends Model
         return [
             'id' => $this->id,
             'src' => $this->url,
-            'caption' => $this->title,
+            'caption' => $this->caption ?: $this->title,
             'title' => $this->title,
             'tag' => $this->category ?: 'Community',
             'category' => $this->category ?: 'Community',

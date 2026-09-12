@@ -27,8 +27,9 @@ export default function FundraisingPreview({ raisedByProgram = {}, raisedSspByPr
                         const { raisedUsd, raisedSsp, targetUsd, targetSsp, pct } = campaignFigures(c, raisedByProgram, raisedSspByProgram);
                         return (
                             <FadeIn key={c.title} delay={i * 0.08}>
-                                <article className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 transition duration-200 hover:-translate-y-1">
-                                    <h3 className="font-sans text-lg font-semibold text-white">{campaignTitle(c)}</h3>
+                                <article className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.12] via-white/[0.06] to-[#0a2a28]/40 p-6 transition duration-200 hover:-translate-y-1">
+                                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-amber/70 via-[#7dd4d4]/50 to-transparent" />
+                                    <h3 className="font-sans text-lg font-semibold text-[#f3ece0]">{campaignTitle(c)}</h3>
                                     <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/12">
                                         <div
                                             className={`h-full rounded-full ${i % 2 === 0 ? 'bg-brand-light' : 'bg-amber'}`}
