@@ -150,8 +150,17 @@ class PageController extends Controller
     public function gallery()
     {
         return Inertia::render('guest/gallery', [
-            'images' => $this->randomGalleryImages(12),
+            'images' => array_values(array_intersect($this->guestImagePool(), [
+                '/images/cover.jpg',
+                '/images/cover1.jpg',
+                '/images/education.jpg',
+                '/images/education1.jpg',
+                '/images/football.jpg',
+                '/images/youth.jpg',
+                '/images/tawus.jpg',
+            ])),
             'items' => SiteMediaRepository::gallery(),
+            'videos' => SiteMediaRepository::videos(),
         ]);
     }
 

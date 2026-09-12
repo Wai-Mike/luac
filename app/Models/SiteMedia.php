@@ -86,9 +86,13 @@ class SiteMedia extends Model
             'description' => $this->caption,
             'category' => $this->category ?: 'Community',
             'year' => $this->year ?: 'Archive',
+            'date' => optional($this->created_at)->format('d M Y'),
+            'status' => $this->status === 'visible' ? 'published' : ($this->status ?: 'pending'),
             'poster' => $this->poster_url,
             'src' => $this->source === 'upload' ? $this->url : null,
             'youtubeId' => $this->youtube_id,
+            'duration' => null,
+            'views' => 0,
         ];
     }
 
@@ -98,8 +102,11 @@ class SiteMedia extends Model
             'id' => $this->id,
             'src' => $this->url,
             'caption' => $this->title,
+            'title' => $this->title,
             'tag' => $this->category ?: 'Community',
             'category' => $this->category ?: 'Community',
+            'date' => optional($this->created_at)->format('d M Y'),
+            'status' => $this->status === 'visible' ? 'published' : ($this->status ?: 'pending'),
         ];
     }
 

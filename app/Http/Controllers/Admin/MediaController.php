@@ -48,14 +48,18 @@ class MediaController extends Controller
 
     public function destroy(SiteMedia $site_media): RedirectResponse
     {
-        $kind = $site_media->kind;
         $this->deleteStored($site_media->path);
         $this->deleteStored($site_media->poster_path);
         $site_media->delete();
 
-        return redirect()
-            ->route('admin.media.index', ['kind' => $kind])
-            ->with('success', 'Media removed.');
+        return back()->with('success', 'Media removed.');
+    }
+
+    public function approve(SiteMedia $site_media): RedirectResponse
+    {
+        $site_media->update(['status' => 'visible']);
+
+        return back()->with('success', 'Media approved.');
     }
 
     public function uploadPortrait(Request $request): RedirectResponse

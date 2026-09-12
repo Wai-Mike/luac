@@ -42,6 +42,7 @@ class SiteMediaTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->component('guest/gallery')
+                ->has('videos')
                 ->where('items.0.caption', 'Tawus Day')
                 ->where('items.0.category', 'Tawus Hub'));
     }

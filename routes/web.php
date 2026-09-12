@@ -112,6 +112,7 @@ Route::middleware(['auth', 'verified', 'admin.access'])
         Route::get('/media', [MediaController::class, 'index'])->name('media.index');
         Route::post('/media', [MediaController::class, 'store'])->middleware('content.edit')->name('media.store');
         Route::delete('/media/{site_media}', [MediaController::class, 'destroy'])->middleware('content.edit')->name('media.destroy');
+        Route::post('/media/{site_media}/approve', [MediaController::class, 'approve'])->middleware('content.edit')->name('media.approve');
         Route::post('/media/portrait', [MediaController::class, 'uploadPortrait'])->middleware('content.edit')->name('media.portrait');
         Route::get('/donations', [DonationInboxController::class, 'index'])->name('donations.index');
         Route::post('/donations', [DonationInboxController::class, 'store'])->name('donations.store');
