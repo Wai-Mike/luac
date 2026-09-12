@@ -39,7 +39,7 @@ export default function HeroSection() {
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1220]/90 to-transparent" aria-hidden />
 
-                <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[75rem] items-center px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
+                <div className="relative z-10 mx-auto flex min-h-[inherit] max-w-[75rem] items-center px-4 pb-20 pt-32 sm:px-6 sm:pb-24 sm:pt-36 lg:px-8 lg:pb-28">
                         <div className="lg:col-span-7 xl:col-span-6">
                             <div className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 shadow-2xl shadow-black/20 ring-1 ring-white/10 backdrop-blur-xl sm:p-8 md:p-10">
                                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
@@ -55,7 +55,7 @@ export default function HeroSection() {
                                 </h2>
 
                                 <p className="mt-3 font-sans text-lg font-medium text-[#ffe156] sm:text-xl">
-                                    LAYYA · <span className="text-white/95">Juba &amp; beyond</span>
+                                    LAYYA · <span className="text-white/95">Juba, South Sudan</span>
                                 </p>
 
                                 <p className="mt-6 max-w-xl font-sans text-[0.95rem] leading-relaxed text-white/88 sm:text-base md:text-[1.05rem]">

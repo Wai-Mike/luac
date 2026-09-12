@@ -47,9 +47,10 @@ export default function AdminSidebar({ collapsed, onNavigate }) {
 
     return (
         <aside
-            className="flex h-full shrink-0 flex-col overflow-hidden text-white"
+            className="flex h-full w-full shrink-0 flex-col overflow-hidden text-white"
             style={{
                 width: collapsed ? 64 : 240,
+                maxWidth: '100%',
                 background: TEAL_DARK,
                 transition: 'width 300ms ease',
             }}

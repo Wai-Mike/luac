@@ -11,9 +11,19 @@ export function formatSsp(value) {
     return `SSP ${asMoneyNumber(value).toLocaleString()}`;
 }
 
+export function campaignTitle(campaign) {
+    const title = campaign?.title || '';
+    if (title === 'Support Girls Education') {
+        return 'Support 12 girls with materials';
+    }
+    return title;
+}
+
 export function campaignFigures(campaign, raisedByProgram = {}, raisedSspByProgram = {}) {
-    const raisedUsd = asMoneyNumber(raisedByProgram[campaign?.title] ?? campaign?.raised);
-    const raisedSsp = asMoneyNumber(raisedSspByProgram[campaign?.title] ?? campaign?.raised_ssp);
+    const title = campaign?.title;
+    const display = campaignTitle(campaign);
+    const raisedUsd = asMoneyNumber(raisedByProgram[display] ?? raisedByProgram[title] ?? campaign?.raised);
+    const raisedSsp = asMoneyNumber(raisedSspByProgram[display] ?? raisedSspByProgram[title] ?? campaign?.raised_ssp);
     const targetUsd = asMoneyNumber(campaign?.target);
     const targetSsp = asMoneyNumber(campaign?.target_ssp);
     const pct =

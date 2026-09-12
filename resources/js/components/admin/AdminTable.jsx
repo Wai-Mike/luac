@@ -3,7 +3,7 @@ import { TEAL, TEAL_PALE, SURFACE, BORDER } from '@/lib/admin-theme';
 
 export function AdminTable({ columns, children, footer }) {
     return (
-        <div className="overflow-x-auto rounded-2xl bg-white" style={{ border: `1px solid ${BORDER}` }}>
+        <div className="min-w-0 overflow-x-auto rounded-2xl bg-white [-webkit-overflow-scrolling:touch]" style={{ border: `1px solid ${BORDER}` }}>
             <table className="w-full min-w-[640px] text-sm">
                 <thead style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}` }}>
                     <tr>
@@ -60,7 +60,7 @@ export function PaginationBar({ meta, onPage }) {
                         type="button"
                         disabled={!link.url}
                         onClick={() => link.url && onPage?.(link.url)}
-                        className="rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-40"
+                        className="min-h-9 min-w-9 touch-manipulation rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-40"
                         style={{
                             background: link.active ? TEAL : 'transparent',
                             color: link.active ? '#fff' : MUTED_SAFE,

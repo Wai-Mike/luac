@@ -65,6 +65,18 @@ class SiteContentController extends Controller
             ];
         }
 
+        if ($request->has('card_images')) {
+            $rules += [
+                'card_images.mission' => ['nullable', 'string', 'max:500'],
+                'card_images.vision' => ['nullable', 'string', 'max:500'],
+                'card_images.about' => ['nullable', 'string', 'max:500'],
+                'card_images.tawus' => ['nullable', 'string', 'max:500'],
+                'card_images.tawus_inset' => ['nullable', 'string', 'max:500'],
+                'card_images.tawus_gallery' => ['nullable', 'array', 'max:12'],
+                'card_images.tawus_gallery.*' => ['nullable', 'string', 'max:500'],
+            ];
+        }
+
         if ($request->has('contact')) {
             $rules += [
                 'contact.phone' => ['required', 'string', 'max:80'],
@@ -125,6 +137,7 @@ class SiteContentController extends Controller
                 'campaigns.*.description' => ['required', 'string', 'max:1000'],
                 'campaigns.*.target' => ['required', 'integer', 'min:0'],
                 'campaigns.*.target_ssp' => ['nullable', 'integer', 'min:0'],
+                'campaigns.*.image' => ['nullable', 'string', 'max:500'],
             ];
         }
 
@@ -173,6 +186,27 @@ class SiteContentController extends Controller
                 'constitution_facts.pillars' => ['nullable', 'array'],
                 'constitution_facts.pillars.*.label' => ['required', 'string', 'max:80'],
                 'constitution_facts.pillars.*.description' => ['required', 'string', 'max:500'],
+            ];
+        }
+
+        if ($request->has('community_story')) {
+            $rules += [
+                'community_story.title' => ['required', 'string', 'max:255'],
+                'community_story.body' => ['required', 'string', 'max:4000'],
+                'community_story.quote' => ['required', 'string', 'max:1000'],
+                'community_story.quote_attribution' => ['required', 'string', 'max:255'],
+                'community_story.name' => ['required', 'string', 'max:255'],
+                'community_story.role' => ['nullable', 'string', 'max:255'],
+                'community_story.image' => ['nullable', 'string', 'max:500'],
+            ];
+        }
+
+        if ($request->has('quotes')) {
+            $rules += [
+                'quotes' => ['required', 'array', 'min:1', 'max:12'],
+                'quotes.*.quote' => ['required', 'string', 'max:1000'],
+                'quotes.*.name' => ['required', 'string', 'max:255'],
+                'quotes.*.role' => ['nullable', 'string', 'max:255'],
             ];
         }
 

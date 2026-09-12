@@ -64,7 +64,7 @@ export default function AdminMediaIndex({ items, kind = 'gallery' }) {
                                 <div className="absolute left-2 top-2">
                                     <StatusBadge status="published" />
                                 </div>
-                                <div className="absolute inset-0 flex flex-col justify-between p-3 opacity-0 transition group-hover:opacity-100" style={{ background: 'rgba(0,30,30,0.55)' }}>
+                                <div className="absolute inset-0 flex flex-col justify-between p-3 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100" style={{ background: 'rgba(0,30,30,0.55)' }}>
                                     {canEditContent ? (
                                         <div className="flex justify-end gap-1">
                                             <button

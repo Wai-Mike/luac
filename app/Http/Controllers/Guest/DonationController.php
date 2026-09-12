@@ -17,12 +17,15 @@ class DonationController extends Controller
     {
         $data = $request->validated();
         $programs = FundraisingPrograms::all();
-        $program = $programs[$data['program']];
+        $title = $data['program'] === 'Support Girls Education'
+            ? 'Support 12 girls with materials'
+            : $data['program'];
+        $program = $programs[$title] ?? $programs[$data['program']];
 
         $campaign = FundraisingCampaign::query()->firstOrCreate(
-            ['title' => $data['program']],
+            ['title' => $title],
             [
-                'slug' => Str::slug($data['program']),
+                'slug' => Str::slug($title),
                 'description' => $program['description'],
                 'target_amount' => $program['target'],
                 'status' => 'active',

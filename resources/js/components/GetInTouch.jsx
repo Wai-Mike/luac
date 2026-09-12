@@ -4,9 +4,9 @@ export default function GetInTouch({
     variant = 'default', // 'default', 'minimal', 'detailed'
     showForm = false,
     contactInfo = {
-        email: 'layya.youth@gmail.com',
+        email: 'info@luac-akook-yieu.org',
         phone: '0927 779 952',
-        address: 'Hai Thongpiny, Juba, South Sudan',
+        address: 'Juba, South Sudan',
     },
 }) {
     const [formData, setFormData] = useState({

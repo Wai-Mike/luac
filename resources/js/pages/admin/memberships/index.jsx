@@ -227,21 +227,21 @@ export default function MembershipIndex({ members, year, filters = {}, stats = {
                         type="search"
                         defaultValue={search}
                         placeholder="Search name, phone, email…"
-                        className="min-w-[200px] flex-1 rounded-xl px-3 py-2 text-sm outline-none"
+                        className="min-w-0 w-full flex-1 rounded-xl px-3 py-2.5 text-sm outline-none sm:min-w-[200px] sm:w-auto"
                         style={{ border: `1.5px solid ${BORDER}` }}
                     />
-                    <button type="submit" className="rounded-xl px-4 py-2 text-sm font-semibold text-white" style={{ background: TEAL }}>
+                    <button type="submit" className="min-h-11 rounded-xl px-4 py-2 text-sm font-semibold text-white" style={{ background: TEAL }}>
                         Search
                     </button>
                     <a
                         href={route('admin.memberships.export', { year: selectedYear })}
-                        className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold"
+                        className="inline-flex min-h-11 items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold"
                         style={{ background: TEAL_LIGHT, color: TEAL }}
                     >
                         <Download className="h-4 w-4" />
                         Export Excel
                     </a>
-                    <Link href={route('admin.youth-members.index')} className="rounded-xl px-4 py-2 text-sm font-semibold" style={{ background: TEAL_LIGHT, color: TEAL }}>
+                    <Link href={route('admin.youth-members.index')} className="inline-flex min-h-11 items-center rounded-xl px-4 py-2 text-sm font-semibold" style={{ background: TEAL_LIGHT, color: TEAL }}>
                         Census records
                     </Link>
                 </form>

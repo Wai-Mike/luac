@@ -39,6 +39,8 @@ class YouthCensusRequest extends FormRequest
             'skills.*' => ['string', 'max:150'],
             'interests' => ['nullable', 'array'],
             'interests.*' => ['string', 'max:150'],
+            'barriers' => ['required', 'array', 'min:1'],
+            'barriers.*' => ['string', 'max:150'],
             'heard_about_layya' => ['nullable', 'string', 'max:255'],
             'consent' => ['accepted'],
         ];
@@ -47,6 +49,8 @@ class YouthCensusRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'barriers.required' => 'Please select at least one barrier you face.',
+            'barriers.min' => 'Please select at least one barrier you face.',
             'consent.accepted' => 'Please confirm consent before submitting.',
         ];
     }

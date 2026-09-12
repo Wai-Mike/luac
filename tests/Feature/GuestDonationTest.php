@@ -54,7 +54,7 @@ class GuestDonationTest extends TestCase
         $this->post(route('fundraising.donate'), [
             'name' => 'Jok Wuor',
             'phone' => '0927 000 222',
-            'program' => 'Support Girls Education',
+            'program' => 'Support 12 girls with materials',
             'amount' => 3500,
             'currency' => 'ssp',
             'payment_method' => 'cash',

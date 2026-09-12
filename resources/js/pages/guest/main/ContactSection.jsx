@@ -76,9 +76,9 @@ export default function ContactSection() {
     };
 
     const contactInfo = {
-        email: 'layya.youth@gmail.com',
-        phone: '+211 922 618 621',
-        location: 'Hai Thongpiny, Juba – South Sudan',
+        email: 'info@luac-akook-yieu.org',
+        phone: '0927 779 952',
+        location: 'Juba, South Sudan',
     };
 
     return (

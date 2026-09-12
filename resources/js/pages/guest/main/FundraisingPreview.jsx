@@ -1,7 +1,7 @@
 import GuestButton from '@/components/GuestButton';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
-import { campaignFigures, formatSsp, formatUsd } from '../data/money';
+import { campaignFigures, campaignTitle, formatSsp, formatUsd } from '../data/money';
 import useSiteContent from '@/hooks/useSiteContent';
 
 export default function FundraisingPreview({ raisedByProgram = {}, raisedSspByProgram = {} }) {
@@ -28,7 +28,7 @@ export default function FundraisingPreview({ raisedByProgram = {}, raisedSspByPr
                         return (
                             <FadeIn key={c.title} delay={i * 0.08}>
                                 <article className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 transition duration-200 hover:-translate-y-1">
-                                    <h3 className="font-sans text-lg font-semibold text-white">{c.title}</h3>
+                                    <h3 className="font-sans text-lg font-semibold text-white">{campaignTitle(c)}</h3>
                                     <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/12">
                                         <div
                                             className={`h-full rounded-full ${i % 2 === 0 ? 'bg-brand-light' : 'bg-amber'}`}

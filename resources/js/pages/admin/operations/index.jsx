@@ -22,13 +22,13 @@ export default function AdminOperations({ reports = [], meetings = [], tasks = [
             <Head title="Admin · Operations" />
             <div className="space-y-6">
                 {flash.success ? <div className="rounded-2xl px-4 py-3 text-sm" style={{ background: '#e8f5e9', color: '#2e7d32' }}>{flash.success}</div> : null}
-                <div className="flex flex-wrap gap-1 rounded-2xl p-1" style={{ background: SURFACE }}>
+                <div className="flex gap-1 overflow-x-auto rounded-2xl p-1 [-webkit-overflow-scrolling:touch]" style={{ background: SURFACE }}>
                     {TABS.map((item) => (
                         <button
                             key={item.id}
                             type="button"
                             onClick={() => setTab(item.id)}
-                            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
+                            className="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold"
                             style={{ background: tab === item.id ? '#fff' : 'transparent', color: tab === item.id ? TEAL : '#4a6b6b' }}
                         >
                             <item.icon className="h-4 w-4" />

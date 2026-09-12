@@ -8,6 +8,7 @@ import { BORDER, CAT, CAT_LIGHT, SURFACE, TEAL } from '@/lib/admin-theme';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 import { formatSsp, formatUsd } from '@/pages/guest/data/money';
+import { uploadPortrait } from '@/lib/upload-portrait';
 import { Download, HeartHandshake, Plus, Target, Users } from 'lucide-react';
 
 const fieldClass = 'w-full rounded-xl px-3 py-2.5 text-sm outline-none';
@@ -42,6 +43,7 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
             description: c.description || '',
             target: c.target || 0,
             target_ssp: c.target_ssp || 0,
+            image: c.image || '/images/cover.jpg',
         })),
     });
 
@@ -154,6 +156,11 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {campaigns.map((campaign, i) => (
                         <article key={campaign.title} className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                            {campaign.image ? (
+                                <div className="relative mb-3 aspect-video overflow-hidden rounded-xl bg-brand-dark">
+                                    <img src={campaign.image} alt="" className="h-full w-full object-cover" />
+                                </div>
+                            ) : null}
                             <div className="flex items-start justify-between gap-2">
                                 <h3 className="font-fraunces text-lg font-semibold text-brand-ink">{campaign.title}</h3>
                                 <StatusBadge status={campaign.status || 'active'} />
@@ -190,7 +197,7 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                                 setEditingGoals(true);
                                 campaignForm.setData('campaigns', [
                                     ...campaignForm.data.campaigns,
-                                    { title: 'New campaign', description: '', target: 0, target_ssp: 0 },
+                                    { title: 'New campaign', description: '', target: 0, target_ssp: 0, image: '/images/cover.jpg' },
                                 ]);
                             }}
                         >
@@ -213,15 +220,16 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                         style={{ border: `1px solid ${BORDER}` }}
                     >
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Amount needed for each campaign</h2>
-                        <p className="text-sm text-brand-muted">Enter the pound goal yourself. It is not converted from the dollar amount.</p>
-                        <div className="hidden gap-2 px-3 text-xs font-semibold uppercase tracking-wide text-brand-muted lg:grid lg:grid-cols-[1fr_1fr_140px_160px]">
+                        <p className="text-sm text-brand-muted">Enter the pound goal yourself. It is not converted from the dollar amount. Card photos stay until you replace them.</p>
+                        <div className="hidden gap-2 px-3 text-xs font-semibold uppercase tracking-wide text-brand-muted lg:grid lg:grid-cols-[1fr_1fr_140px_160px_1fr]">
                             <span>Campaign</span>
                             <span>Description</span>
                             <span>Needed (USD)</span>
                             <span>Needed (SSP)</span>
+                            <span>Card photo</span>
                         </div>
                         {campaignForm.data.campaigns.map((campaign, i) => (
-                            <div key={`camp-${i}`} className="grid gap-2 rounded-xl p-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_140px_160px]" style={{ background: SURFACE }}>
+                            <div key={`camp-${i}`} className="grid gap-2 rounded-xl p-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_140px_160px_1fr]" style={{ background: SURFACE }}>
                                 <div className="min-w-0">
                                     <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted lg:hidden">Campaign</label>
                                     <input
@@ -265,6 +273,27 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                                     onChange={(e) => campaignForm.setData('campaigns', campaignForm.data.campaigns.map((row, index) => (index === i ? { ...row, target_ssp: Number(e.target.value) } : row)))}
                                     aria-label="Amount needed in SSP"
                                 />
+                                </div>
+                                <div className="min-w-0">
+                                    <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted lg:hidden">Card photo</label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        className={fieldClass}
+                                        style={fieldStyle}
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) {
+                                                uploadPortrait(file, (url) =>
+                                                    campaignForm.setData(
+                                                        'campaigns',
+                                                        campaignForm.data.campaigns.map((row, index) => (index === i ? { ...row, image: url } : row)),
+                                                    ),
+                                                );
+                                            }
+                                        }}
+                                        aria-label="Campaign card photo"
+                                    />
                                 </div>
                             </div>
                         ))}

@@ -27,10 +27,22 @@ class FundraisingPrograms
                 'target' => (int) ($campaign['target'] ?? 0),
                 'target_ssp' => (int) ($campaign['target_ssp'] ?? 0),
                 'description' => (string) ($campaign['description'] ?? ''),
+                'image' => (string) ($campaign['image'] ?? '/images/cover.jpg'),
             ];
         }
 
-        return $fromCms !== [] ? $fromCms : self::fallback();
+        $programs = $fromCms !== [] ? $fromCms : self::fallback();
+
+        $newTitle = 'Support 12 girls with materials';
+        $oldTitle = 'Support Girls Education';
+        if (isset($programs[$oldTitle]) && ! isset($programs[$newTitle])) {
+            $programs[$newTitle] = $programs[$oldTitle];
+        }
+        if (isset($programs[$newTitle])) {
+            $programs[$oldTitle] = $programs[$newTitle];
+        }
+
+        return $programs;
     }
 
     /**
@@ -39,30 +51,35 @@ class FundraisingPrograms
     public static function fallback(): array
     {
         return [
-            'Support Girls Education' => [
+            'Support 12 girls with materials' => [
                 'target' => 25000,
                 'target_ssp' => 0,
-                'description' => 'Scholarship support, learning materials, and safe transport where possible.',
+                'description' => 'Learning materials and school support for 12 girls.',
+                'image' => '/images/education1.jpg',
             ],
             'Youth Skills Training' => [
                 'target' => 18000,
                 'target_ssp' => 0,
                 'description' => 'Vocational and digital skills sessions for employability and confidence.',
+                'image' => '/images/education.jpg',
             ],
             'Community Safe Spaces' => [
                 'target' => 32000,
                 'target_ssp' => 0,
                 'description' => 'Rent, utilities, and supplies for youth-friendly hubs and mentors.',
+                'image' => '/images/cover1.jpg',
             ],
             'Sports & Culture Program' => [
                 'target' => 14000,
                 'target_ssp' => 0,
                 'description' => 'Equipment, events, and coaches for football, culture, and wellness.',
+                'image' => '/images/football.jpg',
             ],
             'Digital Youth Lab' => [
                 'target' => 22000,
                 'target_ssp' => 0,
                 'description' => 'Devices, connectivity stipends, and peer trainers for digital literacy.',
+                'image' => '/images/Youth-engagement.jpeg',
             ],
         ];
     }
@@ -82,10 +99,29 @@ class FundraisingPrograms
             ->groupBy('fundraising_campaigns.title')
             ->get();
 
+        $usd = $rows->pluck('raised_usd', 'title')->map(fn ($value) => (float) $value)->all();
+        $ssp = $rows->pluck('raised_ssp', 'title')->map(fn ($value) => (float) $value)->all();
+
         return [
-            'usd' => $rows->pluck('raised_usd', 'title')->map(fn ($value) => (float) $value)->all(),
-            'ssp' => $rows->pluck('raised_ssp', 'title')->map(fn ($value) => (float) $value)->all(),
+            'usd' => self::mergeLegacyCampaignTotals($usd),
+            'ssp' => self::mergeLegacyCampaignTotals($ssp),
         ];
+    }
+
+    /**
+     * @param  array<string, float>  $totals
+     * @return array<string, float>
+     */
+    private static function mergeLegacyCampaignTotals(array $totals): array
+    {
+        $old = $totals['Support Girls Education'] ?? 0;
+        $new = $totals['Support 12 girls with materials'] ?? 0;
+        if ($old > 0 || $new > 0) {
+            $totals['Support 12 girls with materials'] = $old + $new;
+            $totals['Support Girls Education'] = $old + $new;
+        }
+
+        return $totals;
     }
 
     /**

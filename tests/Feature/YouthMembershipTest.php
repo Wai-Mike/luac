@@ -23,6 +23,16 @@ class YouthMembershipTest extends TestCase
         $this->assertDatabaseCount('youth_members', 0);
     }
 
+    public function test_census_registration_requires_barriers(): void
+    {
+        $this->from(route('youth-census.register'))
+            ->post(route('youth-census.store'), $this->censusPayload(['barriers' => []]))
+            ->assertRedirect(route('youth-census.register'))
+            ->assertSessionHasErrors('barriers');
+
+        $this->assertDatabaseCount('youth_members', 0);
+    }
+
     public function test_census_registration_opens_this_years_membership_and_notifies_admins(): void
     {
         $this->post(route('youth-census.store'), $this->censusPayload())->assertRedirect(route('youth-census.thank-you'));
@@ -210,6 +220,7 @@ class YouthMembershipTest extends TestCase
             'profession' => 'Nurse',
             'skills' => ['Welding-secret'],
             'interests' => ['Sports'],
+            'barriers' => ['School fees'],
             'consent' => true,
         ], $overrides);
     }

@@ -2,7 +2,7 @@ import GuestLayout from '@/layouts/GuestLayout';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
 
-export default function Reports({ reports = [], reportGallery = [] }) {
+export default function Reports({ reports = [], heroImage }) {
     return (
         <GuestLayout title="Reports">
             <PageHero
@@ -10,7 +10,7 @@ export default function Reports({ reports = [], reportGallery = [] }) {
                 title="What we share"
                 italic="with the community"
                 subtitle="Public summaries of programs, Tawus Hub, and the youth census — published when they are ready."
-                image={reportGallery[0]}
+                image={heroImage}
             />
             <section className="bg-white py-20 md:py-28">
                 <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">

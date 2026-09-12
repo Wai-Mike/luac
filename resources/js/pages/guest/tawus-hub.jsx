@@ -6,9 +6,12 @@ import PageHero from './components/PageHero';
 import SectionLabel from './components/SectionLabel';
 import useSiteContent from '@/hooks/useSiteContent';
 
-export default function TawusHub({ galleryImages = [], heroImage }) {
-    const { tawusHub } = useSiteContent();
+export default function TawusHub({ heroImage }) {
+    const { tawusHub, cardImages } = useSiteContent();
     const skills = tawusHub.skills?.length ? tawusHub.skills : ['Decor & event styling', 'Braiding & beauty', 'Manicure & pedicure', 'Mentorship circles', 'Wellbeing support', 'Peer leadership'];
+    const featuredImage = cardImages.tawus || '/images/cover1.jpg';
+    const insetImage = cardImages.tawus_inset || '/images/nyalith.jpg';
+    const galleryImages = (cardImages.tawus_gallery?.length ? cardImages.tawus_gallery : [featuredImage, insetImage]).slice(0, 6);
     return (
         <GuestLayout title="Tawus Hub">
             <PageHero
@@ -23,20 +26,20 @@ export default function TawusHub({ galleryImages = [], heroImage }) {
                     <FadeIn>
                         <div className="relative">
                             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-brand-dark">
-                                {galleryImages[0] ? (
-                                    <img src={galleryImages[0]} alt="" className="photo-fill" />
+                                {featuredImage ? (
+                                    <img src={featuredImage} alt="" className="photo-fill" />
                                 ) : null}
                             </div>
                             <div className="absolute -bottom-6 -right-4 w-40 overflow-hidden rounded-3xl border-4 border-white shadow-2xl md:-right-8 md:w-52">
                                 <div className="relative aspect-square bg-brand">
-                                    {galleryImages[1] ? (
-                                        <img src={galleryImages[1]} alt="" className="photo-fill" />
+                                    {insetImage ? (
+                                        <img src={insetImage} alt="" className="photo-fill" />
                                     ) : null}
                                 </div>
                             </div>
                             <div className="absolute -left-2 top-6 rounded-2xl bg-amber px-4 py-3 text-brand-ink shadow-lg md:-left-4">
                                 <p className="font-display text-lg font-bold">Tawus Day</p>
-                                <p className="text-xs text-white/80">Annual cultural celebration</p>
+                                <p className="text-xs font-medium text-brand-ink/80">Annual cultural celebration</p>
                             </div>
                         </div>
                     </FadeIn>

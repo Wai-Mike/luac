@@ -75,11 +75,17 @@ class DonationInboxController extends Controller
             'campaigns.*.description' => ['nullable', 'string', 'max:1000'],
             'campaigns.*.target' => ['required', 'numeric', 'min:0'],
             'campaigns.*.target_ssp' => ['nullable', 'numeric', 'min:0'],
+            'campaigns.*.image' => ['nullable', 'string', 'max:500'],
         ]);
 
-        $campaigns = array_map(function (array $row) {
+        $existingImages = collect(SiteContentRepository::get()['campaigns'] ?? [])->pluck('image', 'title');
+
+        $campaigns = array_map(function (array $row) use ($existingImages) {
             $row['description'] = $row['description'] ?? '';
             $row['target_ssp'] = (float) ($row['target_ssp'] ?? 0);
+            $row['image'] = filled($row['image'] ?? null)
+                ? $row['image']
+                : (string) ($existingImages[$row['title']] ?? '/images/cover.jpg');
 
             return $row;
         }, $validated['campaigns']);
@@ -168,6 +174,7 @@ class DonationInboxController extends Controller
             return [
                 'title' => $title,
                 'description' => $meta['description'],
+                'image' => $meta['image'] ?? '/images/cover.jpg',
                 'target' => $target,
                 'target_ssp' => $targetSsp,
                 'raised' => $raisedUsd,

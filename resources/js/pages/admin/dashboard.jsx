@@ -51,11 +51,11 @@ export default function AdminDashboard({
                     <KpiCard icon={Image} value={stats.gallery_items ?? 0} label="Gallery photos" hint={`${stats.video_items ?? 0} videos`} />
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-3">
-                    <div className="rounded-2xl bg-white p-5 lg:col-span-2" style={{ border: `1px solid ${BORDER}` }}>
+                <div className="grid min-w-0 gap-4 lg:grid-cols-3">
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5 lg:col-span-2" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Monthly registrations</h2>
                         <p className="mb-4 text-xs text-brand-muted">Youth census sign-ups over the last year</p>
-                        <div className="h-64">
+                        <div className="h-56 min-w-0 sm:h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={monthly}>
                                     <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
@@ -75,9 +75,9 @@ export default function AdminDashboard({
                         </div>
                     </div>
 
-                    <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Gender distribution</h2>
-                        <div className="mx-auto h-48">
+                        <div className="mx-auto h-48 min-w-0">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
                                     <Pie data={gender} dataKey="value" innerRadius={50} outerRadius={72} paddingAngle={2} strokeWidth={0}>
@@ -105,10 +105,10 @@ export default function AdminDashboard({
                     </div>
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-3">
-                    <div className="rounded-2xl bg-white p-5 lg:col-span-2" style={{ border: `1px solid ${BORDER}` }}>
+                <div className="grid min-w-0 gap-4 lg:grid-cols-3">
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5 lg:col-span-2" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by payam</h2>
-                        <div className="mt-4 h-64">
+                        <div className="mt-4 h-56 min-w-0 sm:h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={payam} barSize={22} barCategoryGap="30%">
                                     <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
@@ -125,7 +125,7 @@ export default function AdminDashboard({
                         </div>
                     </div>
 
-                    <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Activity</h2>
                         <ul className="mt-4 space-y-3">
                             {(recent_activity.length ? recent_activity : recent_youth).slice(0, 6).map((entry, i) => (

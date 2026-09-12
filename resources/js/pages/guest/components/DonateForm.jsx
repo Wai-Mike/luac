@@ -1,12 +1,13 @@
 import { useForm, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import useSiteContent from '@/hooks/useSiteContent';
+import { campaignTitle } from '../data/money';
 
 const paymentMethods = [
-    { value: 'mobile_money', label: 'Mobile money' },
-    { value: 'cash', label: 'Cash' },
+    { value: 'mobile_money', label: 'MPESA / MTN Mobile Money' },
     { value: 'bank', label: 'Bank transfer' },
-    { value: 'other', label: 'Other' },
+    { value: 'cash', label: 'Cash' },
+    { value: 'other', label: 'Contact us for details' },
 ];
 
 export default function DonateForm({ selectedProgram = '' }) {
@@ -94,9 +95,9 @@ export default function DonateForm({ selectedProgram = '' }) {
                     value={data.program}
                     onChange={(e) => setData('program', e.target.value)}
                 >
-                    {programs.map((title) => (
-                        <option key={title} value={title}>
-                            {title}
+                    {campaigns.map((campaign) => (
+                        <option key={campaign.title} value={campaign.title}>
+                            {campaignTitle(campaign)}
                         </option>
                     ))}
                 </select>

@@ -43,25 +43,25 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                         type="search"
                         defaultValue={search}
                         placeholder="Search name, phone, email…"
-                        className="min-w-[200px] flex-1 rounded-xl px-3 py-2 text-sm outline-none"
+                        className="min-w-0 w-full flex-1 rounded-xl px-3 py-2.5 text-sm outline-none sm:min-w-[200px] sm:w-auto"
                         style={{ border: `1.5px solid ${BORDER}` }}
                     />
-                    <button type="submit" className="rounded-xl px-4 py-2 text-sm font-semibold text-white" style={{ background: TEAL }}>
+                    <button type="submit" className="min-h-11 rounded-xl px-4 py-2 text-sm font-semibold text-white" style={{ background: TEAL }}>
                         Search
                     </button>
                     <a
                         href={route('admin.youth-members.export')}
-                        className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold"
+                        className="inline-flex min-h-11 items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold"
                         style={{ background: TEAL_LIGHT, color: TEAL }}
                     >
                         <Download className="h-4 w-4" />
                         Export Excel
                     </a>
-                    <Link href={route('admin.memberships.index')} className="rounded-xl px-4 py-2 text-sm font-semibold" style={{ background: TEAL_LIGHT, color: TEAL }}>
+                    <Link href={route('admin.memberships.index')} className="inline-flex min-h-11 items-center rounded-xl px-4 py-2 text-sm font-semibold" style={{ background: TEAL_LIGHT, color: TEAL }}>
                         Membership fees
                     </Link>
                     {canEditContent ? (
-                        <Link href="/admin/youth-members/create" className="rounded-xl px-4 py-2 text-sm font-semibold" style={{ background: TEAL_LIGHT, color: TEAL }}>
+                        <Link href="/admin/youth-members/create" className="inline-flex min-h-11 items-center rounded-xl px-4 py-2 text-sm font-semibold" style={{ background: TEAL_LIGHT, color: TEAL }}>
                             Add record
                         </Link>
                     ) : null}
@@ -101,7 +101,7 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                                     <td className="px-4 py-3 text-brand-muted">{m.payam || m.county || '—'}</td>
                                     <td className="px-4 py-3 text-brand-muted">{m.profession || '—'}</td>
                                     <td className="px-4 py-3">
-                                        <div className="flex justify-end gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                                        <div className="flex justify-end gap-1 sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100">
                                             <Link href={`/admin/youth-members/${m.id}`} className="rounded-lg p-1.5 text-brand-muted hover:text-brand">
                                                 <Eye className="h-4 w-4" />
                                             </Link>
@@ -130,10 +130,10 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                     )}
                 </AdminTable>
 
-                <div className="grid gap-4 lg:grid-cols-2">
-                    <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by payam</h2>
-                        <div className="mt-4 h-64">
+                        <div className="mt-4 h-56 min-w-0 sm:h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={chartData} barSize={22} barCategoryGap="30%">
                                     <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
@@ -149,9 +149,9 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                             </ResponsiveContainer>
                         </div>
                     </div>
-                    <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by profession</h2>
-                        <div className="mt-4 h-64">
+                        <div className="mt-4 h-56 min-w-0 sm:h-64">
                             {professions.length ? (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={professions} barSize={22} barCategoryGap="30%">

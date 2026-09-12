@@ -3,21 +3,8 @@ import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
 import useSiteContent from '@/hooks/useSiteContent';
 
-const testimonials = [
-    {
-        quote: 'LAYYA helped me believe my voice matters — we turned our ideas into a real community project.',
-        name: 'Youth participant',
-        role: 'Luac Akook Yieu',
-    },
-    {
-        quote: 'The mentorship and safe space changed how I plan my future.',
-        name: 'Program alum',
-        role: 'Juba',
-    },
-];
-
 export default function Impact() {
-    const { impactStats } = useSiteContent();
+    const { impactStats, quotes } = useSiteContent();
     return (
         <GuestLayout title="Impact">
             <PageHero
@@ -39,7 +26,7 @@ export default function Impact() {
                         ))}
                     </div>
                     <div className="mt-16 grid gap-8 lg:grid-cols-2">
-                        {testimonials.map((t, i) => (
+                        {quotes.map((t, i) => (
                             <FadeIn key={t.name} delay={0.1 + i * 0.06}>
                                 <blockquote className="h-full rounded-3xl bg-brand-dark p-8 text-white">
                                     <p className="text-[16px] leading-relaxed text-white/80">“{t.quote}”</p>

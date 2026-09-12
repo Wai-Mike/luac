@@ -11,7 +11,7 @@ export const brand = {
 export const hero = {
     headline: 'Building Community. Supporting Youth. Creating Change.',
     subtext:
-        'Luac Akook De Yieu Youth Association (LAYYA) empowers young people through leadership, skills-building, creativity, gender equality, and community action — connecting youth to mentors, opportunities, and safe spaces where their ideas can grow.',
+        'LAYYA — Luac Akook Yieu Youth Association — empowers young people through leadership, skills-building, creativity, gender equality, and community action — connecting youth to mentors, opportunities, and safe spaces where their ideas can grow.',
 };
 
 export const aboutPreview = {
@@ -83,13 +83,14 @@ export const programsDetail = [
 
 export const campaigns = [
     {
-        title: 'Support Girls Education',
-        description: 'Scholarship support, learning materials, and safe transport where possible.',
+        title: 'Support 12 girls with materials',
+        description: 'Learning materials and school support for 12 girls.',
         targetLabel: 'Goal (placeholder)',
         target: 25000,
         target_ssp: 0,
         raised: 0,
         raised_ssp: 0,
+        image: '/images/education1.jpg',
     },
     {
         title: 'Youth Skills Training',
@@ -99,6 +100,7 @@ export const campaigns = [
         target_ssp: 0,
         raised: 0,
         raised_ssp: 0,
+        image: '/images/education.jpg',
     },
     {
         title: 'Community Safe Spaces',
@@ -108,6 +110,7 @@ export const campaigns = [
         target_ssp: 0,
         raised: 0,
         raised_ssp: 0,
+        image: '/images/cover1.jpg',
     },
     {
         title: 'Sports & Culture Program',
@@ -117,6 +120,7 @@ export const campaigns = [
         target_ssp: 0,
         raised: 0,
         raised_ssp: 0,
+        image: '/images/football.jpg',
     },
     {
         title: 'Digital Youth Lab',
@@ -126,6 +130,7 @@ export const campaigns = [
         target_ssp: 0,
         raised: 0,
         raised_ssp: 0,
+        image: '/images/Youth-engagement.jpeg',
     },
 ];
 
@@ -137,6 +142,27 @@ export const galleryThemes = [
     { caption: 'Tawus Hub activities', tag: 'Tawus Hub' },
     { caption: 'Volunteer service', tag: 'Service' },
 ];
+
+export const galleryPhotos = [
+    { src: '/images/cover.jpg', caption: 'Cultural Day 2025 — Celebrating Luac Heritage', category: 'Culture', wide: true },
+    { src: '/images/cover1.jpg', caption: 'Tawus Day 2025 — Girls, mentors and families', category: 'Tawus Hub', wide: true },
+    { src: '/images/education.jpg', caption: 'Learning circle — youth skills in Juba', category: 'Programs', wide: true },
+    { src: '/images/education1.jpg', caption: 'Classroom session — girls education support', category: 'Programs', wide: true },
+    { src: '/images/football.jpg', caption: 'Sports day 2025 — football for unity', category: 'Sports', wide: true },
+    { src: '/images/youth.jpg', caption: 'Youth leadership meeting in Juba', category: 'Community', wide: true },
+    { src: '/images/Youth-engagement.jpeg', caption: 'Youth engagement workshop with LAYYA', category: 'Programs' },
+    { src: '/images/Gender-equality.jpeg', caption: 'Gender equality session for Luac girls', category: 'Programs' },
+    { src: '/images/Women Empowerment.jpeg', caption: 'Women empowerment gathering 2025', category: 'Community' },
+    { src: '/images/Executive.jpeg', caption: 'LAYYA executive planning with youth', category: 'Community', wide: true },
+    { src: '/images/nyalith.jpg', caption: 'Mentorship at Tawus Hub — Angelina Nyalith', category: 'Tawus Hub' },
+    { src: '/images/akur.jpg', caption: 'Girls leadership circle — Luac youth', category: 'Programs' },
+    { src: '/images/chuchu.jpg', caption: 'Cultural celebration with LAYYA youth', category: 'Culture' },
+    { src: '/images/Jok-wuor.jpg', caption: 'Secretary General with community members', category: 'Community' },
+    { src: '/images/Akon-Mawai.jpg', caption: 'Community outreach in Juba', category: 'Community' },
+    { src: '/images/abong.jpeg', caption: 'LAYYA members at a community visit', category: 'Community' },
+];
+
+export const homeCarouselPhotos = galleryPhotos.filter((photo) => photo.wide);
 
 const portraits = [
     '/images/akur.jpg',
@@ -270,7 +296,7 @@ export const faqs = [
     },
     {
         q: 'How can I donate?',
-        a: 'Visit the Fundraising page, choose a program, and fill in your name, phone, amount in South Sudanese pounds or US dollars, and how you are paying.',
+        a: 'Visit the Fundraising page, choose a program, and pay by bank transfer, MPESA, MTN, or contact us for details.',
     },
     {
         q: 'How do I volunteer or partner?',
@@ -291,7 +317,7 @@ export const constitutionFacts = {
     status: 'LAYYA is a non-political youth association.',
     aim: 'Building unity and patriotic participation of youth in the development of Luac community.',
     languages: 'Thong-de-Jieng (Dinka), English and Arabic. All religions are respected equally.',
-    places: 'Juba and other branches where Luac youth live.',
+    places: 'Juba, South Sudan.',
     membership: 'Luac youth aged 18–45. Women have the right to take part in all leadership.',
     term: 'Central and Branch Executive offices last two years, with one possible extra term.',
     symbols: [

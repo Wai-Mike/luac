@@ -64,12 +64,22 @@ class SiteMediaRepository
     public static function fallbackGallery(): array
     {
         $pool = [
-            ['src' => '/images/cover.jpg', 'caption' => 'Community gathering', 'title' => 'Community gathering', 'tag' => 'Community', 'category' => 'Community', 'date' => '10 Sep 2026', 'status' => 'published'],
-            ['src' => '/images/education.jpg', 'caption' => 'Education & skills', 'title' => 'Education & skills', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '08 Sep 2026', 'status' => 'published'],
-            ['src' => '/images/football.jpg', 'caption' => 'Sports and unity', 'title' => 'Sports and unity', 'tag' => 'Sports', 'category' => 'Sports', 'date' => '04 Sep 2026', 'status' => 'published'],
-            ['src' => '/images/cover1.jpg', 'caption' => 'Tawus Hub', 'title' => 'Tawus Hub', 'tag' => 'Tawus Hub', 'category' => 'Tawus Hub', 'date' => '01 Sep 2026', 'status' => 'published'],
-            ['src' => '/images/youth.jpg', 'caption' => 'Youth leadership', 'title' => 'Youth leadership', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '28 Aug 2026', 'status' => 'published'],
-            ['src' => '/images/education1.jpg', 'caption' => 'Learning circles', 'title' => 'Learning circles', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '20 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/cover.jpg', 'caption' => 'Cultural Day 2025 — Celebrating Luac Heritage', 'title' => 'Cultural Day 2025 — Celebrating Luac Heritage', 'tag' => 'Culture', 'category' => 'Culture', 'date' => '10 Sep 2026', 'status' => 'published'],
+            ['src' => '/images/cover1.jpg', 'caption' => 'Tawus Day 2025 — Girls, mentors and families', 'title' => 'Tawus Day 2025 — Girls, mentors and families', 'tag' => 'Tawus Hub', 'category' => 'Tawus Hub', 'date' => '01 Sep 2026', 'status' => 'published'],
+            ['src' => '/images/education.jpg', 'caption' => 'Learning circle — youth skills in Juba', 'title' => 'Learning circle — youth skills in Juba', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '08 Sep 2026', 'status' => 'published'],
+            ['src' => '/images/education1.jpg', 'caption' => 'Classroom session — girls education support', 'title' => 'Classroom session — girls education support', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '20 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/football.jpg', 'caption' => 'Sports day 2025 — football for unity', 'title' => 'Sports day 2025 — football for unity', 'tag' => 'Sports', 'category' => 'Sports', 'date' => '04 Sep 2026', 'status' => 'published'],
+            ['src' => '/images/youth.jpg', 'caption' => 'Youth leadership meeting in Juba', 'title' => 'Youth leadership meeting in Juba', 'tag' => 'Community', 'category' => 'Community', 'date' => '28 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/Youth-engagement.jpeg', 'caption' => 'Youth engagement workshop with LAYYA', 'title' => 'Youth engagement workshop with LAYYA', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '22 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/Gender-equality.jpeg', 'caption' => 'Gender equality session for Luac girls', 'title' => 'Gender equality session for Luac girls', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '18 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/Women Empowerment.jpeg', 'caption' => 'Women empowerment gathering 2025', 'title' => 'Women empowerment gathering 2025', 'tag' => 'Community', 'category' => 'Community', 'date' => '12 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/Executive.jpeg', 'caption' => 'LAYYA executive planning with youth', 'title' => 'LAYYA executive planning with youth', 'tag' => 'Community', 'category' => 'Community', 'date' => '08 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/nyalith.jpg', 'caption' => 'Mentorship at Tawus Hub — Angelina Nyalith', 'title' => 'Mentorship at Tawus Hub — Angelina Nyalith', 'tag' => 'Tawus Hub', 'category' => 'Tawus Hub', 'date' => '04 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/akur.jpg', 'caption' => 'Girls leadership circle — Luac youth', 'title' => 'Girls leadership circle — Luac youth', 'tag' => 'Programs', 'category' => 'Programs', 'date' => '01 Aug 2026', 'status' => 'published'],
+            ['src' => '/images/chuchu.jpg', 'caption' => 'Cultural celebration with LAYYA youth', 'title' => 'Cultural celebration with LAYYA youth', 'tag' => 'Culture', 'category' => 'Culture', 'date' => '28 Jul 2026', 'status' => 'published'],
+            ['src' => '/images/Jok-wuor.jpg', 'caption' => 'Secretary General with community members', 'title' => 'Secretary General with community members', 'tag' => 'Community', 'category' => 'Community', 'date' => '20 Jul 2026', 'status' => 'published'],
+            ['src' => '/images/Akon-Mawai.jpg', 'caption' => 'Community outreach in Juba', 'title' => 'Community outreach in Juba', 'tag' => 'Community', 'category' => 'Community', 'date' => '14 Jul 2026', 'status' => 'published'],
+            ['src' => '/images/abong.jpeg', 'caption' => 'LAYYA members at a community visit', 'title' => 'LAYYA members at a community visit', 'tag' => 'Community', 'category' => 'Community', 'date' => '08 Jul 2026', 'status' => 'published'],
         ];
 
         return array_values(array_filter($pool, fn (array $item) => is_file(public_path(ltrim($item['src'], '/')))));

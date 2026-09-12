@@ -185,6 +185,7 @@ export default function YouthCensusRegister() {
                 ...(d.barriers || []),
                 d.goals ? `Goal: ${d.goals}` : null,
             ].filter(Boolean),
+            barriers: d.barriers || [],
             consent: d.consent,
         }));
     }, [transform]);
@@ -225,9 +226,13 @@ export default function YouthCensusRegister() {
         setStep((s) => Math.min(5, s + 1));
     }
 
+    function canSubmit() {
+        return data.consent && data.barriers.length > 0;
+    }
+
     function submit(e) {
         e.preventDefault();
-        if (!data.consent) {
+        if (!canSubmit()) {
             return;
         }
         post(route('youth-census.store'));
@@ -495,7 +500,10 @@ export default function YouthCensusRegister() {
                         {step === 5 && (
                             <div className="space-y-6">
                                 <div>
-                                    <p className="field-label">Barriers you face</p>
+                                    <p className="field-label">
+                                        Barriers you face <span className="text-red-600">*</span>
+                                    </p>
+                                    <p className="mb-2 text-xs text-brand-muted">Select at least one.</p>
                                     <div className="grid grid-cols-2 gap-2">
                                         {BARRIERS.map((item) => (
                                             <CheckPill key={item} selected={data.barriers.includes(item)} onClick={() => toggle('barriers', item)}>
@@ -503,6 +511,7 @@ export default function YouthCensusRegister() {
                                             </CheckPill>
                                         ))}
                                     </div>
+                                    {errors.barriers ? <p className="mt-1 text-xs text-red-600">{errors.barriers}</p> : null}
                                 </div>
                                 <div>
                                     <label className="flex cursor-pointer items-start gap-3 rounded-2xl bg-brand-soft p-4 text-sm text-brand-muted">
@@ -531,7 +540,7 @@ export default function YouthCensusRegister() {
                                     Continue
                                 </GuestButton>
                             ) : (
-                                <GuestButton type="submit" variant="amber" disabled={processing || !data.consent}>
+                                <GuestButton type="submit" variant="amber" disabled={processing || !canSubmit()}>
                                     {processing ? 'Submitting…' : 'Submit'}
                                 </GuestButton>
                             )}

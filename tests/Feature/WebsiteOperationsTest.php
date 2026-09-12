@@ -30,15 +30,84 @@ class WebsiteOperationsTest extends TestCase
             ->assertInertia(fn ($page) => $page
                 ->component('guest/programs')
                 ->missing('programsGallery')
-                ->where('programsHeroImage', '/images/education.jpg')
+                ->has('programsHeroImage')
                 ->where('site.programs.0.title', 'Youth Empowerment Lab')
                 ->where('site.programs.0.image', '/images/education.jpg'));
 
         $this->get(route('programs'))
             ->assertOk()
             ->assertInertia(fn ($page) => $page
-                ->where('programsHeroImage', '/images/education.jpg')
+                ->has('programsHeroImage')
                 ->where('site.programs.0.image', '/images/education.jpg'));
+    }
+
+    public function test_public_card_photos_are_static_and_heroes_rotate(): void
+    {
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('guest/main/index')
+                ->has('heroImage')
+                ->missing('homeGallery')
+                ->where('site.card_images.mission', '/images/youth.jpg')
+                ->where('site.card_images.vision', '/images/education.jpg')
+                ->where('site.card_images.tawus', '/images/cover1.jpg')
+                ->where('site.campaigns.0.image', '/images/education1.jpg')
+                ->where('site.campaigns.1.image', '/images/education.jpg'));
+
+        $this->get(route('fundraising'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->has('heroImage')
+                ->where('site.campaigns.0.image', '/images/education1.jpg'));
+    }
+
+    public function test_admin_can_replace_a_static_card_photo(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $cards = SiteContentRepository::defaults()['card_images'];
+        $cards['mission'] = '/images/football.jpg';
+
+        $this->actingAs($admin)
+            ->put(route('admin.content.site.update'), [
+                'card_images' => $cards,
+                'redirect' => 'admin.content.site.edit',
+            ])
+            ->assertRedirect(route('admin.content.site.edit'));
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('site.card_images.mission', '/images/football.jpg')
+                ->where('site.card_images.vision', '/images/education.jpg'));
+    }
+
+    public function test_admin_can_update_the_community_story_quote(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $story = SiteContentRepository::defaults()['community_story'];
+        $story['quote'] = 'LAYYA trained my daughter and trusted her with real work.';
+        $quotes = SiteContentRepository::defaults()['quotes'];
+        $quotes[0]['quote'] = $story['quote'];
+
+        $this->actingAs($admin)
+            ->put(route('admin.content.site.update'), [
+                'community_story' => $story,
+                'quotes' => $quotes,
+                'redirect' => 'admin.content.site.edit',
+            ])
+            ->assertRedirect(route('admin.content.site.edit'));
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('site.community_story.quote', $story['quote'])
+                ->where('site.community_story.name', 'Angelina Nyalith Agoth'));
+
+        $this->get(route('impact'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('site.quotes.0.quote', $story['quote']));
     }
 
     public function test_executive_can_schedule_a_meeting_and_assign_a_task(): void

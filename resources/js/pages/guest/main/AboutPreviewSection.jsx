@@ -3,8 +3,10 @@ import useSiteContent, { splitLines } from '@/hooks/useSiteContent';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 
-export default function AboutPreviewSection({ aboutImage, visionImage }) {
-    const { missionVision } = useSiteContent();
+export default function AboutPreviewSection() {
+    const { missionVision, cardImages } = useSiteContent();
+    const aboutImage = cardImages.mission || '/images/youth.jpg';
+    const visionImage = cardImages.vision || '/images/education.jpg';
     const headingLines = splitLines(missionVision.heading);
 
     return (
@@ -25,12 +27,12 @@ export default function AboutPreviewSection({ aboutImage, visionImage }) {
                     <FadeIn>
                         <article className="relative h-80 overflow-hidden rounded-3xl bg-brand-dark md:h-96">
                             {aboutImage ? (
-                                <img src={aboutImage} alt="" className="photo-fill opacity-60 transition duration-500 hover:opacity-75" />
+                                <img src={aboutImage} alt="" className="photo-fill" />
                             ) : null}
-                            <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/55 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
                             <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
-                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber">Mission</p>
-                                <p className="max-w-md text-xl font-semibold leading-snug text-white sm:text-2xl md:text-3xl">
+                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber drop-shadow">Mission</p>
+                                <p className="max-w-md text-xl font-semibold leading-snug text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] sm:text-2xl md:text-3xl">
                                     {missionVision.mission}
                                 </p>
                             </div>
@@ -39,12 +41,12 @@ export default function AboutPreviewSection({ aboutImage, visionImage }) {
                     <FadeIn delay={0.1}>
                         <article className="relative h-80 overflow-hidden rounded-3xl bg-[#1a3333] md:h-96">
                             {visionImage ? (
-                                <img src={visionImage} alt="" className="photo-fill opacity-60 transition duration-500 hover:opacity-75" />
+                                <img src={visionImage} alt="" className="photo-fill" />
                             ) : null}
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#1a3333] via-[#1a3333]/55 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
                             <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
-                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-brand-light">Vision</p>
-                                <p className="max-w-md text-xl font-semibold leading-snug text-white sm:text-2xl md:text-3xl">
+                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber drop-shadow">Vision</p>
+                                <p className="max-w-md text-xl font-semibold leading-snug text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.65)] sm:text-2xl md:text-3xl">
                                     {missionVision.vision}
                                 </p>
                             </div>

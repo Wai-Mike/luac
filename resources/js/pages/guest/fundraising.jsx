@@ -4,7 +4,7 @@ import DonateForm from './components/DonateForm';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
 import SectionLabel from './components/SectionLabel';
-import { campaignFigures, formatSsp, formatUsd } from './data/money';
+import { campaignFigures, campaignTitle, formatSsp, formatUsd } from './data/money';
 import useSiteContent from '@/hooks/useSiteContent';
 
 function donateHref(title) {
@@ -30,10 +30,10 @@ export default function Fundraising({ heroImage, raisedByProgram = {}, raisedSsp
                             <FadeIn key={c.title} delay={i * 0.06} className="min-w-0">
                                 <article className="overflow-hidden rounded-2xl border border-brand/10 bg-white">
                                     <div className="relative h-36 bg-brand-dark sm:h-40">
-                                        {heroImage ? <img src={heroImage} alt="" className="photo-fill opacity-80" /> : null}
+                                        {c.image ? <img src={c.image} alt="" className="photo-fill opacity-95" /> : null}
                                     </div>
                                     <div className="p-4 sm:p-6">
-                                        <h3 className="break-words">{c.title}</h3>
+                                        <h3 className="break-words">{campaignTitle(c)}</h3>
                                         <p className="mt-2 text-sm text-brand-muted">{c.description}</p>
                                         <div className="mt-5 h-2 overflow-hidden rounded-full bg-brand-soft">
                                             <div className="h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
@@ -68,6 +68,17 @@ export default function Fundraising({ heroImage, raisedByProgram = {}, raisedSsp
                             Tell us who you are, how much you are giving, and which program it should support. We will
                             record it and follow up if we need to confirm payment.
                         </p>
+                        <div className="mt-6 rounded-2xl border border-brand/10 bg-white p-4 text-sm text-brand-muted">
+                            <p className="font-semibold text-brand-ink">How to pay</p>
+                            <ul className="mt-2 list-disc space-y-1 pl-5">
+                                <li>Bank transfer</li>
+                                <li>MPESA</li>
+                                <li>MTN Mobile Money</li>
+                                <li>
+                                    Or <a href={route('contact')} className="font-semibold text-brand hover:underline">contact us for details</a>
+                                </li>
+                            </ul>
+                        </div>
                     </FadeIn>
                     <FadeIn delay={0.06} className="min-w-0">
                         <div className="rounded-2xl bg-white p-4 shadow-sm sm:rounded-3xl sm:p-6 md:p-8">

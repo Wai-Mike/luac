@@ -2,28 +2,36 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import GuestLayout from '@/layouts/GuestLayout';
 import useCapabilities from '@/hooks/useCapabilities';
 import { router } from '@inertiajs/react';
-import { Check, ChevronLeft, ChevronRight, Eye, Play } from 'lucide-react';
-import { galleryThemes } from './data/siteContent';
+import { Check, Eye, Play } from 'lucide-react';
+import FeaturedCarousel from './components/FeaturedCarousel';
+import { galleryPhotos, galleryThemes } from './data/siteContent';
 
 const PHOTO_SIZES = [
     { key: 'wide', height: 180 },
     { key: 'square', height: 200 },
     { key: 'tall', height: 280 },
 ];
-const FEATURED_LIMIT = 8;
-const FILMSTRIP_LIMIT = 7;
 const PHOTOS_PER_PAGE = 9;
 const VIDEOS_PER_PAGE = 6;
 const categories = ['Programs', 'Tawus Hub', 'Sports', 'Community'];
 
+function captionFor(src, fallback, i) {
+    const match = galleryPhotos.find((photo) => photo.src === src);
+    if (match) {
+        return match.caption;
+    }
+    return fallback || galleryThemes[i % galleryThemes.length].caption;
+}
+
 function photoFromSrc(src, i) {
+    const archived = galleryPhotos.find((photo) => photo.src === src);
     const theme = galleryThemes[i % galleryThemes.length];
     return {
         src,
-        caption: theme.caption,
-        title: theme.caption,
-        tag: theme.tag,
-        category: categories[i % categories.length],
+        caption: archived?.caption || theme.caption,
+        title: archived?.caption || theme.caption,
+        tag: archived?.category || theme.tag,
+        category: archived?.category || categories[i % categories.length],
         date: '',
         status: 'published',
     };
@@ -32,13 +40,15 @@ function photoFromSrc(src, i) {
 function normalizePhotos(uploadedItems, images) {
     const fromUploads = uploadedItems.map((item, i) => ({
         ...item,
-        title: item.title || item.caption || galleryThemes[i % galleryThemes.length].caption,
+        title: captionFor(item.src, item.title || item.caption, i),
+        caption: captionFor(item.src, item.caption || item.title, i),
         date: item.date || '',
         status: item.status || 'published',
     }));
     const seen = new Set(fromUploads.map((item) => item.src).filter(Boolean));
-    const extras = (images.length ? images : ['/images/tawus.jpg'])
+    const extras = [...galleryPhotos.map((photo) => photo.src), ...images]
         .filter((src) => src && !seen.has(src))
+        .filter((src, i, list) => list.indexOf(src) === i)
         .map((src, i) => photoFromSrc(src, fromUploads.length + i));
 
     if (fromUploads.length) {
@@ -82,120 +92,6 @@ function EditorActions({ item, kind, className = '' }) {
             >
                 Delete
             </button>
-        </div>
-    );
-}
-
-function FeaturedCarousel({ photos, onShowMore }) {
-    const [index, setIndex] = useState(0);
-    const featured = photos.slice(0, Math.min(FEATURED_LIMIT, photos.length));
-    const current = featured[index] || featured[0];
-    const extra = Math.max(0, photos.length - FILMSTRIP_LIMIT);
-    const thumbs = photos.slice(0, FILMSTRIP_LIMIT);
-
-    const go = (next) => {
-        if (!featured.length) return;
-        setIndex((next + featured.length) % featured.length);
-    };
-
-    useEffect(() => {
-        if (featured.length < 2) {
-            return undefined;
-        }
-
-        const timer = window.setInterval(() => {
-            setIndex((currentIndex) => (currentIndex + 1) % featured.length);
-        }, 2000);
-
-        return () => window.clearInterval(timer);
-    }, [featured.length, index]);
-
-    if (!current) {
-        return null;
-    }
-
-    return (
-        <div>
-            <div className="relative overflow-hidden rounded-3xl bg-brand-dark">
-                <div className="relative h-[340px]">
-                    {featured.map((photo, i) => (
-                        <img
-                            key={`${photo.src}-${i}`}
-                            src={photo.src}
-                            alt=""
-                            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-out ${
-                                i === index ? 'translate-x-0 opacity-100' : 'translate-x-3 opacity-0'
-                            }`}
-                        />
-                    ))}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-                        <div>
-                            <div className="mb-2 flex flex-wrap items-center gap-2">
-                                <span className="rounded-full bg-amber px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-dark">
-                                    {current.category || current.tag || 'Gallery'}
-                                </span>
-                            </div>
-                            <h2 className="font-fraunces text-2xl font-semibold text-white md:text-3xl">{current.title}</h2>
-                            {current.date ? <p className="mt-1 text-sm text-white/70">{current.date}</p> : null}
-                        </div>
-                    </div>
-                    <div className="absolute right-4 top-4 flex gap-2">
-                        <button
-                            type="button"
-                            aria-label="Previous photo"
-                            onClick={() => go(index - 1)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm hover:bg-black/60"
-                        >
-                            <ChevronLeft className="h-4 w-4" />
-                        </button>
-                        <button
-                            type="button"
-                            aria-label="Next photo"
-                            onClick={() => go(index + 1)}
-                            className="flex h-9 w-9 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm hover:bg-black/60"
-                        >
-                            <ChevronRight className="h-4 w-4" />
-                        </button>
-                    </div>
-                    <div className="absolute bottom-5 right-5 flex items-center gap-1.5">
-                        {featured.map((_, i) => (
-                            <button
-                                key={i}
-                                type="button"
-                                aria-label={`Show photo ${i + 1}`}
-                                onClick={() => setIndex(i)}
-                                className={`h-1.5 rounded-full transition-all ${
-                                    i === index ? 'w-5 bg-white' : 'w-1.5 bg-white/50'
-                                }`}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-                {thumbs.map((photo, i) => (
-                    <button
-                        key={`${photo.src}-thumb-${i}`}
-                        type="button"
-                        onClick={() => setIndex(i)}
-                        className={`h-12 w-[72px] overflow-hidden rounded-lg transition ${
-                            i === index ? 'ring-2 ring-amber ring-offset-2' : 'opacity-50 hover:opacity-80'
-                        }`}
-                    >
-                        <img src={photo.src} alt="" className="h-full w-full object-cover" />
-                    </button>
-                ))}
-                {extra > 0 ? (
-                    <button
-                        type="button"
-                        onClick={onShowMore}
-                        className="flex h-12 w-[72px] items-center justify-center rounded-lg border border-brand/20 bg-transparent text-xs font-semibold text-brand"
-                    >
-                        +{extra} more
-                    </button>
-                ) : null}
-            </div>
         </div>
     );
 }
@@ -285,9 +181,12 @@ function PhotoMasonry({ photos, onOpen, startIndex = 0 }) {
                         className="group relative mb-4 block w-full cursor-pointer overflow-hidden rounded-2xl bg-brand-dark break-inside-avoid"
                         style={{ height: size.height }}
                     >
-                        <img src={photo.src} alt="" className="h-full w-full object-cover" />
+                        <img src={photo.src} alt={photo.caption || photo.title || ''} className="h-full w-full object-cover" />
                         <EditorActions item={photo} kind="photo" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
-                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark/0 opacity-0 transition duration-300 group-hover:bg-brand-dark/70 group-hover:opacity-100">
+                        <div className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/75 via-black/25 to-transparent px-3 py-3">
+                            <p className="text-left text-xs font-semibold leading-snug text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">{photo.caption || photo.title}</p>
+                        </div>
+                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark/0 opacity-0 transition duration-300 group-hover:bg-brand-dark/20 group-hover:opacity-100">
                             <Eye className="h-8 w-8 text-white" />
                         </div>
                     </div>
@@ -381,7 +280,7 @@ function Lightbox({ item, kind, onClose }) {
                     ) : kind === 'video' && item.src ? (
                         <video src={item.src} poster={item.poster} controls autoPlay className="max-h-[70vh] w-full object-contain" />
                     ) : (
-                        <img src={item.src || item.poster} alt={item.title || ''} className="max-h-[70vh] w-full object-contain" />
+                        <img src={item.src || item.poster} alt={item.caption || item.title || ''} className="max-h-[70vh] w-full object-contain" />
                     )}
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-3 bg-brand-dark/90 px-5 py-4 text-white">
@@ -391,7 +290,7 @@ function Lightbox({ item, kind, onClose }) {
                                 {item.category || item.tag || 'Gallery'}
                             </span>
                         </div>
-                        <p className="font-fraunces text-lg font-semibold">{item.title}</p>
+                        <p className="font-fraunces text-lg font-semibold">{item.caption || item.title}</p>
                         {item.date ? <p className="text-sm text-white/65">{item.date}</p> : null}
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -463,15 +362,7 @@ export default function Gallery({ images = [], items: uploadedItems = [], videos
 
             <section className="bg-white py-10 md:py-14">
                 <div className="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
-                    <FeaturedCarousel
-                        photos={photos}
-                        onShowMore={() => {
-                            setTab('photos');
-                            if (photoPageCount > 1) {
-                                goToPage('photos', 2);
-                            }
-                        }}
-                    />
+                    <FeaturedCarousel photos={photos} />
 
                     <div ref={mediaRef} className="flex justify-center scroll-mt-28">
                         <div className="inline-flex rounded-full bg-brand-soft p-1">

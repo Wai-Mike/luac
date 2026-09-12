@@ -37,28 +37,28 @@ export default function AdminLayout({ children, title = 'Dashboard', subtitle })
     };
 
     return (
-        <div className="flex h-screen overflow-hidden" style={{ background: SURFACE, colorScheme: 'light' }}>
+        <div className="flex h-screen h-dvh overflow-hidden" style={{ background: SURFACE, colorScheme: 'light' }}>
             <div className="hidden h-full lg:flex">
                 <AdminSidebar collapsed={collapsed} />
             </div>
 
             {mobileOpen ? (
-                <div className="fixed inset-0 z-50 lg:hidden">
+                <div className="fixed inset-0 z-40 lg:hidden">
                     <button
                         type="button"
                         className="absolute inset-0 bg-black/40"
                         aria-label="Close menu"
                         onClick={() => setMobileOpen(false)}
                     />
-                    <div className="absolute inset-y-0 left-0 h-full shadow-2xl">
+                    <div className="absolute inset-y-0 left-0 h-full max-w-[min(16.5rem,85vw)] shadow-2xl">
                         <AdminSidebar collapsed={false} onNavigate={() => setMobileOpen(false)} />
                     </div>
                 </div>
             ) : null}
 
-            <div className="flex min-w-0 flex-1 flex-col">
+            <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                 <AdminTopBar collapsed={collapsed} mobileOpen={mobileOpen} onToggle={toggle} title={title} subtitle={subtitle} />
-                <main className="min-h-0 min-w-0 flex-1 overflow-y-auto px-3 py-4 sm:px-6 sm:py-6 lg:px-8">{children}</main>
+                <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-6 sm:py-6 lg:px-8">{children}</main>
             </div>
         </div>
     );

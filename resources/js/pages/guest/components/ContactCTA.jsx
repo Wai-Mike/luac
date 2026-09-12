@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Users } from 'lucide-react';
+import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import { useForm, usePage } from '@inertiajs/react';
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './FadeIn';
@@ -15,11 +15,17 @@ export default function ContactCTA() {
         message: '',
     });
 
+    const phone = contact.phone || '0927 779 952';
+    const address = contact.address || 'Juba, South Sudan';
+    const whatsappHref = `https://wa.me/211927779952`;
     const rows = [
-        { icon: MapPin, label: 'Location', value: contact.address },
-        { icon: Phone, label: 'Phone', value: contact.phone },
-        { icon: Mail, label: 'Email', value: contact.email },
-        { icon: Users, label: 'Hours', value: contact.hours },
+        { icon: MapPin, label: 'Location', value: address },
+        { icon: Phone, label: 'Phone', value: phone, href: `tel:+211927779952` },
+        { icon: Mail, label: 'Email', value: 'info@luac-akook-yieu.org', href: 'mailto:info@luac-akook-yieu.org' },
+        ...(contact.email && contact.email !== 'info@luac-akook-yieu.org'
+            ? [{ icon: Mail, label: 'Alternate email', value: contact.email, href: `mailto:${contact.email}` }]
+            : []),
+        { icon: Clock, label: 'Response time', value: 'We will respond within 24 hours' },
     ];
 
     function handleSubmit(e) {
@@ -53,11 +59,26 @@ export default function ContactCTA() {
                                 </span>
                                 <div>
                                     <p className="text-sm font-semibold text-brand-ink">{row.label}</p>
-                                    <p className="text-sm text-brand-muted">{row.value}</p>
+                                    {row.href ? (
+                                        <a href={row.href} className="text-sm text-brand hover:underline">
+                                            {row.value}
+                                        </a>
+                                    ) : (
+                                        <p className="text-sm text-brand-muted">{row.value}</p>
+                                    )}
                                 </div>
                             </li>
                         ))}
                     </ul>
+                    <a
+                        href={whatsappHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1ebe5d]"
+                    >
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp 0927 779 952
+                    </a>
                 </FadeIn>
                 <FadeIn delay={0.08}>
                     <div className="rounded-3xl bg-brand-soft p-6 md:p-8">
@@ -66,7 +87,7 @@ export default function ContactCTA() {
                                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand text-3xl text-white">✓</div>
                                 <h3 className="font-display text-2xl">Message sent!</h3>
                                 <p className="mt-2 text-sm text-brand-muted">
-                                    {flash.success || 'LAYYA has received your message and will get back to you.'}
+                                    {flash.success || 'LAYYA has received your message. We will respond within 24 hours.'}
                                 </p>
                             </div>
                         ) : (

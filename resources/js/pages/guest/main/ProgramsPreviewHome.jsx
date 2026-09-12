@@ -1,4 +1,3 @@
-import { Users } from 'lucide-react';
 import GuestButton from '@/components/GuestButton';
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from '../components/FadeIn';
@@ -29,25 +28,27 @@ export default function ProgramsPreviewHome() {
                                 <img
                                     src={p.image || '/images/education.jpg'}
                                     alt=""
-                                    className="photo-fill opacity-70"
+                                    className="photo-fill"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,30,30,0.9)] to-transparent to-55%" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/5" />
                                 <div className="absolute inset-x-0 bottom-0 p-6">
-                                    <h3 className="font-display text-xl text-white">{p.title}</h3>
-                                    <p className="mt-2 text-sm text-white/70">{p.summary || p.body}</p>
-                                    <p className="mt-3 text-sm font-semibold text-brand-light">Learn more →</p>
+                                    <h3 className="font-display text-xl text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">{p.title}</h3>
+                                    <p className="mt-2 text-sm leading-relaxed text-white drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">{p.summary || p.body}</p>
+                                    <p className="mt-3 text-sm font-semibold text-amber">Learn more →</p>
                                 </div>
                             </a>
                         </FadeIn>
                     ))}
                     <FadeIn delay={0.4}>
-                        <a href={route('youth-census.register')} className="flex h-72 flex-col justify-between rounded-3xl bg-brand p-6">
+                        <article className="flex h-72 flex-col justify-between rounded-3xl bg-brand p-6">
                             <div>
                                 <h3 className="font-display text-2xl text-white">Join the youth census</h3>
-                                <p className="mt-2 text-sm text-white/70">Help us map skills, needs, and opportunities across Luac Akook Yieu.</p>
-                                <p className="mt-4 font-semibold text-amber">Register now →</p>
+                                <p className="mt-2 text-sm leading-relaxed text-white/90">Help us map skills, needs, and opportunities across Luac Akook Yieu.</p>
                             </div>
-                        </a>
+                            <GuestButton href={route('youth-census.register')} variant="amber" className="w-full justify-center">
+                                Register now
+                            </GuestButton>
+                        </article>
                     </FadeIn>
                 </div>
             </div>

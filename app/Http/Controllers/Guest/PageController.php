@@ -11,7 +11,7 @@ use Inertia\Inertia;
 class PageController extends Controller
 {
     /**
-     * Photo pool under public/images/ (excludes logo). Used for rotating gallery strips.
+     * Photo pool under public/images/ (excludes logo). Used for rotating hero banners and the gallery archive.
      *
      * @return list<string>
      */
@@ -25,34 +25,25 @@ class PageController extends Controller
             '/images/education.jpg',
             '/images/education1.jpg',
             '/images/football.jpg',
-            '/images/mareng.jpg',
+            '/images/youth.jpg',
+            '/images/Youth-engagement.jpeg',
+            '/images/Gender-equality.jpeg',
+            '/images/Women Empowerment.jpeg',
+            '/images/Executive.jpeg',
             '/images/nyalith.jpg',
+            '/images/Jok-wuor.jpg',
+            '/images/Akon-Mawai.jpg',
+            '/images/abong.jpeg',
+            '/images/mareng.jpg',
             '/images/nyantet.jpg',
             '/images/rehan.jpg',
             '/images/sabrina.jpg',
             '/images/yaba.jpg',
-            '/images/youth.jpg',
         ];
 
         return array_values(array_filter($candidates, function (string $url): bool {
             return is_file(public_path(ltrim($url, '/')));
         }));
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function randomGalleryImages(int $count): array
-    {
-        $uploaded = SiteMediaRepository::imageUrls($count);
-        if ($uploaded !== []) {
-            return $uploaded;
-        }
-
-        $pool = $this->guestImagePool();
-        shuffle($pool);
-
-        return array_slice($pool, 0, min($count, count($pool)));
     }
 
     private function pickRandomHeroImage(): ?string
@@ -76,31 +67,10 @@ class PageController extends Controller
         return $pool[0];
     }
 
-    /**
-     * Random URLs from the guest image pool; paths may repeat (e.g. one image per card when the pool is small).
-     *
-     * @return list<string>
-     */
-    private function randomImagesFromPool(int $count): array
-    {
-        $pool = $this->guestImagePool();
-        if ($pool === [] || $count < 1) {
-            return [];
-        }
-
-        $out = [];
-        for ($i = 0; $i < $count; $i++) {
-            $out[] = $pool[array_rand($pool)];
-        }
-
-        return $out;
-    }
-
     public function index()
     {
         return Inertia::render('guest/main/index', [
             'heroImage' => $this->pickRandomHeroImage(),
-            'homeGallery' => $this->randomGalleryImages(6),
             'videos' => SiteMediaRepository::videos(),
             'raisedByProgram' => ($raised = FundraisingPrograms::raisedTotals())['usd'],
             'raisedSspByProgram' => $raised['ssp'],
@@ -110,7 +80,7 @@ class PageController extends Controller
     public function about()
     {
         return Inertia::render('guest/about', [
-            'aboutGallery' => $this->randomGalleryImages(6),
+            'heroImage' => $this->pickRandomHeroImage(),
         ]);
     }
 
@@ -118,9 +88,9 @@ class PageController extends Controller
     {
         return Inertia::render('guest/contact', [
             'contact_info' => [
-                'email' => config('mail.from.address', 'contact@example.org'),
-                'phone' => '+211 XXX XXX XXX',
-                'address' => 'Luac Akook De Yieu, South Sudan',
+                'email' => 'info@luac-akook-yieu.org',
+                'phone' => '0927 779 952',
+                'address' => 'Juba, South Sudan',
             ],
         ]);
     }
@@ -131,7 +101,7 @@ class PageController extends Controller
         $hero = collect($programs)->pluck('image')->first(fn ($image) => filled($image));
 
         return Inertia::render('guest/programs', [
-            'programsHeroImage' => $hero ?: '/images/education.jpg',
+            'programsHeroImage' => $this->pickRandomHeroImage() ?: ($hero ?: '/images/education.jpg'),
         ]);
     }
 
@@ -157,7 +127,16 @@ class PageController extends Controller
                 '/images/education1.jpg',
                 '/images/football.jpg',
                 '/images/youth.jpg',
-                '/images/tawus.jpg',
+                '/images/Youth-engagement.jpeg',
+                '/images/Gender-equality.jpeg',
+                '/images/Women Empowerment.jpeg',
+                '/images/Executive.jpeg',
+                '/images/nyalith.jpg',
+                '/images/akur.jpg',
+                '/images/chuchu.jpg',
+                '/images/Jok-wuor.jpg',
+                '/images/Akon-Mawai.jpg',
+                '/images/abong.jpeg',
             ])),
             'items' => SiteMediaRepository::gallery(),
             'videos' => SiteMediaRepository::videos(),
@@ -186,13 +165,16 @@ class PageController extends Controller
 
     public function team()
     {
-        return Inertia::render('guest/team');
+        return Inertia::render('guest/team', [
+            'heroImage' => $this->pickRandomHeroImage(),
+        ]);
     }
 
     public function videos()
     {
         return Inertia::render('guest/videos', [
             'videos' => SiteMediaRepository::videos(),
+            'heroImage' => $this->pickRandomHeroImage(),
         ]);
     }
 
@@ -208,7 +190,7 @@ class PageController extends Controller
             : [];
 
         return Inertia::render('guest/reports', [
-            'reportGallery' => $this->randomGalleryImages(6),
+            'heroImage' => $this->pickRandomHeroImage(),
             'reports' => $published,
         ]);
     }
@@ -216,7 +198,6 @@ class PageController extends Controller
     public function tawusHub()
     {
         return Inertia::render('guest/tawus-hub', [
-            'galleryImages' => $this->randomGalleryImages(9),
             'heroImage' => $this->pickRandomHeroImage(),
         ]);
     }

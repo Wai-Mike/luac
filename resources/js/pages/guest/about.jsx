@@ -5,8 +5,9 @@ import FadeIn from './components/FadeIn';
 import FocusAreasSection from './main/FocusAreasSection';
 import PageHero from './components/PageHero';
 
-export default function About({ aboutGallery = [] }) {
-    const { missionVision, constitutionFacts } = useSiteContent();
+export default function About({ heroImage }) {
+    const { missionVision, constitutionFacts, cardImages } = useSiteContent();
+    const aboutImage = cardImages.about || '/images/Executive.jpeg';
     const facts = [
         { icon: Shield, label: 'Non-political', description: constitutionFacts.status },
         { icon: Users, label: 'Who may join', description: constitutionFacts.membership },
@@ -20,7 +21,7 @@ export default function About({ aboutGallery = [] }) {
                 label="About"
                 title="Luac Akook Yieu Youth Association"
                 subtitle={constitutionFacts.aim}
-                image={aboutGallery[0]}
+                image={heroImage}
             />
             <section className="bg-brand-soft py-16 md:py-20">
                 <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
@@ -53,7 +54,7 @@ export default function About({ aboutGallery = [] }) {
                     </FadeIn>
                     <FadeIn delay={0.08}>
                         <div className="relative aspect-square overflow-hidden rounded-3xl bg-brand-dark">
-                            {aboutGallery[1] ? <img src={aboutGallery[1]} alt="" className="photo-fill" /> : null}
+                            {aboutImage ? <img src={aboutImage} alt="" className="photo-fill" /> : null}
                         </div>
                     </FadeIn>
                 </div>

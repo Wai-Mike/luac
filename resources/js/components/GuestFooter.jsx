@@ -40,19 +40,28 @@ export default function GuestFooter() {
                     <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Contact</h4>
                     <ul className="space-y-2 text-sm text-white/55">
                         <li>
-                            <a href={`mailto:${contact.email}`} className="hover:text-white">
-                                {contact.email}
+                            <a href="mailto:info@luac-akook-yieu.org" className="hover:text-white">
+                                info@luac-akook-yieu.org
                             </a>
                         </li>
-                        <li>{contact.phone}</li>
-                        <li>{contact.address}</li>
+                        <li>
+                            <a href={`mailto:${contact.email || 'layya.youth@gmail.com'}`} className="hover:text-white">
+                                {contact.email || 'layya.youth@gmail.com'}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://wa.me/211927779952" className="hover:text-white" target="_blank" rel="noreferrer">
+                                WhatsApp {contact.phone || '0927 779 952'}
+                            </a>
+                        </li>
+                        <li>Juba, South Sudan</li>
                     </ul>
                 </div>
             </div>
             <div className="border-t border-white/10">
                 <div className="mx-auto flex max-w-7xl flex-col justify-between gap-2 px-4 py-5 text-xs text-white/35 sm:flex-row sm:px-6 lg:px-8">
                     <p>© {new Date().getFullYear()} Luac Akook Yieu Youth Association (LAYYA).</p>
-                    <p>Juba · South Sudan</p>
+                    <p>Juba, South Sudan</p>
                 </div>
             </div>
         </footer>
