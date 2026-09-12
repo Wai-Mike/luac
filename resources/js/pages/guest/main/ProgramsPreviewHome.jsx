@@ -41,8 +41,7 @@ export default function ProgramsPreviewHome() {
                         </FadeIn>
                     ))}
                     <FadeIn delay={0.4}>
-                        <article className="relative flex h-72 flex-col justify-between overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d4d4d] via-brand to-[#062828] p-6">
-                            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-amber via-[#7dd4d4] to-transparent" />
+                        <article className="relative flex h-72 flex-col justify-between overflow-hidden rounded-3xl bg-brand p-6">
                             <div>
                                 <h3 className="font-display text-2xl text-[#f3ece0]">Join the youth census</h3>
                                 <p className="mt-2 text-sm leading-relaxed text-[#f3ece0]/85">Help us map skills, needs, and opportunities across Luac Akook Yieu.</p>
