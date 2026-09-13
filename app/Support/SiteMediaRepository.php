@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\SiteContent;
 use App\Models\SiteMedia;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,7 +17,7 @@ class SiteMediaRepository
 
         self::syncBundledGallery();
 
-        $items = SiteMedia::query()
+        return SiteMedia::query()
             ->gallery()
             ->visible()
             ->orderBy('sort_order')
@@ -24,8 +25,44 @@ class SiteMediaRepository
             ->get()
             ->map(fn (SiteMedia $item) => $item->toFrontendImage())
             ->all();
+    }
 
-        return $items !== [] ? $items : self::fallbackGallery();
+    public static function rememberRemovedBundledPath(?string $path): void
+    {
+        $normalized = self::normalizePath($path);
+        if ($normalized === '' || ! Schema::hasTable('site_contents')) {
+            return;
+        }
+
+        $paths = self::removedBundledPaths();
+        if (in_array($normalized, $paths, true)) {
+            return;
+        }
+
+        $paths[] = $normalized;
+
+        SiteContent::query()->updateOrCreate(
+            ['key' => 'removed_bundled_gallery'],
+            ['value' => array_values($paths)],
+        );
+    }
+
+    /** @return list<string> */
+    public static function removedBundledPaths(): array
+    {
+        if (! Schema::hasTable('site_contents')) {
+            return [];
+        }
+
+        $stored = SiteContent::query()->where('key', 'removed_bundled_gallery')->value('value');
+        if (! is_array($stored)) {
+            return [];
+        }
+
+        return array_values(array_unique(array_filter(array_map(
+            fn ($path) => self::normalizePath(is_string($path) ? $path : null),
+            $stored
+        ))));
     }
 
     public static function syncBundledGallery(): void
@@ -42,11 +79,13 @@ class SiteMediaRepository
             ->flip()
             ->all();
 
+        $removed = array_flip(self::removedBundledPaths());
+
         foreach (self::fallbackGallery() as $index => $item) {
             $path = $item['src'] ?? null;
             $normalized = self::normalizePath($path);
 
-            if ($normalized === '' || isset($existing[$normalized])) {
+            if ($normalized === '' || isset($existing[$normalized]) || isset($removed[$normalized])) {
                 continue;
             }
 

@@ -1,7 +1,7 @@
 import GuestButton from '@/components/GuestButton';
 import useSiteContent from '@/hooks/useSiteContent';
-import CardScrim from '../components/CardScrim';
 import FadeIn from '../components/FadeIn';
+import ProgramCard from '../components/ProgramCard';
 import SectionLabel from '../components/SectionLabel';
 
 export default function ProgramsPreviewHome() {
@@ -24,27 +24,22 @@ export default function ProgramsPreviewHome() {
                 </div>
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {programs.slice(0, 5).map((p, i) => (
-                        <FadeIn key={p.title} delay={i * 0.08}>
-                            <a href={route('programs')} className="group relative block h-72 overflow-hidden rounded-3xl bg-brand-dark">
-                                <img
-                                    src={p.image || '/images/education.jpg'}
-                                    alt=""
-                                    className="photo-fill"
-                                />
-                                <CardScrim />
-                                <div className="absolute inset-x-0 bottom-0 p-6">
-                                    <h3 className="font-display text-xl text-[#f3ece0]">{p.title}</h3>
-                                    <p className="mt-2 text-sm leading-relaxed text-[#f3ece0]/85">{p.summary || p.body}</p>
-                                    <p className="mt-3 text-sm font-semibold text-amber">Learn more →</p>
-                                </div>
-                            </a>
-                        </FadeIn>
+                        <ProgramCard
+                            key={p.title}
+                            title={p.title}
+                            summary={p.summary || p.body}
+                            image={p.image || '/images/education.jpg'}
+                            href={route('programs')}
+                            delay={i * 0.08}
+                        />
                     ))}
-                    <FadeIn delay={0.4}>
-                        <article className="relative flex h-72 flex-col justify-between overflow-hidden rounded-3xl bg-brand p-6">
+                    <FadeIn delay={0.4} className="h-full">
+                        <article className="relative flex h-full min-h-[22rem] flex-col justify-between overflow-hidden rounded-2xl bg-brand p-6">
                             <div>
-                                <h3 className="font-display text-2xl text-[#f3ece0]">Join the youth census</h3>
-                                <p className="mt-2 text-sm leading-relaxed text-[#f3ece0]/85">Help us map skills, needs, and opportunities across Luac Akook Yieu.</p>
+                                <h3 className="font-fraunces text-2xl text-[#f3ece0]">Join the youth census</h3>
+                                <p className="mt-2 font-sans text-sm leading-relaxed text-[#f3ece0]/85">
+                                    Help us map skills, needs, and opportunities across Luac Akook Yieu.
+                                </p>
                             </div>
                             <GuestButton href={route('youth-census.register')} variant="amber" className="w-full justify-center">
                                 Register now

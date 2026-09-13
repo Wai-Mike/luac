@@ -188,6 +188,38 @@ class SiteMediaTest extends TestCase
                 ->where('items.0.src', '/images/cover.jpg'));
     }
 
+    public function test_admin_can_delete_a_bundled_gallery_photo_without_it_returning(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->get(route('admin.media.index', ['kind' => 'gallery']))
+            ->assertOk();
+
+        $media = SiteMedia::query()->where('path', '/images/cover.jpg')->first();
+        $this->assertNotNull($media);
+
+        $this->actingAs($admin)
+            ->from(route('admin.media.index', ['kind' => 'gallery']))
+            ->delete(route('admin.media.destroy', $media))
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('site_media', ['id' => $media->id]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.media.index', ['kind' => 'gallery']))
+            ->assertOk();
+
+        $this->assertDatabaseMissing('site_media', ['path' => '/images/cover.jpg']);
+
+        $this->get(route('gallery'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('items', fn ($items) => collect($items)->every(
+                    fn ($item) => ($item['src'] ?? null) !== '/images/cover.jpg'
+                )));
+    }
+
     public function test_admin_can_upload_a_leadership_portrait(): void
     {
         Storage::fake('public');

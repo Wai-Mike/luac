@@ -94,6 +94,12 @@ class MediaController extends Controller
     {
         $this->deleteStored($site_media->path);
         $this->deleteStored($site_media->poster_path);
+
+        $path = (string) $site_media->path;
+        if ($site_media->source === 'bundled' || str_starts_with($path, '/images/')) {
+            SiteMediaRepository::rememberRemovedBundledPath($path);
+        }
+
         $site_media->delete();
 
         return back()->with('success', 'Media removed.');

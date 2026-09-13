@@ -16,21 +16,13 @@ const items = [
 export default function TawusHubSpotlight() {
     const { cardImages } = useSiteContent();
     const image = cardImages.tawus || '/images/cover1.jpg';
-    const insetImage = cardImages.tawus_inset || '/images/nyalith.jpg';
     return (
         <section className="bg-white py-20 md:py-28">
             <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
                 <FadeIn>
-                    <div className="relative">
-                        <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-brand-dark">
-                            {image ? <img src={image} alt="" className="photo-fill" /> : null}
-                        </div>
-                        <div className="absolute -bottom-6 -right-4 w-40 overflow-hidden rounded-3xl border-4 border-white shadow-2xl md:-right-8 md:w-52">
-                            <div className="aspect-square bg-brand">
-                                {insetImage ? <img src={insetImage} alt="" className="photo-fill photo-fill-cover" /> : null}
-                            </div>
-                        </div>
-                        <div className="absolute -left-2 top-6 rounded-2xl bg-amber px-4 py-3 text-brand-ink shadow-lg md:-left-4">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-brand-dark">
+                        {image ? <img src={image} alt="" className="photo-fill photo-fill-cover" /> : null}
+                        <div className="absolute bottom-5 left-5 rounded-2xl bg-amber px-4 py-3 text-brand-ink shadow-lg">
                             <p className="font-display text-lg font-bold">Tawus Day</p>
                             <p className="text-xs font-medium text-brand-ink/80">Annual cultural celebration</p>
                         </div>

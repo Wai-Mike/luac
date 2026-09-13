@@ -14,7 +14,6 @@ const PHOTO_SIZES = [
 ];
 const PHOTOS_PER_PAGE = 9;
 const VIDEOS_PER_PAGE = 6;
-const categories = ['Programs', 'Tawus Hub', 'Sports', 'Community'];
 
 function captionFor(src, fallback, i) {
     const match = galleryPhotos.find((photo) => photo.src === src);
@@ -24,39 +23,14 @@ function captionFor(src, fallback, i) {
     return fallback || galleryThemes[i % galleryThemes.length].caption;
 }
 
-function photoFromSrc(src, i) {
-    const archived = galleryPhotos.find((photo) => photo.src === src);
-    const theme = galleryThemes[i % galleryThemes.length];
-    return {
-        src,
-        caption: archived?.caption || theme.caption,
-        title: archived?.caption || theme.caption,
-        tag: archived?.category || theme.tag,
-        category: archived?.category || categories[i % categories.length],
-        date: '',
-        status: 'published',
-    };
-}
-
-function normalizePhotos(uploadedItems, images) {
-    const fromUploads = uploadedItems.map((item, i) => ({
+function normalizePhotos(uploadedItems) {
+    return uploadedItems.map((item, i) => ({
         ...item,
         title: item.title || captionFor(item.src, item.caption, i),
         caption: item.caption || item.title || captionFor(item.src, null, i),
         date: item.date || '',
         status: item.status || 'published',
     }));
-
-    if (fromUploads.length) {
-        return fromUploads;
-    }
-
-    const extras = [...galleryPhotos.map((photo) => photo.src), ...images]
-        .filter((src) => src)
-        .filter((src, i, list) => list.indexOf(src) === i)
-        .map((src, i) => photoFromSrc(src, i));
-
-    return extras;
 }
 
 function formatViews(views) {
@@ -328,13 +302,13 @@ function Lightbox({ item, kind, onClose }) {
     );
 }
 
-export default function Gallery({ images = [], items: uploadedItems = [], videos = [] }) {
+export default function Gallery({ items: uploadedItems = [], videos = [] }) {
     const [tab, setTab] = useState('photos');
     const [photoPage, setPhotoPage] = useState(1);
     const [videoPage, setVideoPage] = useState(1);
     const [lightbox, setLightbox] = useState(null);
     const mediaRef = useRef(null);
-    const photos = useMemo(() => normalizePhotos(uploadedItems, images), [uploadedItems, images]);
+    const photos = useMemo(() => normalizePhotos(uploadedItems), [uploadedItems]);
 
     const photoPageCount = Math.max(1, Math.ceil(photos.length / PHOTOS_PER_PAGE));
     const videoPageCount = Math.max(1, Math.ceil(videos.length / VIDEOS_PER_PAGE));
