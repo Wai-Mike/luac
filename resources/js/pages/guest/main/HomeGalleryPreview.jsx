@@ -1,10 +1,11 @@
 import GuestButton from '@/components/GuestButton';
 import FeaturedCarousel from '../components/FeaturedCarousel';
 import SectionLabel from '../components/SectionLabel';
-import { homeCarouselPhotos } from '../data/siteContent';
 
-export default function HomeGalleryPreview() {
-    const photos = homeCarouselPhotos;
+export default function HomeGalleryPreview({ photos = [] }) {
+    if (!photos.length) {
+        return null;
+    }
 
     return (
         <section className="bg-white py-16 md:py-24">

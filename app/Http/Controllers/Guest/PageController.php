@@ -71,6 +71,7 @@ class PageController extends Controller
     {
         return Inertia::render('guest/main/index', [
             'heroImage' => $this->pickRandomHeroImage(),
+            'galleryItems' => SiteMediaRepository::gallery(),
             'videos' => SiteMediaRepository::videos(),
             'raisedByProgram' => ($raised = FundraisingPrograms::raisedTotals())['usd'],
             'raisedSspByProgram' => $raised['ssp'],

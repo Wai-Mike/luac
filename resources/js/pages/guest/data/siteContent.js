@@ -162,8 +162,6 @@ export const galleryPhotos = [
     { src: '/images/abong.jpeg', caption: 'LAYYA members at a community visit', category: 'Community' },
 ];
 
-export const homeCarouselPhotos = galleryPhotos.filter((photo) => photo.wide);
-
 const portraits = [
     '/images/akur.jpg',
     '/images/chuchu.jpg',

@@ -46,6 +46,12 @@ class SiteMediaTest extends TestCase
                 ->where('items.0.caption', 'Community gathering')
                 ->where('items.0.title', 'Tawus Day')
                 ->where('items.0.category', 'Tawus Hub'));
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('galleryItems.0.caption', 'Community gathering')
+                ->where('galleryItems.0.title', 'Tawus Day'));
     }
 
     public function test_admin_can_edit_a_published_gallery_caption(): void
@@ -186,6 +192,11 @@ class SiteMediaTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->where('items.0.src', '/images/cover.jpg'));
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('galleryItems.0.src', '/images/cover.jpg'));
     }
 
     public function test_admin_can_delete_a_bundled_gallery_photo_without_it_returning(): void
@@ -216,6 +227,13 @@ class SiteMediaTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->where('items', fn ($items) => collect($items)->every(
+                    fn ($item) => ($item['src'] ?? null) !== '/images/cover.jpg'
+                )));
+
+        $this->get(route('home'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('galleryItems', fn ($items) => collect($items)->every(
                     fn ($item) => ($item['src'] ?? null) !== '/images/cover.jpg'
                 )));
     }
