@@ -1,8 +1,13 @@
 export default function SectionLabel({ children, light = false }) {
     return (
-        <div className="mb-3 flex items-center gap-3">
-            <span className="h-px w-12 bg-amber" />
-            <p className={`text-[12px] font-semibold uppercase tracking-widest ${light ? 'text-cream' : 'text-amber'}`}>{children}</p>
+        <div className="mb-3">
+            <p
+                className={`inline-flex items-center rounded-full bg-brand-dark px-3.5 py-1 text-[12px] font-semibold uppercase tracking-widest text-white ${
+                    light ? 'ring-1 ring-white/30' : ''
+                }`}
+            >
+                {children}
+            </p>
         </div>
     );
 }

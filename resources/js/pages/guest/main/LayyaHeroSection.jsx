@@ -22,9 +22,8 @@ export default function LayyaHeroSection({ heroImage }) {
             </div>
 
             <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-                <div className="mb-4 flex items-center gap-3">
-                    <span className="h-px w-12 bg-amber" />
-                    <p className="text-[12px] font-semibold uppercase tracking-widest text-cream sm:text-[12px]">
+                <div className="mb-4 flex flex-wrap items-center gap-3">
+                    <p className="inline-flex items-center rounded-full bg-brand-dark px-3.5 py-1 text-[12px] font-semibold uppercase tracking-widest text-white ring-1 ring-white/30">
                         <span className="hidden sm:inline">Luac Akook Yieu Youth Association</span>
                         <span className="sm:hidden">LAYYA</span>
                     </p>

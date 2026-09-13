@@ -22,7 +22,7 @@ export default function Reports({ reports = [], heroImage }) {
                     {reports.map((r, i) => (
                         <FadeIn key={r.title} delay={i * 0.06}>
                             <article className="rounded-2xl border border-brand/10 bg-white p-6">
-                                <p className="text-xs font-semibold uppercase tracking-widest text-amber">{r.period}</p>
+                                <p className="text-xs font-semibold uppercase tracking-widest text-amber-dark">{r.period}</p>
                                 <h3 className="mt-3">{r.title}</h3>
                                 <p className="mt-3 text-sm leading-relaxed text-brand-muted">{r.summary}</p>
                                 <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-brand">{r.status}</p>

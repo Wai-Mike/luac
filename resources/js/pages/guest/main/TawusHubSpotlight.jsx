@@ -30,7 +30,7 @@ export default function TawusHubSpotlight() {
                 </FadeIn>
                 <FadeIn delay={0.1}>
                     <SectionLabel>Tawus Hub</SectionLabel>
-                    <p className="mb-2 text-sm font-semibold text-amber">Featured Program</p>
+                    <p className="mb-2 text-sm font-semibold text-amber-dark">Featured Program</p>
                     <h2 className="max-w-xl text-4xl xl:text-5xl">
                         A place for
                         <br />

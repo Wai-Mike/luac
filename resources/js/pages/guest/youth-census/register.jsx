@@ -1,5 +1,6 @@
 import GuestButton from '@/components/GuestButton';
 import GuestLayout from '@/layouts/GuestLayout';
+import SectionLabel from '@/pages/guest/components/SectionLabel';
 import { useForm } from '@inertiajs/react';
 import { Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -246,7 +247,9 @@ export default function YouthCensusRegister() {
             <section className="bg-brand-soft pt-32 pb-20 md:pb-28">
                 <div className="mx-auto max-w-2xl px-4 sm:px-6">
                     <div className="mb-10 text-center">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-amber">Youth Census</p>
+                        <div className="flex justify-center">
+                            <SectionLabel>Youth Census</SectionLabel>
+                        </div>
                         <h1 className="mt-2 text-[clamp(2rem,4vw,3rem)]">Register a youth</h1>
                         <p className="mt-3 text-brand-muted">
                             Five short steps. Your answers help LAYYA plan trainings and opportunities for Luac Akook Yieu.

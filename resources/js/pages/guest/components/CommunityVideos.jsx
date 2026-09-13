@@ -33,7 +33,7 @@ function VideoModal({ item, onClose }) {
                     )}
                 </div>
                 <div className="p-5 text-white">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-amber">{item.category} · {item.year}</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-amber-dark">{item.category} · {item.year}</p>
                     <h3 className="mt-1 text-white">{item.title}</h3>
                     <p className="mt-2 text-sm text-white/70">{item.description}</p>
                 </div>
@@ -86,7 +86,7 @@ export default function CommunityVideos({ preview = false, videos }) {
                                     </span>
                                 </div>
                                 <div className="p-5">
-                                    <p className="text-xs font-semibold uppercase tracking-widest text-amber">{item.category}</p>
+                                    <p className="text-xs font-semibold uppercase tracking-widest text-amber-dark">{item.category}</p>
                                     <h3 className="mt-2 text-white">{item.title}</h3>
                                     <p className="mt-2 text-sm text-white/70">{item.description}</p>
                                 </div>

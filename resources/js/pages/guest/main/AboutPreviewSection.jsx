@@ -32,7 +32,7 @@ export default function AboutPreviewSection() {
                             ) : null}
                             <CardScrim />
                             <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
-                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber">Mission</p>
+                                <SectionLabel light>Mission</SectionLabel>
                                 <p className="max-w-md text-xl font-semibold leading-snug text-[#f3ece0] sm:text-2xl md:text-3xl">
                                     {missionVision.mission}
                                 </p>
@@ -46,7 +46,7 @@ export default function AboutPreviewSection() {
                             ) : null}
                             <CardScrim />
                             <div className="relative flex h-full flex-col justify-end p-5 sm:p-8">
-                                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-amber">Vision</p>
+                                <SectionLabel light>Vision</SectionLabel>
                                 <p className="max-w-md text-xl font-semibold leading-snug text-[#f3ece0] sm:text-2xl md:text-3xl">
                                     {missionVision.vision}
                                 </p>

@@ -56,7 +56,7 @@ export default function ContactCTA() {
                     <ul className="mt-8 space-y-4">
                         {rows.map((row) => (
                             <li key={row.label} className="flex items-start gap-3">
-                                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand">
+                                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-dark text-[#f3ece0]">
                                     <row.icon className="h-4 w-4" />
                                 </span>
                                 <div>
@@ -80,7 +80,7 @@ export default function ContactCTA() {
                         href={whatsappHref}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white hover:bg-[#1ebe5d]"
+                        className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-dark px-5 py-3 text-sm font-semibold text-[#f3ece0] hover:bg-brand"
                     >
                         <WhatsAppIcon className="h-5 w-5" />
                         WhatsApp 0927 779 952

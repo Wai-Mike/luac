@@ -32,15 +32,15 @@ export default function FeaturedCarousel({ photos = [], contain = false, compact
 
     return (
         <div className="relative overflow-hidden rounded-3xl bg-brand-dark">
-            <div className={`relative ${contain ? 'aspect-[16/9]' : 'h-[340px] md:h-[420px]'}`}>
+            <div className="relative aspect-[16/9]">
                 {featured.map((photo, i) => (
                     <img
                         key={`${photo.src}-${i}`}
                         src={photo.src}
                         alt={photo.caption || photo.title || ''}
-                        className={`absolute inset-0 h-full w-full transition-all duration-500 ease-out ${
-                            contain ? 'object-contain object-center' : 'object-cover'
-                        } ${i === index ? 'translate-x-0 opacity-100' : 'translate-x-3 opacity-0'}`}
+                        className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-500 ease-out ${
+                            i === index ? 'translate-x-0 opacity-100' : 'translate-x-3 opacity-0'
+                        }`}
                     />
                 ))}
                 <CardScrim />

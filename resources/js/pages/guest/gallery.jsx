@@ -3,15 +3,10 @@ import GuestLayout from '@/layouts/GuestLayout';
 import useCapabilities from '@/hooks/useCapabilities';
 import { router } from '@inertiajs/react';
 import { Check, Eye, Play } from 'lucide-react';
-import CardScrim from './components/CardScrim';
 import FeaturedCarousel from './components/FeaturedCarousel';
+import SectionLabel from './components/SectionLabel';
 import { galleryPhotos, galleryThemes } from './data/siteContent';
 
-const PHOTO_SIZES = [
-    { key: 'wide', height: 180 },
-    { key: 'square', height: 200 },
-    { key: 'tall', height: 280 },
-];
 const PHOTOS_PER_PAGE = 9;
 const VIDEOS_PER_PAGE = 6;
 
@@ -139,35 +134,38 @@ function GalleryPager({ page, totalPages, onChange, label }) {
 function PhotoMasonry({ photos, onOpen, startIndex = 0 }) {
     return (
         <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-            {photos.map((photo, i) => {
-                const size = PHOTO_SIZES[(startIndex + i) % PHOTO_SIZES.length];
-                return (
+            {photos.map((photo, i) => (
+                <div
+                    key={`${photo.src}-${startIndex + i}`}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => onOpen(photo)}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            onOpen(photo);
+                        }
+                    }}
+                    className="group relative mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl bg-brand-dark"
+                >
+                    <img
+                        src={photo.src}
+                        alt={photo.caption || photo.title || ''}
+                        className="block h-auto w-full"
+                    />
+                    <EditorActions item={photo} kind="photo" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
                     <div
-                        key={`${photo.src}-${startIndex + i}`}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => onOpen(photo)}
-                        onKeyDown={(event) => {
-                            if (event.key === 'Enter' || event.key === ' ') {
-                                event.preventDefault();
-                                onOpen(photo);
-                            }
-                        }}
-                        className="group relative mb-4 block w-full cursor-pointer overflow-hidden rounded-2xl bg-brand-dark break-inside-avoid"
-                        style={{ height: size.height }}
-                    >
-                        <img src={photo.src} alt={photo.caption || photo.title || ''} className="h-full w-full object-cover" />
-                        <EditorActions item={photo} kind="photo" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
-                        <CardScrim />
-                        <div className="pointer-events-none absolute inset-0 flex flex-col justify-end px-3 py-3">
-                            <p className="text-left text-xs font-semibold leading-snug text-[#f3ece0]">{photo.caption || photo.title}</p>
-                        </div>
-                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark/0 opacity-0 transition duration-300 group-hover:bg-brand-dark/20 group-hover:opacity-100">
-                            <Eye className="h-8 w-8 text-white" />
-                        </div>
+                        aria-hidden
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-brand-dark/70 to-transparent"
+                    />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 px-3 py-3">
+                        <p className="text-left text-xs font-semibold leading-snug text-white">{photo.caption || photo.title}</p>
                     </div>
-                );
-            })}
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark/0 opacity-0 transition duration-300 group-hover:bg-brand-dark/15 group-hover:opacity-100">
+                        <Eye className="h-8 w-8 text-white" />
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }
@@ -190,7 +188,11 @@ function VideoGrid({ videos, onOpen }) {
                         className="relative block w-full cursor-pointer overflow-hidden rounded-2xl bg-brand-dark"
                     >
                         <div className="relative aspect-video">
-                            <img src={video.poster || '/images/cover.jpg'} alt="" className="h-full w-full object-cover" />
+                            <img
+                                src={video.poster || '/images/cover.jpg'}
+                                alt=""
+                                className="absolute inset-0 h-full w-full object-cover object-center"
+                            />
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_38%,rgba(0,20,20,0.62)_100%)]" />
                             <EditorActions item={video} kind="video" className="absolute right-3 top-3 z-10 opacity-0 transition group-hover:opacity-100" />
                             {video.duration ? (
@@ -330,7 +332,7 @@ export default function Gallery({ items: uploadedItems = [], videos = [] }) {
         <GuestLayout title="Gallery">
             <section className="bg-brand-soft pt-28 pb-8 md:pt-32">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-amber">Gallery</p>
+                    <SectionLabel>Gallery</SectionLabel>
                     <h1 className="mt-2 text-[clamp(2rem,4vw,3.2rem)] text-brand-ink">Youth, girls and community</h1>
                     <p className="mt-3 max-w-2xl text-brand-muted">Moments from programs, Tawus Hub, sport, and community life in Luac Akook Yieu.</p>
                 </div>

@@ -34,7 +34,7 @@ export default function TawusHub({ heroImage }) {
                     </FadeIn>
                     <FadeIn delay={0.1}>
                         <SectionLabel>Featured Program</SectionLabel>
-                        <p className="mb-2 text-sm font-semibold text-amber">Tawus Hub</p>
+                        <p className="mb-2 text-sm font-semibold text-amber-dark">Tawus Hub</p>
                         <h2>
                             Skills, sisterhood
                             <br />
@@ -64,7 +64,7 @@ export default function TawusHub({ heroImage }) {
                     {galleryImages.slice(0, 6).map((src, i) => (
                         <FadeIn key={`${src}-${i}`} delay={i * 0.05}>
                             <div className="relative aspect-square overflow-hidden rounded-2xl bg-brand-dark">
-                                <img src={src} alt="" className="photo-fill" />
+                                <img src={src} alt="" className="photo-fill photo-fill-cover" />
                             </div>
                         </FadeIn>
                     ))}

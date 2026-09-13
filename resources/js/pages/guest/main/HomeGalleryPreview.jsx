@@ -22,7 +22,7 @@ export default function HomeGalleryPreview() {
                         Open full gallery →
                     </GuestButton>
                 </div>
-                <FeaturedCarousel photos={photos} contain compact />
+                <FeaturedCarousel photos={photos} compact />
             </div>
         </section>
     );

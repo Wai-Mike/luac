@@ -2,6 +2,7 @@ import { BookOpen, HeartHandshake, Shield, Users } from 'lucide-react';
 import GuestLayout from '@/layouts/GuestLayout';
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './components/FadeIn';
+import SectionLabel from './components/SectionLabel';
 import FocusAreasSection from './main/FocusAreasSection';
 import PageHero from './components/PageHero';
 
@@ -26,11 +27,11 @@ export default function About({ heroImage }) {
             <section className="bg-brand-soft py-16 md:py-20">
                 <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
                     <div className="rounded-2xl bg-white p-6 md:p-8">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-amber">Mission</p>
+                        <SectionLabel>Mission</SectionLabel>
                         <p className="mt-3 text-xl font-semibold text-brand-ink">{missionVision.mission}</p>
                     </div>
                     <div className="rounded-2xl bg-white p-6 md:p-8">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-amber">Vision</p>
+                        <SectionLabel>Vision</SectionLabel>
                         <p className="mt-3 text-xl font-semibold text-brand-ink">{missionVision.vision}</p>
                     </div>
                 </div>
@@ -73,7 +74,7 @@ export default function About({ heroImage }) {
                     <div className="mt-10 grid gap-4 sm:grid-cols-3">
                         {constitutionFacts.symbols.map((s) => (
                             <div key={s.name} className="rounded-2xl border border-brand/10 bg-white p-5">
-                                <p className="text-xs font-semibold uppercase tracking-widest text-amber">{s.name}</p>
+                                <SectionLabel>{s.name}</SectionLabel>
                                 <p className="mt-2 text-sm text-brand-muted">{s.meaning}</p>
                             </div>
                         ))}

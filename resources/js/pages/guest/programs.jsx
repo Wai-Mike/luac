@@ -1,6 +1,7 @@
 import GuestButton from '@/components/GuestButton';
 import GuestLayout from '@/layouts/GuestLayout';
 import useSiteContent from '@/hooks/useSiteContent';
+import CensusSnapshotCard from './components/CensusSnapshotCard';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
 
@@ -30,8 +31,8 @@ export default function Programs({ programsHeroImage }) {
                                     />
                                 </div>
                                 <div className={i % 2 === 1 ? 'lg:order-1' : ''}>
-                                    <h2>{p.title}</h2>
-                                    <p className="mt-4 text-[16px] leading-relaxed text-brand-muted">{p.body}</p>
+                                    <h2 className="text-black">{p.title}</h2>
+                                    <p className="mt-4 text-[16px] leading-relaxed text-black/70">{p.body}</p>
                                     <GuestButton href={route('get-involved')} variant="outline" className="mt-6">
                                         Get involved
                                     </GuestButton>
@@ -39,6 +40,7 @@ export default function Programs({ programsHeroImage }) {
                             </article>
                         </FadeIn>
                     ))}
+                    <CensusSnapshotCard delay={0.12} />
                 </div>
             </section>
         </GuestLayout>
