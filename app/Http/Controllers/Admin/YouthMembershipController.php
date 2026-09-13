@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\YouthMember;
 use App\Models\YouthMembership;
 use App\Support\ExcelWorkbook;
+use App\Support\LuacPayams;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -109,7 +110,7 @@ class YouthMembershipController extends Controller
             'gender' => ['nullable', 'in:male,female,other'],
             'phone' => ['nullable', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
-            'payam' => ['nullable', 'string', 'max:150'],
+            'payam' => LuacPayams::rule(required: false),
             'year' => ['required', 'integer', 'min:2020', 'max:2100'],
             'amount_paid' => ['required', 'numeric', 'min:0.01', 'max:9999999'],
             'currency' => ['required', 'string', 'in:ssp,usd'],

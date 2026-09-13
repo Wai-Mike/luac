@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Guest\YouthCensusRequest;
+use App\Mail\YouthCensusThankYouMail;
 use App\Models\YouthMember;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class YouthCensusController extends Controller
@@ -23,10 +26,12 @@ class YouthCensusController extends Controller
      */
     public function store(YouthCensusRequest $request)
     {
-        YouthMember::create([
+        $member = YouthMember::create([
             ...$this->prepareData($request),
             'source' => 'census',
         ]);
+
+        $this->sendThankYouEmail($member);
 
         return redirect()->route('youth-census.thank-you');
     }
@@ -80,6 +85,25 @@ class YouthCensusController extends Controller
         $data['interests'] = array_values(array_unique([...$interests, ...$barriers]));
 
         return $data;
+    }
+
+    protected function sendThankYouEmail(YouthMember $member): void
+    {
+        $email = trim((string) $member->email);
+
+        if ($email === '') {
+            return;
+        }
+
+        try {
+            Mail::to($email)->send(new YouthCensusThankYouMail($member));
+        } catch (\Throwable $exception) {
+            Log::warning('Youth census thank-you email failed.', [
+                'youth_member_id' => $member->id,
+                'email' => $email,
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 }
 

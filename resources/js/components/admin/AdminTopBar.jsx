@@ -121,11 +121,11 @@ export default function AdminTopBar({ collapsed, mobileOpen = false, onToggle, t
                                 onClick={() => setOpen(false)}
                             />
                             <div
-                                className="fixed inset-x-3 top-[4.5rem] z-[70] max-h-[min(28rem,calc(100dvh-6rem))] overflow-hidden rounded-2xl bg-white shadow-xl md:absolute md:inset-auto md:right-0 md:top-auto md:mt-2 md:w-80 md:max-h-96"
+                                className="fixed inset-x-0 bottom-0 top-16 z-[70] flex max-h-[calc(100dvh-4rem)] flex-col overflow-hidden rounded-t-2xl bg-white shadow-xl md:absolute md:inset-auto md:right-0 md:top-auto md:mt-2 md:h-auto md:max-h-96 md:w-[22rem] md:rounded-2xl"
                                 style={{ border: `1px solid ${BORDER}` }}
                                 onClick={(event) => event.stopPropagation()}
                             >
-                                <div className="flex items-center justify-between gap-3 px-4 py-3" style={{ borderBottom: `1px solid ${BORDER}` }}>
+                                <div className="flex shrink-0 items-center justify-between gap-3 px-4 py-3" style={{ borderBottom: `1px solid ${BORDER}` }}>
                                     <p className="text-sm font-semibold text-brand-ink">Notifications</p>
                                     {unread > 0 ? (
                                         <button
@@ -138,7 +138,7 @@ export default function AdminTopBar({ collapsed, mobileOpen = false, onToggle, t
                                         </button>
                                     ) : null}
                                 </div>
-                                <div className="max-h-[min(22rem,calc(100dvh-10rem))] overflow-y-auto md:max-h-80">
+                                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain md:max-h-80">
                                     {items.length === 0 ? (
                                         <p className="px-4 py-8 text-center text-sm text-brand-muted">No notifications yet.</p>
                                     ) : (
@@ -152,8 +152,8 @@ export default function AdminTopBar({ collapsed, mobileOpen = false, onToggle, t
                                                     className="block min-h-14 w-full px-4 py-3 text-left touch-manipulation"
                                                     style={{ background: unreadItem ? TEAL_LIGHT : '#fff', borderBottom: `1px solid ${BORDER}` }}
                                                 >
-                                                    <p className="text-sm font-semibold text-brand-ink">{item.title}</p>
-                                                    {item.body ? <p className="mt-0.5 text-xs text-brand-muted">{item.body}</p> : null}
+                                                    <p className="text-sm font-semibold break-words text-brand-ink">{item.title}</p>
+                                                    {item.body ? <p className="mt-0.5 text-xs break-words text-brand-muted">{item.body}</p> : null}
                                                     <p className="mt-1 text-[11px] text-brand-muted">{timeAgo(item.created_at)}</p>
                                                 </button>
                                             );

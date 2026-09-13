@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\LuacPayams;
 use Illuminate\Foundation\Http\FormRequest;
 
 class YouthMemberRequest extends FormRequest
@@ -30,7 +31,7 @@ class YouthMemberRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
             'county' => ['nullable', 'string', 'max:150'],
-            'payam' => ['nullable', 'string', 'max:150'],
+            'payam' => LuacPayams::rule(required: false),
             'boma' => ['nullable', 'string', 'max:150'],
             'education_level' => ['nullable', 'string', 'max:150'],
             'current_school' => ['nullable', 'string', 'max:255'],

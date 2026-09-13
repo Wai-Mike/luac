@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Mail\YouthCensusThankYouMail;
 use App\Models\AdminNotification;
 use App\Models\User;
 use App\Models\YouthMember;
 use App\Models\YouthMembership;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class YouthMembershipTest extends TestCase
@@ -33,9 +35,36 @@ class YouthMembershipTest extends TestCase
         $this->assertDatabaseCount('youth_members', 0);
     }
 
+    public function test_census_registration_skips_thank_you_email_without_an_address(): void
+    {
+        Mail::fake();
+
+        $this->post(route('youth-census.store'), $this->censusPayload(['email' => '']))
+            ->assertRedirect(route('youth-census.thank-you'));
+
+        Mail::assertNothingSent();
+    }
+
+    public function test_census_registration_requires_a_luac_payam(): void
+    {
+        $this->from(route('youth-census.register'))
+            ->post(route('youth-census.store'), $this->censusPayload(['payam' => 'Khorfulus']))
+            ->assertRedirect(route('youth-census.register'))
+            ->assertSessionHasErrors('payam');
+
+        $this->assertDatabaseCount('youth_members', 0);
+    }
+
     public function test_census_registration_opens_this_years_membership_and_notifies_admins(): void
     {
+        Mail::fake();
+
         $this->post(route('youth-census.store'), $this->censusPayload())->assertRedirect(route('youth-census.thank-you'));
+
+        Mail::assertSent(YouthCensusThankYouMail::class, function (YouthCensusThankYouMail $mail) {
+            return $mail->hasTo('nyandeng@example.com')
+                && $mail->hasFrom(YouthCensusThankYouMail::FROM_ADDRESS);
+        });
 
         $member = YouthMember::query()->first();
         $this->assertNotNull($member);
@@ -212,7 +241,7 @@ class YouthMembershipTest extends TestCase
             'phone' => '0927 111 222',
             'email' => 'nyandeng@example.com',
             'county' => 'PIGI (Khorfulus)',
-            'payam' => 'Khorfulus',
+            'payam' => 'Belawic',
             'boma' => 'Luac',
             'education_level' => 'masters',
             'current_school' => 'Malou Secondary',

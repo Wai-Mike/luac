@@ -12,7 +12,7 @@ export default function YouthCensusThankYou() {
                     </div>
                     <h1 className="text-[clamp(2rem,4vw,3rem)]">Thank you.</h1>
                     <p className="mt-4 text-brand-muted">
-                        Your information helps LAYYA plan skills, mentorship, and opportunities for Luac Akook Yieu youth.
+                        Thank you for registering. If you shared an email, we sent a confirmation there. We will contact you if opportunities arise that match your skills or interests.
                     </p>
                     <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                         <GuestButton href={route('youth-census.register')}>Register another youth</GuestButton>

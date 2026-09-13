@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Guest;
 
+use App\Support\LuacPayams;
 use Illuminate\Foundation\Http\FormRequest;
 
 class YouthCensusRequest extends FormRequest
@@ -29,7 +30,7 @@ class YouthCensusRequest extends FormRequest
             'phone' => ['required', 'string', 'max:50'],
             'email' => ['nullable', 'email', 'max:255'],
             'county' => ['required', 'string', 'in:PIGI (Khorfulus)'],
-            'payam' => ['required', 'string', 'max:150'],
+            'payam' => LuacPayams::rule(),
             'boma' => ['nullable', 'string', 'max:150'],
             'education_level' => ['required', 'string', 'max:150'],
             'current_school' => ['nullable', 'string', 'max:255'],

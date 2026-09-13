@@ -1,3 +1,4 @@
+import { LUAC_PAYAMS } from '@/data/luacPayams';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
@@ -148,11 +149,18 @@ export default function YouthCensusEdit({ member }) {
                             />
                         </Field>
                         <Field label="Payam" error={errors.payam}>
-                            <input
+                            <select
                                 value={data.payam}
                                 onChange={(e) => setData('payam', e.target.value)}
                                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-                            />
+                            >
+                                <option value="">Select payam</option>
+                                {[...LUAC_PAYAMS, data.payam].filter((value, index, list) => value && list.indexOf(value) === index).map((payam) => (
+                                    <option key={payam} value={payam}>
+                                        {payam}
+                                    </option>
+                                ))}
+                            </select>
                         </Field>
                         <Field label="Boma" error={errors.boma}>
                             <input

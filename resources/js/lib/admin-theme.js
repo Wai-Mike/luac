@@ -11,7 +11,7 @@ export const WHITE = '#ffffff';
 export const CAT = ['#004d4d', '#c9b15c', '#2a7a7a', '#7a4ea0', '#2e7d32', '#1d6b8a'];
 export const CAT_LIGHT = ['#e6f2f2', '#fdf3e7', '#e8f4f4', '#f0ebf8', '#e8f5e9', '#e3f0f5'];
 
-export const FALLBACK_PAYAMS = ['Hai Thongpiny', 'Khorfulus', 'Atar', 'Canal', 'Kaldak', 'Nyilwak', 'Pawel'];
+export const FALLBACK_PAYAMS = ['Belawic', 'Wunlem', 'Mareng'];
 
 export function hexTint(hex) {
     return `${hex}22`;

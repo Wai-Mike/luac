@@ -12,7 +12,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@layya.org'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@luac-akook-yieu.org'),
         'name' => env('MAIL_FROM_NAME', 'Luac Akook Yieu Youth Association (LAYYA)'),
     ],
 

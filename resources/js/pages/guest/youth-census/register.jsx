@@ -1,4 +1,5 @@
 import GuestButton from '@/components/GuestButton';
+import { LUAC_PAYAMS } from '@/data/luacPayams';
 import GuestLayout from '@/layouts/GuestLayout';
 import SectionLabel from '@/pages/guest/components/SectionLabel';
 import { useForm } from '@inertiajs/react';
@@ -360,7 +361,14 @@ export default function YouthCensusRegister() {
                                 </div>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <Field label="Payam" error={errors.payam}>
-                                        <input className="field-input" value={data.payam} onChange={(e) => setData('payam', e.target.value)} />
+                                        <select className="field-input" value={data.payam} onChange={(e) => setData('payam', e.target.value)}>
+                                            <option value="">Select payam</option>
+                                            {LUAC_PAYAMS.map((payam) => (
+                                                <option key={payam} value={payam}>
+                                                    {payam}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </Field>
                                     <Field label="Boma" error={errors.boma}>
                                         <input className="field-input" value={data.boma} onChange={(e) => setData('boma', e.target.value)} />

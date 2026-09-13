@@ -2,6 +2,7 @@ import { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import KpiCard from '@/components/admin/KpiCard';
 import { AdminRow, AdminTable, PaginationBar } from '@/components/admin/AdminTable';
+import { LUAC_PAYAMS } from '@/data/luacPayams';
 import { BORDER, CAT, CAT_LIGHT, TEAL, TEAL_LIGHT, initials } from '@/lib/admin-theme';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
@@ -188,7 +189,14 @@ export default function MembershipIndex({ members, year, filters = {}, stats = {
                         </div>
                         <div>
                             <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand">Payam</label>
-                            <input className={fieldClass} style={fieldStyle} value={walkIn.data.payam} onChange={(e) => walkIn.setData('payam', e.target.value)} />
+                            <select className={fieldClass} style={fieldStyle} value={walkIn.data.payam} onChange={(e) => walkIn.setData('payam', e.target.value)}>
+                                <option value="">Select payam</option>
+                                {LUAC_PAYAMS.map((payam) => (
+                                    <option key={payam} value={payam}>
+                                        {payam}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div>
                             <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand">Amount paid</label>
