@@ -567,9 +567,12 @@ a {
 }
 
 .admin-shell img,
-.admin-shell svg,
 .admin-shell video,
 .admin-shell canvas {
+    max-width: 100%;
+}
+
+.admin-shell svg:not(.recharts-surface) {
     max-width: 100%;
 }
 
@@ -593,9 +596,15 @@ a {
     max-width: 100%;
 }
 
+.admin-chart {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
 .admin-shell .recharts-wrapper,
 .admin-shell .recharts-surface {
-    max-width: 100%;
+    max-width: none;
 }
 
 @media (max-width: 639px) {

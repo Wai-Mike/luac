@@ -6,7 +6,8 @@ import useCapabilities from '@/hooks/useCapabilities';
 import { BORDER, BLUE, BLUE_SOFT, CAT, CAT_LIGHT, FALLBACK_PAYAMS, GOLD, GOLD_SOFT, GREEN, GREEN_SOFT, MUTED, PURPLE, PURPLE_SOFT, TEAL, TEAL_LIGHT, TEAL_PALE, initials } from '@/lib/admin-theme';
 import { Head, Link, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
-import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import AdminChart from '@/components/admin/AdminChart';
+import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from 'recharts';
 import { BookOpen, Briefcase, Download, Edit2, Eye, GraduationCap, MapPin, Trash2, Users } from 'lucide-react';
 
 export default function YouthCensusIndex({ members, filters = {}, charts = {} }) {
@@ -35,6 +36,45 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                     <KpiCard icon={MapPin} accent={TEAL} iconBg={TEAL_PALE} value={charts.byCounty?.[0]?.total ?? 0} label="Largest county" hint={charts.byCounty?.[0]?.county || '—'} />
                     <KpiCard icon={BookOpen} accent={PURPLE} iconBg={PURPLE_SOFT} value={charts.byEducation?.[0]?.total ?? 0} label="Top education" hint={charts.byEducation?.[0]?.education_level || '—'} />
                     <KpiCard icon={Briefcase} accent={GOLD} iconBg={GOLD_SOFT} value={charts.byProfession?.[0]?.total ?? 0} label="Top profession" hint={charts.byProfession?.[0]?.name || '—'} />
+                </div>
+
+                <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
+                        <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by payam</h2>
+                        <AdminChart className="mt-4" height={280}>
+                            <BarChart data={chartData} barSize={28} barCategoryGap="28%" margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
+                                <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} allowDecimals={false} />
+                                <Tooltip content={<ChartTip />} cursor={{ fill: TEAL_PALE }} />
+                                <Bar dataKey="total" fill={TEAL} radius={[4, 4, 0, 0]}>
+                                    {chartData.map((entry, i) => (
+                                        <Cell key={entry.name} fill={i === 0 ? TEAL : `${TEAL}99`} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </AdminChart>
+                    </div>
+                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
+                        <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by profession</h2>
+                        {professions.length ? (
+                            <AdminChart className="mt-4" height={280}>
+                                <BarChart data={professions} barSize={22} barCategoryGap="28%" margin={{ top: 8, right: 12, left: 8, bottom: 48 }}>
+                                    <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} interval={0} angle={-20} height={56} textAnchor="end" />
+                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} allowDecimals={false} />
+                                    <Tooltip content={<ChartTip />} cursor={{ fill: TEAL_PALE }} />
+                                    <Bar dataKey="total" fill={TEAL} radius={[4, 4, 0, 0]}>
+                                        {professions.map((entry, i) => (
+                                            <Cell key={entry.name} fill={i === 0 ? TEAL : `${TEAL}99`} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </AdminChart>
+                        ) : (
+                            <p className="mt-4 flex h-56 items-center justify-center text-sm text-brand-muted">No profession data yet.</p>
+                        )}
+                    </div>
                 </div>
 
                 <form onSubmit={onSearch} className="flex flex-wrap gap-2">
@@ -129,49 +169,6 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                         })
                     )}
                 </AdminTable>
-
-                <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-                    <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
-                        <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by payam</h2>
-                        <div className="mt-4 h-56 min-w-0 sm:h-64">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={chartData} barSize={22} barCategoryGap="30%">
-                                    <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} />
-                                    <Tooltip content={<ChartTip />} cursor={{ fill: TEAL_PALE }} />
-                                    <Bar dataKey="total" radius={[4, 4, 0, 0]}>
-                                        {chartData.map((entry, i) => (
-                                            <Cell key={entry.name} fill={i === 0 ? TEAL : `${TEAL}80`} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                    <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
-                        <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by profession</h2>
-                        <div className="mt-4 h-56 min-w-0 sm:h-64">
-                            {professions.length ? (
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={professions} barSize={22} barCategoryGap="30%">
-                                        <CartesianGrid vertical={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
-                                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} interval={0} angle={-20} height={60} textAnchor="end" />
-                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} allowDecimals={false} />
-                                        <Tooltip content={<ChartTip />} cursor={{ fill: TEAL_PALE }} />
-                                        <Bar dataKey="total" radius={[4, 4, 0, 0]}>
-                                            {professions.map((entry, i) => (
-                                                <Cell key={entry.name} fill={i === 0 ? TEAL : `${TEAL}80`} />
-                                            ))}
-                                        </Bar>
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            ) : (
-                                <p className="flex h-full items-center justify-center text-sm text-brand-muted">No profession data yet.</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
             </div>
         </AppLayout>
     );

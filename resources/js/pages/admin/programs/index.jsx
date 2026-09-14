@@ -6,7 +6,8 @@ import { BORDER, CAT, MUTED, SURFACE, TEAL } from '@/lib/admin-theme';
 import { uploadPortrait } from '@/lib/upload-portrait';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { BookOpen, HeartHandshake, Monitor, Plus, Sparkles, Users } from 'lucide-react';
-import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import AdminChart from '@/components/admin/AdminChart';
+import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from 'recharts';
 
 const ICONS = [Users, HeartHandshake, Sparkles, Monitor, BookOpen];
 const fieldClass = 'w-full rounded-xl px-3 py-2 text-sm outline-none';
@@ -108,23 +109,21 @@ export default function AdminPrograms({ programs: initialPrograms = [] }) {
                     })}
                 </fieldset>
 
-                <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
                     <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Program engagement</h2>
-                    <div className="mt-4 h-72 min-w-0">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={engagement} layout="vertical" margin={{ left: 8, right: 12, top: 8, bottom: 8 }} barSize={18}>
-                                <CartesianGrid horizontal={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
-                                <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} />
-                                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} width={92} />
-                                <Tooltip content={<ChartTip />} />
-                                <Bar dataKey="participants" radius={[0, 4, 4, 0]}>
-                                    {engagement.map((d, i) => (
-                                        <Cell key={`prog-${d.name}`} fill={CAT[i % CAT.length]} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <AdminChart className="mt-4" height={288}>
+                        <BarChart data={engagement} layout="vertical" margin={{ left: 8, right: 12, top: 8, bottom: 8 }} barSize={18}>
+                            <CartesianGrid horizontal={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
+                            <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} />
+                            <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} width={92} />
+                            <Tooltip content={<ChartTip />} />
+                            <Bar dataKey="participants" radius={[0, 4, 4, 0]}>
+                                {engagement.map((d, i) => (
+                                    <Cell key={`prog-${d.name}`} fill={CAT[i % CAT.length]} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </AdminChart>
                     <Link href={route('programs')} className="mt-4 inline-block text-sm font-semibold" style={{ color: TEAL }}>
                         View public programs →
                     </Link>

@@ -24,11 +24,11 @@ import {
 } from '@/lib/admin-theme';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { BookOpen, HeartHandshake, Image, Users } from 'lucide-react';
+import AdminChart from '@/components/admin/AdminChart';
 import {
     Bar,
     BarChart,
     CartesianGrid,
-    ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis,
@@ -148,7 +148,7 @@ export default function AdminDashboard({
                         </p>
                     </article>
 
-                    <article className="min-w-0 overflow-hidden bg-white p-5" style={{ border: `1px solid ${BORDER}`, borderRadius: 14 }}>
+                    <article className="min-w-0 bg-white p-5" style={{ border: `1px solid ${BORDER}`, borderRadius: 14 }}>
                         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
                             <div>
                                 <h3 className="font-manrope text-[20px] font-semibold" style={{ color: INK }}>Income and expenses</h3>
@@ -159,18 +159,16 @@ export default function AdminDashboard({
                                 <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: GOLD }} /> Expenses</span>
                             </div>
                         </div>
-                        <div className="h-52 min-w-0 sm:h-64">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={financeMonths} barGap={4} barCategoryGap="28%">
-                                    <CartesianGrid vertical={false} stroke={BORDER} strokeDasharray="3 3" />
-                                    <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11, fontFamily: 'Inter' }} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11, fontFamily: 'Inter' }} />
-                                    <Tooltip content={<ChartTip />} cursor={{ fill: SURFACE }} />
-                                    <Bar dataKey="income" name="Income" fill={GREEN} radius={[4, 4, 0, 0]} />
-                                    <Bar dataKey="expenses" name="Expenses" fill={GOLD} radius={[4, 4, 0, 0]} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
+                        <AdminChart height={256}>
+                            <BarChart data={financeMonths} barGap={4} barCategoryGap="28%">
+                                <CartesianGrid vertical={false} stroke={BORDER} strokeDasharray="3 3" />
+                                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11, fontFamily: 'Inter' }} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11, fontFamily: 'Inter' }} />
+                                <Tooltip content={<ChartTip />} cursor={{ fill: SURFACE }} />
+                                <Bar dataKey="income" name="Income" fill={GREEN} radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="expenses" name="Expenses" fill={GOLD} radius={[4, 4, 0, 0]} />
+                            </BarChart>
+                        </AdminChart>
                     </article>
                 </div>
 
