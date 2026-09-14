@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\ActivityLog;
 use App\Models\AdminNotification;
 use App\Models\YouthMember;
 use App\Models\YouthMembership;
@@ -33,6 +34,16 @@ class YouthMemberObserver
             $fromMembership ? 'Paid membership recorded' : 'New youth census registration',
             $fromMembership ? $name.' was added as a paying member.' : $name.' joined the census.',
             $fromMembership ? route('admin.memberships.index') : route('admin.youth-members.show', $youthMember)
+        );
+
+        $payam = $youthMember->payam ? ' ('.$youthMember->payam.')' : '';
+        ActivityLog::record(
+            $fromMembership ? 'membership.recorded' : 'census.registered',
+            $fromMembership
+                ? 'Membership: '.$name.' added as a paying member'.$payam
+                : 'Census registration: '.$name.$payam,
+            $youthMember,
+            ['source' => $youthMember->source, 'payam' => $youthMember->payam]
         );
     }
 }

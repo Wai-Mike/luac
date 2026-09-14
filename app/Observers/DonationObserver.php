@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\ActivityLog;
 use App\Models\AdminNotification;
 use App\Models\Donation;
 use App\Models\FundraisingCampaign;
@@ -18,6 +19,12 @@ class DonationObserver
             'New donation',
             trim($donation->donor_name).' gave '.$amount.' '.$currency.'.',
             route('admin.donations.index')
+        );
+
+        ActivityLog::record(
+            'donation.received',
+            'Donation: '.trim((string) $donation->donor_name).' gave '.$amount.' '.$currency,
+            $donation
         );
     }
 

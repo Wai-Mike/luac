@@ -15,7 +15,7 @@ export default function PageHero({ label, title, italic, subtitle, image }) {
                     {title}
                     {italic ? ` ${italic}` : ''}
                 </h1>
-                {subtitle ? <p className="mt-5 max-w-2xl text-[19px] leading-[1.65] text-white/65">{subtitle}</p> : null}
+                {subtitle ? <p className="mt-5 max-w-2xl text-base leading-[1.65] text-white/65 sm:text-[19px]">{subtitle}</p> : null}
             </div>
         </section>
     );

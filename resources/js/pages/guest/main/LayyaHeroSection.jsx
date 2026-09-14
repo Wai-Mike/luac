@@ -21,7 +21,7 @@ export default function LayyaHeroSection({ heroImage }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/25 to-transparent" />
             </div>
 
-            <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+            <div className="relative mx-auto w-full max-w-7xl px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8">
                 <div className="mb-4 flex flex-wrap items-center gap-3">
                     <p className="inline-flex items-center rounded-full bg-brand-dark px-3.5 py-1 text-[12px] font-semibold uppercase tracking-widest text-white ring-1 ring-white/30">
                         <span className="hidden sm:inline">Luac Akook Yieu Youth Association</span>

@@ -150,6 +150,8 @@ class WebsiteOperationsTest extends TestCase
     public function test_published_report_appears_on_the_public_reports_page(): void
     {
         $executive = User::factory()->executive()->create();
+        $chairman = User::factory()->chairman()->create();
+        $department = \App\Models\Department::factory()->create(['name' => 'Programs & Welfare']);
 
         $this->actingAs($executive)
             ->post(route('admin.operations.reports.store'), [
@@ -158,6 +160,7 @@ class WebsiteOperationsTest extends TestCase
                 'summary' => 'Youth programs and Tawus Hub sessions.',
                 'status' => 'published',
                 'is_public' => true,
+                'department_id' => $department->id,
             ])
             ->assertRedirect();
 
@@ -165,6 +168,91 @@ class WebsiteOperationsTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->component('guest/reports')
+                ->where('reports', fn ($reports) => collect($reports)->isEmpty()));
+
+        $report = \App\Models\AssociationReport::query()->first();
+        $this->actingAs($chairman)
+            ->post(route('admin.operations.reports.approve', $report))
+            ->assertRedirect();
+
+        $this->get(route('reports'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('guest/reports')
                 ->where('reports.0.title', 'LAYYA annual highlights'));
+    }
+
+    public function test_departmental_progress_report_prints_the_chairperson_template(): void
+    {
+        $education = \App\Models\Department::query()->create([
+            'name' => 'Education',
+            'slug' => 'education-report-test',
+            'status' => 'active',
+            'code' => 'EDU-TEST',
+        ]);
+        $admin = User::factory()->admin()->create();
+
+        $this->actingAs($admin)
+            ->post(route('admin.operations.reports.store'), [
+                'title' => 'Monthly Update on Panaruu Student Association Partnership and Student Fees',
+                'period' => 'June 2026',
+                'summary' => 'This report provides a monthly update from the Department of Education.',
+                'status' => 'draft',
+                'kind' => 'departmental',
+                'template' => 'monthly',
+                'department_id' => $education->id,
+                'submitted_on' => '2026-06-30',
+                'payload' => [
+                    'submitted_to' => 'The Office of the Chairperson',
+                    'submitted_by' => 'Department of Education',
+                    'prepared_by' => 'Nyok Lual Monyluak, Deputy Secretary for Education',
+                    'purpose' => 'Provide leadership with timely departmental progress.',
+                    'objectives' => 'Support newly admitted first-year students joining the University of Juba.',
+                    'highlights' => 'The partnership with the Panaruu Student Association is progressing well.',
+                    'financial_update' => 'The Department has paid 2,000,000 SSP to the Panaruu Student Association.',
+                    'challenges' => 'Delay in receiving the official verified list from GPOC.',
+                    'conclusion' => 'The Department of Education has made good progress.',
+                    'metrics' => [
+                        ['metric' => 'Total support paid to Panaruu Student Association', 'status' => '2,000,000 SSP'],
+                    ],
+                    'risks' => [
+                        ['risk' => 'Delay in official verified student list', 'effect' => 'Delayed payment follow-up', 'mitigation' => 'Maintain regular follow-up with GPOC'],
+                    ],
+                    'actions' => [
+                        ['item' => 'Follow up with GPOC on the official verified student list', 'office' => 'Department of Education', 'status' => 'Pending'],
+                    ],
+                    'attachment_title' => 'Official List of Newly Admitted First-Year Students',
+                    'attachment_columns' => ['S/N', 'Full Name', 'School Admitted In'],
+                    'attachment_rows' => [
+                        ['1', 'Monyawch Monyiik Awuol', 'Pharmacy'],
+                    ],
+                    'cc' => [
+                        'Office of the Secretary General',
+                        'Office of the Finance Secretary',
+                        'Office of the External Affairs Secretary',
+                        'File',
+                    ],
+                ],
+            ])
+            ->assertRedirect();
+
+        $report = \App\Models\AssociationReport::query()->first();
+
+        $this->actingAs($admin)
+            ->get(route('admin.operations.reports.show', $report))
+            ->assertOk()
+            ->assertSee('Luac Akook Yieu Youth Association')
+            ->assertSee('Department of Education')
+            ->assertSee('Monthly Departmental Progress Report')
+            ->assertSee('The Office of the Chairperson')
+            ->assertSee('1. Executive Summary')
+            ->assertSee('4. Key Metrics and Performance Summary')
+            ->assertSee('13. Approval and Submission')
+            ->assertSee('Copy to Files / Cc:')
+            ->assertSee('Nyok Lual Monyluak')
+            ->assertSee('2,000,000 SSP')
+            ->assertSee('Monyawch Monyiik Awuol')
+            ->assertSee('Office of the Secretary General')
+            ->assertSee($report->reference);
     }
 }

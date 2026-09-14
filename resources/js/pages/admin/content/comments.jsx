@@ -6,8 +6,9 @@ import { BORDER, CAT, CAT_LIGHT, initials, TEAL } from '@/lib/admin-theme';
 import { Head, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 
-export default function AdminContentComments({ comments: commentsPaginator }) {
+export default function AdminContentComments({ comments: commentsPaginator, messages: messagesPaginator }) {
     const rows = paginatorItems(commentsPaginator);
+    const messages = paginatorItems(messagesPaginator);
     const [local, setLocal] = useState({});
     const pending = rows.filter((c) => {
         const status = local[c.id] || commentStatus(c);
@@ -15,13 +16,31 @@ export default function AdminContentComments({ comments: commentsPaginator }) {
     }).length;
 
     return (
-        <AppLayout title="Moderation" subtitle="Review public comments before they appear">
+        <AppLayout title="Moderation" subtitle="Review website comments and contact-page feedback">
             <Head title="Admin · Moderation" />
 
             <div className="space-y-4">
-                <div className="rounded-2xl px-4 py-3 text-sm" style={{ background: '#fdf3e7', color: '#9a6b24' }}>
-                    {pending} comment{pending === 1 ? '' : 's'} waiting for review. Approve to publish, or reject to remove from the queue.
+                <div className="rounded-[14px] px-4 py-3 text-sm" style={{ background: '#FCEAEA', color: '#C94B4B' }}>
+                    {pending} comment{pending === 1 ? '' : 's'} waiting for review. {messages.length} contact message{messages.length === 1 ? '' : 's'} from the public site.
                 </div>
+
+                <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Contact feedback</h2>
+                {messages.length === 0 ? (
+                    <p className="rounded-2xl bg-white p-6 text-sm text-brand-muted" style={{ border: `1px solid ${BORDER}` }}>No contact messages yet.</p>
+                ) : messages.map((message) => (
+                    <article key={`feedback-${message.id}`} className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                        <div className="flex flex-wrap items-start justify-between gap-2">
+                            <div>
+                                <p className="text-sm font-semibold text-brand-ink">{message.name}</p>
+                                <p className="text-xs text-brand-muted">{message.email || message.phone || '—'} · {message.subject || 'General feedback'}</p>
+                            </div>
+                            <StatusBadge status={message.status === 'new' ? 'pending' : message.status} />
+                        </div>
+                        <p className="mt-3 text-sm text-brand-ink">{message.message}</p>
+                    </article>
+                ))}
+
+                <h2 className="pt-2 font-fraunces text-lg font-semibold text-brand-ink">Website comments</h2>
 
                 {rows.length === 0 ? (
                     <p className="rounded-2xl bg-white p-8 text-center text-sm text-brand-muted" style={{ border: `1px solid ${BORDER}` }}>

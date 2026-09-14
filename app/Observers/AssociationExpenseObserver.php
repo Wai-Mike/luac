@@ -9,6 +9,9 @@ class AssociationExpenseObserver
 {
     public function created(AssociationExpense $expense): void
     {
+        if (filled($expense->source_type)) {
+            return;
+        }
         $amount = rtrim(rtrim((string) $expense->amount, '0'), '.');
         $currency = strtoupper((string) $expense->currency);
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -21,6 +22,8 @@ class Department extends Model
         'slug',
         'description',
         'status',
+        'head_id',
+        'code',
     ];
 
     protected static function booted(): void
@@ -69,6 +72,11 @@ class Department extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function head(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'head_id');
     }
 
     public function isActive(): bool

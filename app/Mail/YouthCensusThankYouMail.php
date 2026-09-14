@@ -3,14 +3,21 @@
 namespace App\Mail;
 
 use App\Models\YouthMember;
+use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class YouthCensusThankYouMail extends Mailable
 {
+    use SerializesModels;
+
     public const FROM_ADDRESS = 'info@luac-akook-yieu.org';
+
+    public const WEBSITE_URL = 'https://luac-akook-yieu.org';
+
+    public const WEBSITE_DISPLAY = 'www.luac-akook-yieu.org';
 
     public function __construct(public YouthMember $member)
     {
@@ -23,20 +30,24 @@ class YouthCensusThankYouMail extends Mailable
         return new Envelope(
             from: $from,
             replyTo: [$from],
-            subject: 'Thank you for registering with LAYYA',
+            subject: 'Thank You for registering',
         );
     }
 
     public function content(): Content
     {
+        $logoPath = public_path('images/logo.jpg');
+
         return new Content(
-            view: 'emails.youth-census-thank-you',
+            html: 'emails.youth-census-thank-you',
+            text: 'emails.youth-census-thank-you-text',
             with: [
-                'firstName' => $this->member->first_name,
-                'appName' => 'Luac Akook Yieu Youth Association (LAYYA)',
-                'logoPath' => public_path('images/logo.jpg'),
-                'logoUrl' => rtrim((string) config('app.url'), '/').'/images/logo.jpg',
+                'firstName' => $this->member->first_name ?: 'youth',
+                'logoPath' => is_file($logoPath) ? $logoPath : null,
+                'logoUrl' => self::WEBSITE_URL.'/images/logo.jpg',
                 'contactEmail' => self::FROM_ADDRESS,
+                'websiteUrl' => self::WEBSITE_URL,
+                'websiteDisplay' => self::WEBSITE_DISPLAY,
             ],
         );
     }

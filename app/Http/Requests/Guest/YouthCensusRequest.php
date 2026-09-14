@@ -28,7 +28,7 @@ class YouthCensusRequest extends FormRequest
             'gender' => ['required', 'in:male,female'],
             'date_of_birth' => ['required', 'date', 'before:today'],
             'phone' => ['required', 'string', 'max:50'],
-            'email' => ['nullable', 'email', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
             'county' => ['required', 'string', 'in:PIGI (Khorfulus)'],
             'payam' => LuacPayams::rule(),
             'boma' => ['nullable', 'string', 'max:150'],
@@ -52,6 +52,7 @@ class YouthCensusRequest extends FormRequest
         return [
             'barriers.required' => 'Please select at least one barrier you face.',
             'barriers.min' => 'Please select at least one barrier you face.',
+            'email.required' => 'Please enter your email so we can send your registration confirmation.',
             'consent.accepted' => 'Please confirm consent before submitting.',
         ];
     }

@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import KpiCard from '@/components/admin/KpiCard';
 import { AdminRow, AdminTable } from '@/components/admin/AdminTable';
-import { BORDER, TEAL, TEAL_LIGHT } from '@/lib/admin-theme';
+import { BORDER, BLUE, BLUE_SOFT, BROWN, GOLD, GOLD_SOFT, GREEN, GREEN_SOFT, RED, RED_SOFT, TEAL, TEAL_LIGHT } from '@/lib/admin-theme';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { formatSsp, formatUsd } from '@/pages/guest/data/money';
 import { Banknote, Download, Landmark, Receipt, Scale, Wallet } from 'lucide-react';
@@ -44,6 +44,8 @@ export default function FinancesIndex({
     locked_department_id = null,
     can_choose_department = true,
     can_delete_any = false,
+    can_manage_budgets = false,
+    department_budgets = [],
 }) {
     const flash = usePage().props.flash ?? {};
     const user = usePage().props.auth?.user;
@@ -83,7 +85,7 @@ export default function FinancesIndex({
                     <select
                         value={month}
                         onChange={(event) => changePeriod(year, event.target.value)}
-                        className="rounded-xl px-3 py-2 text-sm outline-none"
+                        className="min-w-0 flex-1 rounded-xl px-3 py-2 text-sm outline-none sm:flex-none"
                         style={{ border: `1.5px solid ${BORDER}` }}
                         aria-label="Report month"
                     >
@@ -96,7 +98,7 @@ export default function FinancesIndex({
                     <select
                         value={year}
                         onChange={(event) => changePeriod(event.target.value, month)}
-                        className="rounded-xl px-3 py-2 text-sm outline-none"
+                        className="min-w-0 flex-1 rounded-xl px-3 py-2 text-sm outline-none sm:flex-none"
                         style={{ border: `1.5px solid ${BORDER}` }}
                         aria-label="Report year"
                     >
@@ -108,7 +110,7 @@ export default function FinancesIndex({
                     </select>
                     <a
                         href={route('admin.finances.export', { year, month })}
-                        className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white sm:w-auto"
                         style={{ background: TEAL }}
                     >
                         <Download className="h-4 w-4" />
@@ -117,56 +119,72 @@ export default function FinancesIndex({
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                    <KpiCard icon={Wallet} value={moneyPair(report.income?.membership)} label="Membership fees" />
-                    <KpiCard icon={Banknote} value={moneyPair(report.income?.fundraising)} label="Donations & fundraising" />
-                    <KpiCard icon={Receipt} value={moneyPair(report.expenses?.total)} label="Expenses" />
-                    <KpiCard icon={Scale} value={moneyPair(report.balance)} label="Balance" />
+                    <KpiCard icon={Wallet} accent={BLUE} iconBg={BLUE_SOFT} value={moneyPair(report.income?.membership)} label="Membership fees" />
+                    <KpiCard icon={Banknote} accent={BROWN} iconBg={GOLD_SOFT} value={moneyPair(report.income?.fundraising)} label="Donations & fundraising" />
+                    <KpiCard icon={Receipt} accent={RED} iconBg={RED_SOFT} value={moneyPair(report.expenses?.total)} label="Expenses" />
+                    <KpiCard icon={Scale} accent={GREEN} iconBg={GREEN_SOFT} value={moneyPair(report.balance)} label="Balance" />
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-2">
-                    <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                {can_manage_budgets && department_budgets.length ? (
+                    <div className="rounded-[14px] bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                        <h2 className="font-manrope text-[20px] font-semibold text-brand-ink">Department budget caps</h2>
+                        <p className="mt-1 text-sm text-brand-muted">Requisitions above remaining allocation go on automatic hold until Finance releases them.</p>
+                        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                            {department_budgets.map((desk) => (
+                                <div key={desk.code} className="rounded-2xl px-3 py-3" style={{ background: TEAL_LIGHT }}>
+                                    <p className="text-[10px] font-semibold tracking-widest text-brand">{desk.code}</p>
+                                    <p className="font-semibold text-brand-ink">{desk.name}</p>
+                                    <p className="text-xs text-brand-muted">{formatSsp(desk.committed_ssp)} of {formatSsp(desk.allocated_ssp)}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : null}
+
+                <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+                    <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Income this month</h2>
                         <p className="mt-1 text-sm text-brand-muted">Membership fees plus gifts recorded against fundraising campaigns.</p>
                         <dl className="mt-4 space-y-2 text-sm">
-                            <div className="flex justify-between gap-3">
-                                <dt>Membership fees</dt>
-                                <dd className="font-semibold">{moneyPair(report.income?.membership)}</dd>
+                            <div className="flex min-w-0 justify-between gap-3">
+                                <dt className="min-w-0">Membership fees</dt>
+                                <dd className="min-w-0 text-right font-semibold break-words">{moneyPair(report.income?.membership)}</dd>
                             </div>
-                            <div className="flex justify-between gap-3">
-                                <dt>Donations &amp; fundraising</dt>
-                                <dd className="font-semibold">{moneyPair(report.income?.fundraising)}</dd>
+                            <div className="flex min-w-0 justify-between gap-3">
+                                <dt className="min-w-0">Donations &amp; fundraising</dt>
+                                <dd className="min-w-0 text-right font-semibold break-words">{moneyPair(report.income?.fundraising)}</dd>
                             </div>
-                            <div className="flex justify-between gap-3 border-t pt-2" style={{ borderColor: BORDER }}>
-                                <dt>Total income</dt>
-                                <dd className="font-semibold" style={{ color: TEAL }}>{moneyPair(report.income?.total)}</dd>
+                            <div className="flex min-w-0 justify-between gap-3 border-t pt-2" style={{ borderColor: BORDER }}>
+                                <dt className="min-w-0">Total income</dt>
+                                <dd className="min-w-0 text-right font-semibold break-words" style={{ color: TEAL }}>{moneyPair(report.income?.total)}</dd>
                             </div>
                         </dl>
                         {(report.income?.by_campaign || []).length ? (
                             <div className="mt-4 space-y-1 text-sm">
                                 <p className="text-xs font-semibold uppercase tracking-wide text-brand-muted">By campaign</p>
                                 {report.income.by_campaign.map((campaign) => (
-                                    <div key={campaign.title} className="flex justify-between gap-3">
-                                        <span>{campaign.title} ({campaign.count})</span>
-                                        <span>{moneyPair(campaign)}</span>
+                                    <div key={campaign.title} className="flex min-w-0 justify-between gap-3">
+                                        <span className="min-w-0">{campaign.title} ({campaign.count})</span>
+                                        <span className="min-w-0 text-right break-words">{moneyPair(campaign)}</span>
                                     </div>
                                 ))}
                             </div>
                         ) : null}
                     </div>
 
-                    <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Expenses this month</h2>
-                        <p className="mt-1 text-sm text-brand-muted">Meetings, delegations, transport, and other operations.</p>
+                        <p className="mt-1 text-sm text-brand-muted">Meetings, transport, operations, and paid purchase and logistics papers.</p>
                         <dl className="mt-4 space-y-2 text-sm">
                             {(report.expenses?.by_category || []).map((category) => (
-                                <div key={category.key} className="flex justify-between gap-3">
-                                    <dt>{category.label}</dt>
-                                    <dd className="font-semibold">{moneyPair(category)}</dd>
+                                <div key={category.key} className="flex min-w-0 justify-between gap-3">
+                                    <dt className="min-w-0">{category.label}</dt>
+                                    <dd className="min-w-0 text-right font-semibold break-words">{moneyPair(category)}</dd>
                                 </div>
                             ))}
-                            <div className="flex justify-between gap-3 border-t pt-2" style={{ borderColor: BORDER }}>
-                                <dt>Total expenses</dt>
-                                <dd className="font-semibold">{moneyPair(report.expenses?.total)}</dd>
+                            <div className="flex min-w-0 justify-between gap-3 border-t pt-2" style={{ borderColor: BORDER }}>
+                                <dt className="min-w-0">Total expenses</dt>
+                                <dd className="min-w-0 text-right font-semibold break-words">{moneyPair(report.expenses?.total)}</dd>
                             </div>
                         </dl>
                     </div>
@@ -185,7 +203,7 @@ export default function FinancesIndex({
                             onSuccess: () => expense.reset('title', 'detail', 'amount'),
                         });
                     }}
-                    className="space-y-4 rounded-2xl bg-white p-5"
+                    className="min-w-0 space-y-4 overflow-hidden rounded-2xl bg-white p-5"
                     style={{ border: `1px solid ${BORDER}` }}
                 >
                     <div>
@@ -285,7 +303,7 @@ export default function FinancesIndex({
                                     </td>
                                     <td className="px-4 py-3 font-semibold">{item.currency === 'USD' ? formatUsd(item.amount) : formatSsp(item.amount)}</td>
                                     <td className="px-4 py-3 text-right">
-                                        {can_delete_any || item.recorded_by_id === user?.id ? (
+                                        {(!item.source) && (can_delete_any || item.recorded_by_id === user?.id) ? (
                                             <button
                                                 type="button"
                                                 className="text-xs font-semibold text-red-600"

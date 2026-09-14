@@ -4,7 +4,7 @@ import KpiCard from '@/components/admin/KpiCard';
 import StatusBadge from '@/components/admin/StatusBadge';
 import { AdminRow, AdminTable, PaginationBar } from '@/components/admin/AdminTable';
 import useCapabilities from '@/hooks/useCapabilities';
-import { BORDER, CAT, CAT_LIGHT, SURFACE, TEAL } from '@/lib/admin-theme';
+import { BORDER, BLUE, BLUE_SOFT, BROWN, CAT, CAT_LIGHT, GOLD, GOLD_SOFT, SURFACE, TEAL } from '@/lib/admin-theme';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 import { formatSsp, formatUsd } from '@/pages/guest/data/money';
@@ -70,9 +70,9 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
-                    <KpiCard icon={HeartHandshake} value={money(stats.usd)} label="Raised (USD)" />
-                    <KpiCard icon={Users} value={stats.total ?? rows.length} label="Donors" />
-                    <KpiCard value={stats.campaigns ?? campaigns.length} icon={Target} label="Active campaigns" />
+                    <KpiCard icon={HeartHandshake} accent={GOLD} iconBg={GOLD_SOFT} value={money(stats.usd)} label="Raised (USD)" />
+                    <KpiCard icon={Users} accent={BLUE} iconBg={BLUE_SOFT} value={stats.total ?? rows.length} label="Donors" />
+                    <KpiCard value={stats.campaigns ?? campaigns.length} icon={Target} accent={BROWN} iconBg={GOLD_SOFT} label="Active campaigns" />
                 </div>
 
                 <form
@@ -221,7 +221,7 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                     >
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Amount needed for each campaign</h2>
                         <p className="text-sm text-brand-muted">Enter the pound goal yourself. It is not converted from the dollar amount. Card photos stay until you replace them.</p>
-                        <div className="hidden gap-2 px-3 text-xs font-semibold uppercase tracking-wide text-brand-muted lg:grid lg:grid-cols-[1fr_1fr_140px_160px_1fr]">
+                        <div className="hidden gap-2 px-3 text-xs font-semibold uppercase tracking-wide text-brand-muted lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,140px)_minmax(0,160px)_minmax(0,1fr)]">
                             <span>Campaign</span>
                             <span>Description</span>
                             <span>Needed (USD)</span>
@@ -229,7 +229,7 @@ export default function AdminDonationsIndex({ donations, campaigns = [], program
                             <span>Card photo</span>
                         </div>
                         {campaignForm.data.campaigns.map((campaign, i) => (
-                            <div key={`camp-${i}`} className="grid gap-2 rounded-xl p-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_140px_160px_1fr]" style={{ background: SURFACE }}>
+                            <div key={`camp-${i}`} className="grid min-w-0 gap-2 overflow-hidden rounded-xl p-3 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,140px)_minmax(0,160px)_minmax(0,1fr)]" style={{ background: SURFACE }}>
                                 <div className="min-w-0">
                                     <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-brand-muted lg:hidden">Campaign</label>
                                     <input

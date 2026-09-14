@@ -137,4 +137,153 @@ class FinanceAdminTest extends TestCase
         $this->assertStringContainsString('Donations &amp; fundraising', $xml);
         $this->assertStringContainsString('Meetings &amp; delegations', $xml);
     }
+
+    public function test_paid_purchase_request_items_appear_in_the_monthly_expense_report(): void
+    {
+        $department = Department::factory()->create(['name' => 'Logistics']);
+        $secretary = User::factory()->executive()->create(['department_id' => $department->id]);
+        $chairman = User::factory()->chairman()->create();
+
+        $this->actingAs($secretary)
+            ->post(route('admin.operations.purchase-requests.store'), [
+                'title' => 'Water for youth forum',
+                'purpose' => 'Drinking water for 200 guests',
+                'currency' => 'SSP',
+                'payment_method' => 'cash',
+                'items' => [
+                    ['description' => 'Bottled water', 'quantity' => 10, 'unit_cost' => 5],
+                    ['description' => 'Ice blocks', 'quantity' => 4, 'unit_cost' => 10],
+                ],
+            ])
+            ->assertRedirect();
+
+        $order = \App\Models\PurchaseRequest::query()->first();
+        $this->assertNotNull($order);
+        $this->assertEquals(90, (float) $order->amount);
+
+        $this->actingAs($chairman)
+            ->post(route('admin.operations.purchase-requests.review', $order), ['decision' => 'reviewed'])
+            ->assertRedirect();
+        $this->actingAs($chairman)
+            ->post(route('admin.operations.purchase-requests.approve', $order))
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('association_expenses', ['title' => 'Bottled water']);
+
+        $this->actingAs($chairman)
+            ->post(route('admin.operations.purchase-requests.pay', $order))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('association_expenses', [
+            'title' => 'Bottled water',
+            'amount' => 50,
+            'currency' => 'ssp',
+            'category' => AssociationExpense::CATEGORY_PROCUREMENT,
+            'department_id' => $department->id,
+            'source_type' => 'purchase_request_item',
+        ]);
+        $this->assertDatabaseHas('association_expenses', [
+            'title' => 'Ice blocks',
+            'amount' => 40,
+            'category' => AssociationExpense::CATEGORY_PROCUREMENT,
+        ]);
+
+        $report = \App\Support\MonthlyFinanceReport::forMonth((int) now()->year, (int) now()->month);
+
+        $this->assertEquals(90.0, $report['expenses']['total']['ssp']);
+        $this->assertEquals(0.0, $report['expenses']['total']['usd']);
+        $procurement = collect($report['expenses']['by_category'])->firstWhere('key', 'procurement');
+        $this->assertEquals(90.0, $procurement['ssp']);
+        $this->assertEquals(2, $procurement['count']);
+        $this->assertTrue(collect($report['expenses']['items'])->contains(fn (array $item) => $item['title'] === 'Bottled water'));
+    }
+
+    public function test_settled_logistics_invoice_posts_to_monthly_expenses_without_duplicating_a_paid_order(): void
+    {
+        $department = Department::factory()->create(['name' => 'Finance & Administration']);
+        $officer = User::factory()->executive()->create(['department_id' => $department->id]);
+
+        $this->actingAs($officer)
+            ->post(route('admin.operations.logistics.store'), [
+                'title' => 'Printer toner invoice',
+                'kind' => 'invoice',
+                'currency' => 'SSP',
+                'vendor' => 'Juba Office Supplies',
+                'items' => [
+                    ['description' => 'Toner cartridge', 'quantity' => 2, 'unit' => 'pcs', 'unit_cost' => 15000],
+                ],
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('association_expenses', [
+            'title' => 'Printer toner invoice',
+            'amount' => 30000,
+            'category' => AssociationExpense::CATEGORY_PROCUREMENT,
+            'source_type' => 'logistics',
+        ]);
+
+        $this->actingAs($officer)
+            ->post(route('admin.operations.logistics.store'), [
+                'title' => 'Catering quotation',
+                'kind' => 'quotation',
+                'currency' => 'SSP',
+                'items' => [
+                    ['description' => 'Lunch buffet', 'quantity' => 50, 'unit' => 'pax', 'unit_cost' => 20],
+                ],
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('association_expenses', ['title' => 'Catering quotation']);
+
+        $report = \App\Support\MonthlyFinanceReport::forMonth((int) now()->year, (int) now()->month);
+        $this->assertEquals(30000.0, $report['expenses']['total']['ssp']);
+    }
+
+    public function test_receipt_linked_to_a_paid_purchase_request_is_not_posted_twice(): void
+    {
+        $department = Department::factory()->create();
+        $secretary = User::factory()->executive()->create(['department_id' => $department->id]);
+        $chairman = User::factory()->chairman()->create();
+
+        $this->actingAs($secretary)
+            ->post(route('admin.operations.purchase-requests.store'), [
+                'title' => 'Hall chairs',
+                'currency' => 'SSP',
+                'items' => [
+                    ['description' => 'Plastic chairs', 'quantity' => 5, 'unit_cost' => 20],
+                ],
+            ])
+            ->assertRedirect();
+
+        $order = \App\Models\PurchaseRequest::query()->first();
+        $this->actingAs($chairman)->post(route('admin.operations.purchase-requests.review', $order), ['decision' => 'reviewed']);
+        $this->actingAs($chairman)->post(route('admin.operations.purchase-requests.approve', $order));
+        $this->actingAs($chairman)->post(route('admin.operations.purchase-requests.pay', $order));
+
+        $this->actingAs($secretary)
+            ->post(route('admin.operations.receipts.store'), [
+                'title' => 'Chair payment receipt',
+                'vendor' => 'Mama Mary',
+                'amount' => 100,
+                'currency' => 'SSP',
+                'purchase_request_id' => $order->id,
+            ])
+            ->assertRedirect();
+
+        $this->assertEquals(1, AssociationExpense::query()->count());
+        $this->assertEquals(100.0, (float) AssociationExpense::query()->sum('amount'));
+
+        $this->actingAs($secretary)
+            ->post(route('admin.operations.receipts.store'), [
+                'title' => 'Taxi fare',
+                'vendor' => 'City cab',
+                'amount' => 15,
+                'currency' => 'USD',
+            ])
+            ->assertRedirect();
+
+        $report = \App\Support\MonthlyFinanceReport::forMonth((int) now()->year, (int) now()->month);
+        $this->assertEquals(100.0, $report['expenses']['total']['ssp']);
+        $this->assertEquals(15.0, $report['expenses']['total']['usd']);
+    }
 }

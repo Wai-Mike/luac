@@ -212,7 +212,9 @@ export default function YouthCensusRegister() {
                 data.gender &&
                 isoBirthDate(data.birth_day, data.birth_month, data.birth_year) &&
                 data.payam &&
-                data.phone
+                data.phone &&
+                data.email &&
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
             );
         }
         if (step === 2) {
@@ -245,7 +247,7 @@ export default function YouthCensusRegister() {
 
     return (
         <GuestLayout title="Youth Census">
-            <section className="bg-brand-soft pt-32 pb-20 md:pb-28">
+            <section className="bg-brand-soft pt-28 pb-16 md:pb-28">
                 <div className="mx-auto max-w-2xl px-4 sm:px-6">
                     <div className="mb-10 text-center">
                         <div className="flex justify-center">
@@ -291,7 +293,7 @@ export default function YouthCensusRegister() {
                         </div>
                     </div>
 
-                    <form onSubmit={submit} className="rounded-3xl bg-white p-6 md:p-8">
+                    <form onSubmit={submit} className="rounded-3xl bg-white p-4 sm:p-6 md:p-8">
                         {step === 1 && (
                             <div className="space-y-4">
                                 <div className="grid gap-4 sm:grid-cols-2">
@@ -311,7 +313,7 @@ export default function YouthCensusRegister() {
                                 </Field>
                                 <div>
                                     <p className="field-label">Date of birth</p>
-                                    <div className="grid grid-cols-3 gap-3">
+                                    <div className="grid min-w-0 grid-cols-3 gap-2 sm:gap-3">
                                         <select
                                             className="field-input"
                                             value={data.birth_day}
@@ -382,7 +384,7 @@ export default function YouthCensusRegister() {
                                         <input type="tel" className="field-input" placeholder="+211 …" value={data.phone} onChange={(e) => setData('phone', e.target.value)} />
                                     </Field>
                                     <Field label="Email" error={errors.email}>
-                                        <input type="email" className="field-input" value={data.email} onChange={(e) => setData('email', e.target.value)} />
+                                        <input type="email" className="field-input" required value={data.email} onChange={(e) => setData('email', e.target.value)} />
                                     </Field>
                                 </div>
                             </div>
@@ -542,7 +544,7 @@ export default function YouthCensusRegister() {
                             </div>
                         )}
 
-                        <div className="mt-8 flex items-center justify-between border-t border-brand/10 pt-5">
+                        <div className="mt-8 flex flex-col-reverse gap-3 border-t border-brand/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
                             <GuestButton variant="outline" onClick={() => setStep((s) => Math.max(1, s - 1))} disabled={step === 1}>
                                 Back
                             </GuestButton>

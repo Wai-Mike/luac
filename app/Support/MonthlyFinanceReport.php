@@ -13,10 +13,14 @@ class MonthlyFinanceReport
     /**
      * @return array<string, mixed>
      */
-    public static function forMonth(int $year, int $month): array
+    public static function forMonth(int $year, int $month, bool $syncPaid = true): array
     {
         $start = CarbonImmutable::create($year, $month, 1)->startOfMonth();
         $end = $start->endOfMonth();
+
+        if ($syncPaid) {
+            OperationsExpense::syncPaid();
+        }
 
         $memberships = YouthMembership::query()
             ->with('member:id,first_name,last_name')
@@ -111,6 +115,7 @@ class MonthlyFinanceReport
                     'currency' => strtoupper((string) $expense->currency),
                     'recorded_by' => $expense->recorder?->name,
                     'recorded_by_id' => $expense->recorded_by,
+                    'source' => $expense->source_type,
                 ])->values()->all(),
             ],
             'balance' => [
@@ -140,5 +145,24 @@ class MonthlyFinanceReport
         }
 
         return ['ssp' => round($ssp, 2), 'usd' => round($usd, 2)];
+    }
+
+    /**
+     * @return list<array{month: string, income: float, expenses: float}>
+     */
+    public static function lastMonths(int $count = 6): array
+    {
+        OperationsExpense::syncPaid();
+
+        return collect(range($count - 1, 0))->map(function (int $ago) {
+            $date = now()->subMonths($ago)->startOfMonth();
+            $report = self::forMonth((int) $date->year, (int) $date->month, false);
+
+            return [
+                'month' => $date->format('M'),
+                'income' => (float) ($report['income']['total']['ssp'] ?? 0),
+                'expenses' => (float) ($report['expenses']['total']['ssp'] ?? 0),
+            ];
+        })->values()->all();
     }
 }

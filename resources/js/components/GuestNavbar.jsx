@@ -43,7 +43,7 @@ export default function GuestNavbar() {
 
     return (
         <header className={`fixed inset-x-0 top-0 z-50 bg-brand transition-[box-shadow] duration-150 ${scrolled ? 'shadow-[0_8px_24px_rgba(0,0,0,0.18)]' : ''}`}>
-            <div className="flex h-16 w-full flex-nowrap items-center gap-3 px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 w-full flex-nowrap items-center gap-3 px-3 sm:px-6 lg:px-8">
                 <BrandLogo href={route('home')} showWordmark={false} />
 
                 <nav className="hidden min-w-0 flex-1 flex-nowrap items-center justify-center gap-0.5 lg:flex">
@@ -60,7 +60,7 @@ export default function GuestNavbar() {
                     </GuestButton>
                 </div>
 
-                <button type="button" className="ml-auto text-white lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
+                <button type="button" className="ml-auto inline-flex h-11 w-11 items-center justify-center text-white lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
                     <Menu className="h-6 w-6" />
                 </button>
             </div>
@@ -68,14 +68,14 @@ export default function GuestNavbar() {
             {open ? (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close menu" onClick={() => setOpen(false)} />
-                    <aside className="absolute inset-y-0 right-0 flex w-[min(20rem,86vw)] flex-col bg-brand px-5 py-6 transition-transform duration-300 ease-out">
+                    <aside className="absolute inset-y-0 right-0 flex w-[min(20rem,86vw)] flex-col overflow-y-auto bg-brand px-5 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-transform duration-300 ease-out">
                         <div className="mb-6 flex items-center justify-between">
                             <BrandLogo href={route('home')} showWordmark={false} />
-                            <button type="button" onClick={() => setOpen(false)} aria-label="Close menu" className="text-white">
+                            <button type="button" onClick={() => setOpen(false)} aria-label="Close menu" className="inline-flex h-11 w-11 items-center justify-center text-white">
                                 <X className="h-6 w-6" />
                             </button>
                         </div>
-                        <div className="flex flex-1 flex-col gap-1">
+                        <div className="flex min-h-0 flex-1 flex-col gap-1">
                             {links.map(([href, label, active]) => (
                                 <a
                                     key={href}

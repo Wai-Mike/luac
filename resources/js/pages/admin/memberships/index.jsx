@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/app-layout';
 import KpiCard from '@/components/admin/KpiCard';
 import { AdminRow, AdminTable, PaginationBar } from '@/components/admin/AdminTable';
 import { LUAC_PAYAMS } from '@/data/luacPayams';
-import { BORDER, CAT, CAT_LIGHT, TEAL, TEAL_LIGHT, initials } from '@/lib/admin-theme';
+import { BORDER, BLUE, BLUE_SOFT, CAT, CAT_LIGHT, GOLD, GOLD_SOFT, GREEN, GREEN_SOFT, TEAL, TEAL_LIGHT, initials } from '@/lib/admin-theme';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 import { formatSsp, formatUsd } from '@/pages/guest/data/money';
@@ -133,9 +133,9 @@ export default function MembershipIndex({ members, year, filters = {}, stats = {
                 ) : null}
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <KpiCard icon={Users} value={stats.registered ?? rows.length} label="Members" />
-                    <KpiCard icon={BadgeCheck} value={stats.paid ?? 0} label={`Paid in ${selectedYear}`} />
-                    <KpiCard icon={Wallet} value={formatSsp(stats.ssp)} label="Fees (SSP)" />
+                    <KpiCard icon={Users} accent={BLUE} iconBg={BLUE_SOFT} value={stats.registered ?? rows.length} label="Members" />
+                    <KpiCard icon={BadgeCheck} accent={GREEN} iconBg={GREEN_SOFT} value={stats.paid ?? 0} label={`Paid in ${selectedYear}`} />
+                    <KpiCard icon={Wallet} accent={GOLD} iconBg={GOLD_SOFT} value={formatSsp(stats.ssp)} label="Fees (SSP)" />
                     <KpiCard value={formatUsd(stats.usd)} label="Fees (USD)" />
                 </div>
 

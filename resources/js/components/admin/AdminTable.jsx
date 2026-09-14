@@ -1,16 +1,17 @@
 import { useState } from 'react';
-import { TEAL, TEAL_PALE, SURFACE, BORDER } from '@/lib/admin-theme';
+import { BORDER, MUTED, SURFACE, TEAL, TEAL_PALE, WHITE } from '@/lib/admin-theme';
 
 export function AdminTable({ columns, children, footer }) {
     return (
-        <div className="min-w-0 overflow-x-auto rounded-2xl bg-white [-webkit-overflow-scrolling:touch]" style={{ border: `1px solid ${BORDER}` }}>
-            <table className="w-full min-w-[640px] text-sm">
+        <div className="min-w-0 max-w-full overflow-x-auto bg-white [-webkit-overflow-scrolling:touch]" style={{ border: `1px solid ${BORDER}`, borderRadius: 14 }}>
+            <table className="w-full min-w-[36rem] text-[13px]">
                 <thead style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}` }}>
                     <tr>
                         {columns.map((column) => (
                             <th
                                 key={column}
-                                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-brand-muted"
+                                className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide"
+                                style={{ color: MUTED }}
                             >
                                 {column}
                             </th>
@@ -32,7 +33,7 @@ export function AdminRow({ children, className = '' }) {
             className={`group ${className}`}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
-            style={{ background: hover ? TEAL_PALE : 'transparent' }}
+            style={{ background: hover ? TEAL_PALE : WHITE, borderBottom: `1px solid ${BORDER}` }}
         >
             {children}
         </tr>
@@ -50,7 +51,7 @@ export function PaginationBar({ meta, onPage }) {
 
     return (
         <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3" style={{ borderTop: `1px solid ${BORDER}` }}>
-            <p className="text-xs text-brand-muted">
+            <p className="text-xs" style={{ color: MUTED }}>
                 Showing {from}–{to} of {total}
             </p>
             <div className="flex flex-wrap gap-1">
@@ -60,10 +61,10 @@ export function PaginationBar({ meta, onPage }) {
                         type="button"
                         disabled={!link.url}
                         onClick={() => link.url && onPage?.(link.url)}
-                        className="min-h-9 min-w-9 touch-manipulation rounded-lg px-2.5 py-1 text-xs font-semibold disabled:opacity-40"
+                        className="min-h-9 min-w-9 rounded-[8px] px-2.5 py-1 text-xs font-semibold disabled:opacity-40"
                         style={{
                             background: link.active ? TEAL : 'transparent',
-                            color: link.active ? '#fff' : MUTED_SAFE,
+                            color: link.active ? '#fff' : MUTED,
                         }}
                         dangerouslySetInnerHTML={{ __html: link.label }}
                     />
@@ -72,5 +73,3 @@ export function PaginationBar({ meta, onPage }) {
         </div>
     );
 }
-
-const MUTED_SAFE = '#4a6b6b';

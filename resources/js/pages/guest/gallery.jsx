@@ -238,15 +238,15 @@ function Lightbox({ item, kind, onClose }) {
     }
 
     return (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-4">
             <button
                 type="button"
                 aria-label="Close lightbox"
                 onClick={onClose}
                 className="absolute inset-0 bg-brand-dark/85 backdrop-blur-[8px]"
             />
-            <div className="relative z-10 w-full max-w-5xl overflow-hidden rounded-3xl bg-black/40 shadow-2xl">
-                <div className="flex max-h-[70vh] items-center justify-center bg-black">
+            <div className="relative z-10 max-h-[90dvh] w-full max-w-5xl overflow-y-auto rounded-2xl bg-black/40 shadow-2xl sm:rounded-3xl">
+                <div className="flex max-h-[50vh] items-center justify-center bg-black sm:max-h-[70vh]">
                     {kind === 'video' && item.youtubeId ? (
                         <iframe
                             title={item.title}
@@ -256,12 +256,12 @@ function Lightbox({ item, kind, onClose }) {
                             allowFullScreen
                         />
                     ) : kind === 'video' && item.src ? (
-                        <video src={item.src} poster={item.poster} controls autoPlay className="max-h-[70vh] w-full object-contain" />
+                        <video src={item.src} poster={item.poster} controls autoPlay className="max-h-[50vh] w-full object-contain sm:max-h-[70vh]" />
                     ) : (
-                        <img src={item.src || item.poster} alt={item.caption || item.title || ''} className="max-h-[70vh] w-full object-contain" />
+                        <img src={item.src || item.poster} alt={item.caption || item.title || ''} className="max-h-[50vh] w-full object-contain sm:max-h-[70vh]" />
                     )}
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-3 bg-brand-dark/90 px-5 py-4 text-white">
+                <div className="flex flex-col gap-3 bg-brand-dark/90 px-4 py-4 text-white sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-5">
                     <div>
                         <div className="mb-1 flex flex-wrap items-center gap-2">
                             <span className="rounded-full bg-amber px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand-dark">

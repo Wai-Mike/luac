@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import useCapabilities from '@/hooks/useCapabilities';
-import { BORDER, SURFACE, TEAL } from '@/lib/admin-theme';
+import { BORDER, MUTED, SURFACE, TEAL } from '@/lib/admin-theme';
 import { uploadPortrait } from '@/lib/upload-portrait';
 import { Head, useForm, usePage } from '@inertiajs/react';
 
 const TABS = ['Leadership', 'Homepage', 'Stories', 'About', 'FAQ', 'Tawus Hub'];
-const fieldClass = 'w-full rounded-xl px-3 py-2.5 text-sm text-brand-ink outline-none';
-const fieldStyle = { border: '1.5px solid rgba(0,77,77,0.2)', background: '#fff' };
+const fieldClass = 'w-full rounded-[10px] px-3 py-2.5 text-sm text-brand-ink outline-none';
+const fieldStyle = { border: '1.5px solid #DDE7E4', background: '#fff' };
 
 function FieldError({ message }) {
     if (!message) return null;
@@ -59,7 +59,7 @@ function MemberList({ title, hint, listKey, members, setData, errors, canEdit })
             </div>
             <div className="space-y-4">
                 {members.map((member, index) => (
-                    <div key={`${listKey}-${index}`} className="grid gap-3 rounded-xl p-4 md:grid-cols-[5rem_1fr_1fr]" style={{ background: SURFACE }}>
+                    <div key={`${listKey}-${index}`} className="grid min-w-0 gap-3 overflow-hidden rounded-xl p-4 md:grid-cols-[5rem_minmax(0,1fr)_minmax(0,1fr)]" style={{ background: SURFACE }}>
                         <div className="relative h-20 w-20 overflow-hidden rounded-xl bg-brand-dark">
                             <img src={member.image || '/images/youth.jpg'} alt="" className="h-full w-full object-cover" />
                         </div>
@@ -152,14 +152,14 @@ export default function AdminSiteContent({ content, canEdit: canEditProp }) {
         <AppLayout title="Website" subtitle="Everything the public site shows — including leadership photos">
             <Head title="Admin · Website" />
 
-            <form onSubmit={canEdit ? submit : (e) => e.preventDefault()} className="space-y-6">
-                <fieldset disabled={!canEdit} className="space-y-6">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
+            <form onSubmit={canEdit ? submit : (e) => e.preventDefault()} className="min-w-0 space-y-6 overflow-x-hidden">
+                <fieldset disabled={!canEdit} className="min-w-0 space-y-6">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                         <p className="text-sm text-brand-muted">
                             {canEdit ? 'Changes here appear on the public website as soon as you save.' : 'View only. Ask the Chairman to assign you as an admin before you can edit.'}
                         </p>
                         {canEdit ? (
-                            <button type="submit" disabled={processing} className="rounded-full px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50" style={{ background: TEAL }}>
+                            <button type="submit" disabled={processing} className="w-full rounded-full px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto" style={{ background: TEAL }}>
                                 {processing ? 'Saving…' : 'Save website'}
                             </button>
                         ) : null}
@@ -167,14 +167,14 @@ export default function AdminSiteContent({ content, canEdit: canEditProp }) {
 
                     {flash.success ? <div className="rounded-2xl px-4 py-3 text-sm" style={{ background: '#e8f5e9', color: '#2e7d32' }}>{flash.success}</div> : null}
 
-                    <div className="flex gap-1 overflow-x-auto rounded-2xl p-1 [-webkit-overflow-scrolling:touch]" style={{ background: SURFACE }}>
+                    <div className="tab-scroll rounded-2xl p-1" style={{ background: SURFACE }}>
                         {TABS.map((item) => (
                             <button
                                 key={item}
                                 type="button"
                                 onClick={() => setTab(item)}
-                                className="shrink-0 rounded-full px-4 py-2.5 text-sm font-semibold"
-                                style={{ background: tab === item ? '#fff' : 'transparent', color: tab === item ? TEAL : '#4a6b6b' }}
+                                className="min-h-11 rounded-[10px] px-3 py-2 text-[13px] font-medium sm:min-h-0 sm:px-4 sm:py-2.5"
+                                style={{ background: tab === item ? '#fff' : 'transparent', color: tab === item ? TEAL : MUTED }}
                             >
                                 {item}
                             </button>

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\AdminNotification;
+use App\Models\ContactMessage;
 use App\Models\PostComments;
 use App\Models\User;
 use App\Support\SiteContentRepository;
@@ -74,6 +75,13 @@ class HandleInertiaRequests extends Middleware
                     return [
                         'manage_users' => $user->canManageUsers(),
                         'edit_content' => $user->canEditContent(),
+                        'review_orders' => $user->canReviewPurchaseOrders(),
+                        'approve_orders' => $user->canApprovePurchaseOrders(),
+                        'release_payment' => $user->canReleasePayment(),
+                        'publish_reports' => $user->canPublishPublicReports(),
+                        'manage_budgets' => $user->canManageBudgets(),
+                        'release_holds' => $user->canReleaseBudgetHold(),
+                        'view_ledger' => $user->canViewAssociationLedger(),
                     ];
                 },
             ],
@@ -84,9 +92,14 @@ class HandleInertiaRequests extends Middleware
                         return 0;
                     }
 
-                    return PostComments::query()
+                    $comments = PostComments::query()
                         ->where(fn ($q) => $q->where('is_approved', false)->orWhereNull('is_approved'))
                         ->count();
+                    $messages = Schema::hasTable('contact_messages')
+                        ? ContactMessage::query()->where('status', 'new')->count()
+                        : 0;
+
+                    return $comments + $messages;
                 },
                 'notifications' => function () use ($request) {
                     $empty = ['unread' => 0, 'items' => []];

@@ -9,7 +9,7 @@ class DepartmentObserver
 {
     public function created(Department $department): void
     {
-        $this->write('department.created', 'Department created', $department, [
+        $this->write('department.created', 'Department created: '.$department->name, $department, [
             'name' => $department->name,
             'slug' => $department->slug,
         ]);
@@ -17,14 +17,14 @@ class DepartmentObserver
 
     public function updated(Department $department): void
     {
-        $this->write('department.updated', 'Department updated', $department, array_filter([
+        $this->write('department.updated', 'Department updated: '.$department->name, $department, array_filter([
             'changes' => $department->wasChanged() ? $department->getChanges() : null,
         ]));
     }
 
     public function deleted(Department $department): void
     {
-        $this->write('department.deleted', 'Department archived', $department, [
+        $this->write('department.deleted', 'Department archived: '.$department->name, $department, [
             'name' => $department->name,
         ]);
     }

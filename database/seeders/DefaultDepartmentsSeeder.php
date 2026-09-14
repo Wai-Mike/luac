@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Department;
+use App\Support\AssociationAms;
 use Illuminate\Database\Seeder;
 
 class DefaultDepartmentsSeeder extends Seeder
@@ -27,5 +28,7 @@ class DefaultDepartmentsSeeder extends Seeder
                 ]
             );
         }
+
+        AssociationAms::ensureStructure();
     }
 }

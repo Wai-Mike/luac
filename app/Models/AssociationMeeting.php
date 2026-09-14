@@ -11,11 +11,13 @@ class AssociationMeeting extends Model
     protected $fillable = [
         'title',
         'agenda',
+        'notes',
         'location',
         'starts_at',
         'ends_at',
         'status',
         'created_by',
+        'department_id',
     ];
 
     protected function casts(): array
@@ -34,5 +36,15 @@ class AssociationMeeting extends Model
     public function attendees(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'association_meeting_attendees', 'meeting_id', 'user_id')->withTimestamps();
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AssociationTask::class, 'meeting_id');
     }
 }

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AssociationExpense;
 use App\Models\Department;
+use App\Models\DepartmentBudget;
 use App\Models\User;
+use App\Support\AssociationAms;
+use App\Support\AssociationMoney;
 use App\Support\ExcelWorkbook;
 use App\Support\MonthlyFinanceReport;
 use Illuminate\Http\RedirectResponse;
@@ -29,6 +32,8 @@ class FinanceController extends Controller
             'locked_department_id' => $this->lockedDepartmentId($user),
             'can_choose_department' => $this->canChooseDepartment($user),
             'can_delete_any' => $user instanceof User && $user->canEditContent(),
+            'can_manage_budgets' => $user instanceof User && $user->canManageBudgets(),
+            'department_budgets' => AssociationAms::snapshot($user instanceof User ? $user : null)['departments'] ?? [],
         ]);
     }
 
@@ -70,6 +75,36 @@ class FinanceController extends Controller
         return redirect()
             ->route('admin.finances.index', $this->periodQuery($request))
             ->with('success', 'Expense recorded.');
+    }
+
+    public function updateBudget(Request $request): RedirectResponse
+    {
+        abort_unless($request->user()?->canManageBudgets(), 403);
+
+        $data = $request->validate([
+            'department_id' => ['required', 'integer', Rule::exists('departments', 'id')],
+            'year' => ['nullable', 'integer', 'min:2020', 'max:2100'],
+            'amount' => ['required', 'numeric', 'min:0', 'max:999999999'],
+            'currency' => ['nullable', 'string', Rule::in(array_keys(AssociationMoney::CURRENCIES))],
+            'notes' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $year = (int) ($data['year'] ?? now()->year);
+        $currency = AssociationMoney::currency($data['currency'] ?? 'SSP');
+
+        DepartmentBudget::query()->updateOrCreate(
+            [
+                'department_id' => $data['department_id'],
+                'year' => $year,
+                'currency' => $currency,
+            ],
+            [
+                'amount' => $data['amount'],
+                'notes' => $data['notes'] ?? null,
+            ]
+        );
+
+        return back()->with('success', 'Department budget allocation saved.');
     }
 
     public function destroyExpense(Request $request, AssociationExpense $associationExpense): RedirectResponse

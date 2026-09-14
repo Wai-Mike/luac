@@ -24,6 +24,24 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public const ROLE_VIEWER = 'viewer';
 
+    public const OFFICE_CHAIRMAN = 'chairman';
+
+    public const OFFICE_DEPUTY_CHAIRMAN = 'deputy_chairman';
+
+    public const OFFICE_SECRETARY_GENERAL = 'secretary_general';
+
+    public const OFFICE_DEPUTY_SG = 'deputy_secretary_general';
+
+    public const OFFICE_FINANCE = 'finance';
+
+    public const AMS_ROLE_EXECUTIVE = 'executive';
+
+    public const AMS_ROLE_FINANCE = 'finance';
+
+    public const AMS_ROLE_SECRETARIAT = 'secretariat';
+
+    public const AMS_ROLE_DEPARTMENT = 'department_secretary';
+
     /**
      * @var list<string>
      */
@@ -35,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_executive',
         'is_chairman',
         'department_id',
+        'office',
         'phone',
         'status',
         'last_login_at',
@@ -87,12 +106,115 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isChairman(): bool
     {
-        return (bool) $this->is_chairman;
+        return (bool) $this->is_chairman || $this->office === self::OFFICE_CHAIRMAN;
+    }
+
+    public function resolvedOffice(): string
+    {
+        if ($this->is_chairman) {
+            return self::OFFICE_CHAIRMAN;
+        }
+
+        if (filled($this->office)) {
+            return (string) $this->office;
+        }
+
+        $slug = strtolower((string) $this->department?->slug);
+        if (str_contains($slug, 'finance')) {
+            return self::OFFICE_FINANCE;
+        }
+
+        return '';
+    }
+
+    public function isDeputyChairman(): bool
+    {
+        return $this->resolvedOffice() === self::OFFICE_DEPUTY_CHAIRMAN;
+    }
+
+    public function isSecretaryGeneral(): bool
+    {
+        return in_array($this->resolvedOffice(), [self::OFFICE_SECRETARY_GENERAL, self::OFFICE_DEPUTY_SG], true);
+    }
+
+    public function isFinanceOfficer(): bool
+    {
+        return $this->resolvedOffice() === self::OFFICE_FINANCE;
+    }
+
+    public function canReviewPurchaseOrders(): bool
+    {
+        return $this->isChairman() || $this->isSecretaryGeneral();
+    }
+
+    public function canApprovePurchaseOrders(): bool
+    {
+        return $this->isChairman() || $this->isDeputyChairman();
+    }
+
+    public function canReleasePayment(): bool
+    {
+        return $this->isChairman() || $this->isFinanceOfficer();
+    }
+
+    public function canPublishPublicReports(): bool
+    {
+        return $this->isChairman() || $this->isDeputyChairman();
     }
 
     public function canManageUsers(): bool
     {
         return $this->isChairman();
+    }
+
+    public function amsRole(): string
+    {
+        if ($this->isFinanceOfficer()) {
+            return self::AMS_ROLE_FINANCE;
+        }
+
+        if ($this->isSecretaryGeneral()) {
+            return self::AMS_ROLE_SECRETARIAT;
+        }
+
+        if ($this->isChairman() || $this->isDeputyChairman() || $this->isAdmin()) {
+            return self::AMS_ROLE_EXECUTIVE;
+        }
+
+        if ($this->department_id) {
+            return self::AMS_ROLE_DEPARTMENT;
+        }
+
+        return self::AMS_ROLE_EXECUTIVE;
+    }
+
+    public function amsRoleLabel(): string
+    {
+        return match ($this->amsRole()) {
+            self::AMS_ROLE_FINANCE => 'Finance Officer / Treasurer',
+            self::AMS_ROLE_SECRETARIAT => 'Secretariat',
+            self::AMS_ROLE_DEPARTMENT => 'Department Secretary',
+            default => 'Executive Leadership',
+        };
+    }
+
+    public function canManageBudgets(): bool
+    {
+        return $this->isChairman() || $this->isDeputyChairman() || $this->isFinanceOfficer() || $this->isAdmin();
+    }
+
+    public function canReleaseBudgetHold(): bool
+    {
+        return $this->canManageBudgets();
+    }
+
+    public function canViewAssociationLedger(): bool
+    {
+        return $this->isChairman()
+            || $this->isDeputyChairman()
+            || $this->isFinanceOfficer()
+            || $this->isSecretaryGeneral()
+            || $this->isAdmin();
     }
 
     public function canEditContent(): bool

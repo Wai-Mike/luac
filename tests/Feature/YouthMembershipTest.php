@@ -35,14 +35,17 @@ class YouthMembershipTest extends TestCase
         $this->assertDatabaseCount('youth_members', 0);
     }
 
-    public function test_census_registration_skips_thank_you_email_without_an_address(): void
+    public function test_census_registration_requires_an_email_address(): void
     {
         Mail::fake();
 
-        $this->post(route('youth-census.store'), $this->censusPayload(['email' => '']))
-            ->assertRedirect(route('youth-census.thank-you'));
+        $this->from(route('youth-census.register'))
+            ->post(route('youth-census.store'), $this->censusPayload(['email' => '']))
+            ->assertRedirect(route('youth-census.register'))
+            ->assertSessionHasErrors('email');
 
         Mail::assertNothingSent();
+        $this->assertDatabaseCount('youth_members', 0);
     }
 
     public function test_census_registration_requires_a_luac_payam(): void
@@ -62,8 +65,14 @@ class YouthMembershipTest extends TestCase
         $this->post(route('youth-census.store'), $this->censusPayload())->assertRedirect(route('youth-census.thank-you'));
 
         Mail::assertSent(YouthCensusThankYouMail::class, function (YouthCensusThankYouMail $mail) {
+            $html = $mail->render();
+
             return $mail->hasTo('nyandeng@example.com')
-                && $mail->hasFrom(YouthCensusThankYouMail::FROM_ADDRESS);
+                && $mail->hasFrom(YouthCensusThankYouMail::FROM_ADDRESS)
+                && str_contains($html, 'Thank you for registering')
+                && str_contains($html, 'www.luac-akook-yieu.org')
+                && str_contains($html, 'Info &amp; Communications Team')
+                && (str_contains($html, 'cid:') || str_contains($html, '/images/logo.jpg'));
         });
 
         $member = YouthMember::query()->first();

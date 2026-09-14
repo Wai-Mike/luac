@@ -80,7 +80,7 @@ export default function ContactCTA() {
                         href={whatsappHref}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-dark px-5 py-3 text-sm font-semibold text-[#f3ece0] hover:bg-brand"
+                        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-brand-dark px-5 py-3 text-sm font-semibold text-[#f3ece0] hover:bg-brand sm:w-auto"
                     >
                         <WhatsAppIcon className="h-5 w-5" />
                         WhatsApp 0927 779 952

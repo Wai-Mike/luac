@@ -185,6 +185,11 @@ class PageController extends Controller
             ? \App\Models\AssociationReport::query()
                 ->where('is_public', true)
                 ->where('status', 'published')
+                ->where(function ($query) {
+                    if (\Illuminate\Support\Facades\Schema::hasColumn('association_reports', 'approval_status')) {
+                        $query->where('approval_status', 'approved');
+                    }
+                })
                 ->latest()
                 ->get(['title', 'period', 'summary', 'status'])
                 ->all()

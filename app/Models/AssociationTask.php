@@ -12,8 +12,12 @@ class AssociationTask extends Model
         'description',
         'assigned_to',
         'assigned_by',
+        'meeting_id',
+        'event_id',
         'due_on',
         'priority',
+        'is_delegation',
+        'department_id',
         'status',
     ];
 
@@ -21,6 +25,7 @@ class AssociationTask extends Model
     {
         return [
             'due_on' => 'date',
+            'is_delegation' => 'boolean',
         ];
     }
 
@@ -32,5 +37,20 @@ class AssociationTask extends Model
     public function assigner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_by');
+    }
+
+    public function meeting(): BelongsTo
+    {
+        return $this->belongsTo(AssociationMeeting::class, 'meeting_id');
+    }
+
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(AssociationEvent::class, 'event_id');
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 }

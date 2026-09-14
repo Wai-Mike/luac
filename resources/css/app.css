@@ -86,6 +86,8 @@ html,
 body {
     max-width: 100%;
     overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 .photo-fill {
@@ -221,9 +223,14 @@ a {
     --font-display: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
     --font-fraunces: 'Fraunces', 'Instrument Sans', ui-serif, Georgia, serif;
     --font-association: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-manrope: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-    --color-admin-surface: #f7fafa;
-    --color-teal-pale: #f0f8f8;
+    --font-manrope: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-admin-surface: #F4F7F6;
+    --color-teal-pale: #E6F5F0;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -318,6 +325,66 @@ a {
     line-height: 1.65;
     color: #0c1f1f;
     background: #ffffff;
+    min-width: 0;
+    overflow-x: clip;
+}
+
+.guest-site img,
+.guest-site video,
+.guest-site iframe,
+.guest-site canvas,
+.guest-site svg {
+    max-width: 100%;
+}
+
+.guest-site section,
+.guest-site article,
+.guest-site form,
+.guest-site header,
+.guest-site footer,
+.guest-site main {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.guest-site [class*="grid"] > * {
+    min-width: 0;
+}
+
+.guest-site p,
+.guest-site h1,
+.guest-site h2,
+.guest-site h3,
+.guest-site h4,
+.guest-site li,
+.guest-site label,
+.guest-site dd,
+.guest-site dt {
+    overflow-wrap: break-word;
+}
+
+.tab-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+}
+
+.tab-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-scroll > * {
+    flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+    .tab-scroll {
+        flex-wrap: wrap;
+    }
 }
 
 .guest-site h1,
@@ -434,4 +501,119 @@ a {
 
 .field-input:focus {
     border-color: #004d4d;
+}
+
+.admin-shell {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #172321;
+    background: #F4F7F6;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-fraunces: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --color-brand: #073B3A;
+    --color-brand-dark: #073B3A;
+    --color-brand-ink: #172321;
+    --color-brand-muted: #687976;
+    --color-brand-soft: #E6F5F0;
+    --color-brand-surface: #F4F7F6;
+    --color-amber: #D5A742;
+    --color-admin-surface: #F4F7F6;
+}
+
+.admin-shell .font-fraunces,
+.admin-shell .font-manrope {
+    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+}
+
+.admin-shell input:not([type='checkbox']):not([type='radio']):not([type='file']),
+.admin-shell select,
+.admin-shell textarea {
+    min-width: 0;
+    max-width: 100%;
+    border-color: #DDE7E4;
+    color: #172321;
+    font-family: inherit;
+}
+
+.admin-shell input:not([type='checkbox']):not([type='radio']):not([type='file']):focus,
+.admin-shell select:focus,
+.admin-shell textarea:focus {
+    border-color: #073B3A;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(7, 59, 58, 0.08);
+}
+
+.admin-shell main {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.admin-shell main > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-shell article,
+.admin-shell section,
+.admin-shell form {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-shell [class*="grid"] > * {
+    min-width: 0;
+}
+
+.admin-shell img,
+.admin-shell svg,
+.admin-shell video,
+.admin-shell canvas {
+    max-width: 100%;
+}
+
+.admin-shell p,
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3,
+.admin-shell h4,
+.admin-shell li,
+.admin-shell label {
+    overflow-wrap: break-word;
+}
+
+.admin-shell td,
+.admin-shell th {
+    overflow-wrap: anywhere;
+}
+
+.admin-shell table {
+    width: 100%;
+    max-width: 100%;
+}
+
+.admin-shell .recharts-wrapper,
+.admin-shell .recharts-surface {
+    max-width: 100%;
+}
+
+@media (max-width: 639px) {
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .field-input,
+    .admin-shell input:not([type='checkbox']):not([type='radio']):not([type='file']),
+    .admin-shell select,
+    .admin-shell textarea {
+        font-size: 16px !important;
+    }
+
+    .admin-shell main {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreDepartmentRequest;
 use App\Http\Requests\Admin\UpdateDepartmentRequest;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -50,13 +51,36 @@ class DepartmentController extends Controller
     public function edit(Department $department): Response
     {
         return Inertia::render('admin/departments/edit', [
-            'department' => $department,
+            'department' => $department->load(['head:id,name', 'users:id,name,email,department_id,office']),
+            'executives' => User::query()
+                ->where(fn ($q) => $q->where('is_executive', true)->orWhere('role', User::ROLE_ADMIN))
+                ->orderBy('name')
+                ->get(['id', 'name', 'email', 'department_id', 'office']),
         ]);
     }
 
     public function update(UpdateDepartmentRequest $request, Department $department): RedirectResponse
     {
-        $department->update($request->validated());
+        $data = $request->validated();
+        $memberIds = $data['member_ids'] ?? [];
+        unset($data['member_ids']);
+
+        $department->update($data);
+
+        if ($request->has('member_ids')) {
+            User::query()
+                ->where('department_id', $department->id)
+                ->whereNotIn('id', $memberIds)
+                ->update(['department_id' => null]);
+
+            if ($memberIds !== []) {
+                User::query()->whereIn('id', $memberIds)->update(['department_id' => $department->id]);
+            }
+        }
+
+        if (! empty($data['head_id'])) {
+            User::query()->whereKey($data['head_id'])->update(['department_id' => $department->id]);
+        }
 
         return redirect()->route('admin.departments.index')->with('success', 'Department updated.');
     }

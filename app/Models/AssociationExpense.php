@@ -15,6 +15,8 @@ class AssociationExpense extends Model
 
     public const CATEGORY_OTHER = 'other';
 
+    public const CATEGORY_PROCUREMENT = 'procurement';
+
     /**
      * @return array<string, string>
      */
@@ -24,6 +26,7 @@ class AssociationExpense extends Model
             self::CATEGORY_MEETINGS => 'Meetings & delegations',
             self::CATEGORY_TRANSPORT => 'Transport',
             self::CATEGORY_OPERATIONS => 'Operations',
+            self::CATEGORY_PROCUREMENT => 'Procurement & logistics',
             self::CATEGORY_OTHER => 'Other',
         ];
     }
@@ -38,6 +41,8 @@ class AssociationExpense extends Model
         'currency',
         'spent_at',
         'notes',
+        'source_type',
+        'source_id',
     ];
 
     protected function casts(): array

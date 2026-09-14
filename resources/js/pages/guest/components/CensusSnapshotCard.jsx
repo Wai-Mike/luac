@@ -42,7 +42,7 @@ function ProfessionRow({ name, note, share }) {
 export default function CensusSnapshotCard({ delay = 0 }) {
     return (
         <FadeIn delay={delay}>
-            <article id="census-snapshot" className="overflow-hidden rounded-2xl bg-brand-dark p-6 md:p-8">
+            <article id="census-snapshot" className="overflow-hidden rounded-2xl bg-brand-dark p-5 md:p-8">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                         <h3 className="font-fraunces text-2xl text-[#f3ece0] md:text-3xl">Join the youth census</h3>
@@ -68,11 +68,11 @@ export default function CensusSnapshotCard({ delay = 0 }) {
                                 />
                             ))}
                         </div>
-                        <div className="mt-5 grid grid-cols-3 gap-3">
+                        <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">
                             {PAYAMS.map((payam) => (
-                                <div key={payam.name}>
-                                    <p className="font-fraunces text-3xl tabular-nums text-[#f3ece0] md:text-4xl">{payam.count}</p>
-                                    <p className="mt-1 font-sans text-sm font-semibold text-[#f3ece0]">{payam.name}</p>
+                                <div key={payam.name} className="min-w-0">
+                                    <p className="font-fraunces text-2xl tabular-nums text-[#f3ece0] sm:text-3xl md:text-4xl">{payam.count}</p>
+                                    <p className="mt-1 font-sans text-xs font-semibold text-[#f3ece0] sm:text-sm">{payam.name}</p>
                                     <p className="text-[11px] text-[#f3ece0]/65">{payam.share}% of sample</p>
                                 </div>
                             ))}
@@ -93,7 +93,7 @@ export default function CensusSnapshotCard({ delay = 0 }) {
                     <p className="font-sans text-xs leading-relaxed text-[#f3ece0]/60">
                         Illustrative figures for the public site — not a published census count.
                     </p>
-                    <GuestButton href={route('youth-census.register')} variant="amber" className="justify-center sm:min-w-44">
+                    <GuestButton href={route('youth-census.register')} variant="amber" className="w-full justify-center sm:w-auto sm:min-w-44">
                         Register now
                     </GuestButton>
                 </div>

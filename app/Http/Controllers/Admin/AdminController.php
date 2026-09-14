@@ -10,6 +10,9 @@ use App\Models\Donation;
 use App\Models\User;
 use App\Models\SiteMedia;
 use App\Models\YouthMember;
+use App\Support\AssociationAms;
+use App\Support\CensusMetrics;
+use App\Support\SiteContentRepository;
 use App\Support\SiteMediaRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,7 +65,15 @@ class AdminController extends Controller
             ->with('user:id,name')
             ->latest()
             ->limit(8)
-            ->get();
+            ->get()
+            ->map(fn (ActivityLog $log) => [
+                'id' => $log->id,
+                'action' => $log->action,
+                'kind' => $log->kindLabel(),
+                'description' => $log->description,
+                'user' => $log->user,
+                'created_at' => optional($log->created_at)->toIso8601String(),
+            ]);
 
         $monthly = collect(range(11, 0))->map(function (int $ago) {
             $date = now()->subMonths($ago)->startOfMonth();
@@ -86,31 +97,38 @@ class AdminController extends Controller
             ])
             ->values();
 
-        $payam = YouthMember::query()
-            ->selectRaw("COALESCE(NULLIF(payam, ''), NULLIF(county, ''), 'Unspecified') as name, count(*) as total")
-            ->groupBy('name')
-            ->orderByDesc('total')
-            ->limit(7)
-            ->get()
-            ->map(fn ($row) => [
-                'name' => $row->name,
-                'total' => (int) $row->total,
-            ])
-            ->values();
+        $payam = CensusMetrics::byPayam();
+        $professions = CensusMetrics::byProfession(10);
+        $campaigns = SiteContentRepository::get()['campaigns'] ?? [];
+        $fundraisingTarget = collect($campaigns)->sum(fn ($campaign) => (float) ($campaign['target'] ?? 0));
+        $censusThisMonth = (int) ($monthly->last()['count'] ?? 0);
+        $censusLastMonth = (int) ($monthly->slice(-2, 1)->first()['count'] ?? 0);
+        $censusGrowth = $censusLastMonth > 0
+            ? round((($censusThisMonth - $censusLastMonth) / $censusLastMonth) * 100, 1)
+            : null;
 
         return Inertia::render('admin/dashboard', [
             'user' => $user,
-            'stats' => $stats,
+            'stats' => array_merge($stats, [
+                'fundraising_target' => $fundraisingTarget,
+                'census_growth' => $censusGrowth,
+            ]),
             'recent_youth' => $recent_youth,
             'recent_donations' => $recent_donations,
             'recent_messages' => $recent_messages,
             'executives' => $executives,
             'recent_activity' => $recent_activity,
+            'census' => [
+                'total' => YouthMember::query()->count(),
+                'payams' => $payam,
+                'professions' => $professions,
+            ],
             'charts' => [
                 'monthly' => $monthly,
                 'gender' => $gender,
                 'payam' => $payam,
             ],
+            'ams' => AssociationAms::snapshot($user instanceof User ? $user : null),
         ]);
     }
 
@@ -206,16 +224,60 @@ class AdminController extends Controller
 
     public function settings()
     {
-        return Inertia::render('admin/settings/index');
+        $stored = Schema::hasTable('site_contents')
+            ? \App\Models\SiteContent::query()->where('key', 'admin_settings')->value('value')
+            : [];
+
+        return Inertia::render('admin/settings/index', [
+            'settings' => array_replace_recursive([
+                'site_name' => 'Luac Akook Yieu Youth Association (LAYYA)',
+                'site_description' => SiteContentRepository::get()['mission_vision']['mission'] ?? '',
+                'contact_email' => SiteContentRepository::get()['contact']['email'] ?? 'info@luac-akook-yieu.org',
+                'appearance' => 'light',
+                'notifications' => [
+                    'email' => true,
+                    'census' => true,
+                    'feedback' => true,
+                    'donations' => true,
+                ],
+                'security' => [
+                    'session_timeout' => 120,
+                    'require_verified_email' => true,
+                ],
+                'integrations' => [
+                    'whatsapp' => '0927 779 952',
+                    'smtp_from' => 'info@luac-akook-yieu.org',
+                ],
+            ], is_array($stored) ? $stored : []),
+        ]);
     }
 
     public function updateSettings(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'site_name' => 'required|string|max:255',
             'site_description' => 'required|string|max:500',
             'contact_email' => 'required|email',
+            'appearance' => ['nullable', Rule::in(['light', 'dark'])],
+            'notifications' => ['nullable', 'array'],
+            'notifications.email' => ['nullable', 'boolean'],
+            'notifications.census' => ['nullable', 'boolean'],
+            'notifications.feedback' => ['nullable', 'boolean'],
+            'notifications.donations' => ['nullable', 'boolean'],
+            'security' => ['nullable', 'array'],
+            'security.session_timeout' => ['nullable', 'integer', 'min:15', 'max:1440'],
+            'security.require_verified_email' => ['nullable', 'boolean'],
+            'integrations' => ['nullable', 'array'],
+            'integrations.whatsapp' => ['nullable', 'string', 'max:50'],
+            'integrations.smtp_from' => ['nullable', 'email'],
         ]);
+
+        if (Schema::hasTable('site_contents')) {
+            \App\Models\SiteContent::query()->updateOrCreate(
+                ['key' => 'admin_settings'],
+                ['value' => $validated]
+            );
+        }
 
         return redirect()->route('admin.settings')->with('success', 'Settings updated successfully!');
     }

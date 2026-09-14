@@ -44,8 +44,8 @@ export default function FeaturedCarousel({ photos = [], contain = false, compact
                     />
                 ))}
                 <CardScrim />
-                <div className={`absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 ${compact ? 'p-4 md:p-5' : 'p-5'}`}>
-                    <div className={compact ? 'max-w-md' : ''}>
+                <div className={`absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 ${compact ? 'p-4 md:p-5' : 'p-4 pr-16 sm:p-5'}`}>
+                    <div className={compact ? 'max-w-md' : 'min-w-0 pr-2'}>
                         <div className={`${compact ? 'mb-1.5' : 'mb-2'} flex flex-wrap items-center gap-2`}>
                             <span className={`rounded-full bg-amber font-semibold uppercase tracking-wide text-brand-ink ${compact ? 'px-2 py-0.5 text-[10px]' : 'px-3 py-1 text-[11px]'}`}>
                                 {current.category || current.tag || 'Gallery'}
@@ -53,14 +53,14 @@ export default function FeaturedCarousel({ photos = [], contain = false, compact
                         </div>
                         <p className={compact
                             ? 'text-sm font-medium leading-snug text-[#f3ece0] md:text-[15px]'
-                            : 'font-fraunces text-2xl font-semibold text-[#f3ece0] md:text-3xl'
+                            : 'font-fraunces text-lg font-semibold leading-snug text-[#f3ece0] sm:text-2xl md:text-3xl'
                         }>
                             {current.title || current.caption}
                         </p>
-                        {current.date ? <p className={`mt-1 text-[#f3ece0]/80 ${compact ? 'text-xs' : 'text-sm'}`}>{current.date}</p> : null}
+                        {current.date ? <p className={`mt-1 text-[#f3ece0]/80 ${compact ? 'text-xs' : 'text-xs sm:text-sm'}`}>{current.date}</p> : null}
                     </div>
                 </div>
-                <div className="absolute right-4 top-4 flex gap-2">
+                <div className="absolute right-3 top-3 flex gap-2 sm:right-4 sm:top-4">
                     <button
                         type="button"
                         aria-label="Previous photo"
@@ -78,7 +78,7 @@ export default function FeaturedCarousel({ photos = [], contain = false, compact
                         <ChevronRight className="h-4 w-4" />
                     </button>
                 </div>
-                <div className="absolute bottom-5 right-5 flex items-center gap-1.5">
+                <div className="absolute bottom-4 right-4 hidden items-center gap-1.5 sm:flex sm:bottom-5 sm:right-5">
                     {featured.map((_, i) => (
                         <button
                             key={i}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\ContactMessage;
 use App\Models\PostComments;
 
 class ContentController extends Controller
@@ -16,7 +17,8 @@ class ContentController extends Controller
             ->paginate(15);
 
         return Inertia::render('admin/content/comments', [
-            'comments' => $comments
+            'comments' => $comments,
+            'messages' => ContactMessage::query()->latest()->paginate(15, ['*'], 'messages')->withQueryString(),
         ]);
     }
 

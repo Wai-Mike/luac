@@ -84,7 +84,7 @@ export default function AdminPrograms({ programs: initialPrograms = [] }) {
                                         if (file) uploadPortrait(file, (url) => update(i, 'image', url));
                                     }}
                                 />
-                                <div className="mt-3 grid grid-cols-3 gap-2">
+                                <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
                                     {['participants', 'sessions', 'facilitators'].map((key) => (
                                         <div key={key} className="rounded-xl px-2 py-2 text-center" style={{ background: SURFACE }}>
                                             <input type="number" min="0" className="w-full bg-transparent text-center font-fraunces text-lg font-bold outline-none" value={program[key] ?? 0} onChange={(e) => update(i, key, Number(e.target.value))} />
@@ -108,14 +108,14 @@ export default function AdminPrograms({ programs: initialPrograms = [] }) {
                     })}
                 </fieldset>
 
-                <div className="rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
+                <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-5" style={{ border: `1px solid ${BORDER}` }}>
                     <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Program engagement</h2>
-                    <div className="mt-4 h-72">
+                    <div className="mt-4 h-72 min-w-0">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={engagement} layout="vertical" margin={{ left: 130 }} barSize={18}>
+                            <BarChart data={engagement} layout="vertical" margin={{ left: 8, right: 12, top: 8, bottom: 8 }} barSize={18}>
                                 <CartesianGrid horizontal={false} stroke="rgba(0,77,77,0.1)" strokeDasharray="3 3" />
                                 <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} />
-                                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 11 }} width={120} />
+                                <YAxis type="category" dataKey="name" axisLine={false} tickLine={false} tick={{ fill: MUTED, fontSize: 10 }} width={92} />
                                 <Tooltip content={<ChartTip />} />
                                 <Bar dataKey="participants" radius={[0, 4, 4, 0]}>
                                     {engagement.map((d, i) => (

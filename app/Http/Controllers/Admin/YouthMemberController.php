@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\YouthMemberRequest;
 use App\Models\YouthMember;
+use App\Support\CensusMetrics;
 use App\Support\ExcelWorkbook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,21 +48,8 @@ class YouthMemberController extends Controller
             ->orderByDesc('total')
             ->get();
 
-        $byProfession = YouthMember::query()
-            ->census()
-            ->selectRaw("COALESCE(NULLIF(profession, ''), 'Unspecified') as name, count(*) as total")
-            ->groupBy('name')
-            ->orderByDesc('total')
-            ->limit(12)
-            ->get();
-
-        $byPayam = YouthMember::query()
-            ->census()
-            ->selectRaw("COALESCE(NULLIF(payam, ''), NULLIF(county, ''), 'Unspecified') as name, count(*) as total")
-            ->groupBy('name')
-            ->orderByDesc('total')
-            ->limit(7)
-            ->get();
+        $byProfession = CensusMetrics::byProfession(12);
+        $byPayam = CensusMetrics::byPayam();
 
         return Inertia::render('admin/youth-census/index', [
             'members' => $members,

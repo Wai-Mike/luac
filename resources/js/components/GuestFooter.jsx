@@ -38,14 +38,14 @@ export default function GuestFooter() {
                 </div>
                 <div>
                     <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Contact</h4>
-                    <ul className="space-y-2 text-sm text-white/55">
+                    <ul className="space-y-2 break-words text-sm text-white/55">
                         <li>
-                            <a href="mailto:info@luac-akook-yieu.org" className="hover:text-white">
+                            <a href="mailto:info@luac-akook-yieu.org" className="break-all hover:text-white">
                                 info@luac-akook-yieu.org
                             </a>
                         </li>
                         <li>
-                            <a href={`mailto:${contact.email || 'layya.youth@gmail.com'}`} className="hover:text-white">
+                            <a href={`mailto:${contact.email || 'layya.youth@gmail.com'}`} className="break-all hover:text-white">
                                 {contact.email || 'layya.youth@gmail.com'}
                             </a>
                         </li>

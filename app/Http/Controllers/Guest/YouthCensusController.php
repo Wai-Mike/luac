@@ -98,9 +98,10 @@ class YouthCensusController extends Controller
         try {
             Mail::to($email)->send(new YouthCensusThankYouMail($member));
         } catch (\Throwable $exception) {
-            Log::warning('Youth census thank-you email failed.', [
+            Log::error('Youth census thank-you email failed.', [
                 'youth_member_id' => $member->id,
                 'email' => $email,
+                'mailer' => config('mail.default'),
                 'error' => $exception->getMessage(),
             ]);
         }

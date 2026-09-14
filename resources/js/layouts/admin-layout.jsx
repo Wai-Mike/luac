@@ -8,7 +8,6 @@ export default function AdminLayout({ children, title = 'Dashboard', subtitle })
     const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
-        document.documentElement.classList.remove('dark');
         document.documentElement.style.backgroundColor = SURFACE;
         document.body.style.backgroundColor = SURFACE;
 
@@ -37,7 +36,7 @@ export default function AdminLayout({ children, title = 'Dashboard', subtitle })
     };
 
     return (
-        <div className="flex h-screen h-dvh overflow-hidden" style={{ background: SURFACE, colorScheme: 'light' }}>
+        <div className="admin-shell flex h-screen h-dvh overflow-hidden" style={{ background: SURFACE, colorScheme: 'light' }}>
             <div className="hidden h-full lg:flex">
                 <AdminSidebar collapsed={collapsed} />
             </div>
@@ -50,7 +49,7 @@ export default function AdminLayout({ children, title = 'Dashboard', subtitle })
                         aria-label="Close menu"
                         onClick={() => setMobileOpen(false)}
                     />
-                    <div className="absolute inset-y-0 left-0 h-full max-w-[min(16.5rem,85vw)] shadow-2xl">
+                    <div className="absolute inset-y-0 left-0 h-full w-[min(17rem,88vw)] shadow-2xl">
                         <AdminSidebar collapsed={false} onNavigate={() => setMobileOpen(false)} />
                     </div>
                 </div>
@@ -58,7 +57,7 @@ export default function AdminLayout({ children, title = 'Dashboard', subtitle })
 
             <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                 <AdminTopBar collapsed={collapsed} mobileOpen={mobileOpen} onToggle={toggle} title={title} subtitle={subtitle} />
-                <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-6 sm:py-6 lg:px-8">{children}</main>
+                <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-7 sm:py-7 lg:px-8">{children}</main>
             </div>
         </div>
     );

@@ -3,7 +3,7 @@ import KpiCard from '@/components/admin/KpiCard';
 import ChartTip from '@/components/admin/ChartTip';
 import { AdminRow, AdminTable, PaginationBar } from '@/components/admin/AdminTable';
 import useCapabilities from '@/hooks/useCapabilities';
-import { BORDER, CAT, CAT_LIGHT, FALLBACK_PAYAMS, MUTED, TEAL, TEAL_LIGHT, TEAL_PALE, initials } from '@/lib/admin-theme';
+import { BORDER, BLUE, BLUE_SOFT, CAT, CAT_LIGHT, FALLBACK_PAYAMS, GOLD, GOLD_SOFT, GREEN, GREEN_SOFT, MUTED, PURPLE, PURPLE_SOFT, TEAL, TEAL_LIGHT, TEAL_PALE, initials } from '@/lib/admin-theme';
 import { Head, Link, router } from '@inertiajs/react';
 import { paginatorItems } from '../useAdminPageProps';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -15,7 +15,7 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
     const meta = members && !Array.isArray(members) ? members : null;
     const search = filters.search || '';
     const payam = (charts.byPayam || []).map((row) => ({ name: row.name || row.payam, total: Number(row.total || 0) }));
-    const chartData = payam.length ? payam : FALLBACK_PAYAMS.map((name, i) => ({ name, total: [42, 31, 24, 18, 14, 11, 8][i] }));
+    const chartData = payam.length ? payam : FALLBACK_PAYAMS.map((name) => ({ name, total: 0 }));
     const professions = (charts.byProfession || []).map((row) => ({ name: row.name || row.profession, total: Number(row.total || 0) }));
 
     const onSearch = (e) => {
@@ -30,11 +30,11 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
 
             <div className="space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                    <KpiCard icon={Users} value={meta?.total ?? rows.length} label="Registered" />
-                    <KpiCard icon={GraduationCap} value={charts.byGender?.length ?? 0} label="Gender groups" />
-                    <KpiCard icon={MapPin} value={charts.byCounty?.[0]?.total ?? 0} label="Largest county" hint={charts.byCounty?.[0]?.county || '—'} />
-                    <KpiCard icon={BookOpen} value={charts.byEducation?.[0]?.total ?? 0} label="Top education" hint={charts.byEducation?.[0]?.education_level || '—'} />
-                    <KpiCard icon={Briefcase} value={charts.byProfession?.[0]?.total ?? 0} label="Top profession" hint={charts.byProfession?.[0]?.name || '—'} />
+                    <KpiCard icon={Users} accent={GREEN} iconBg={GREEN_SOFT} value={meta?.total ?? rows.length} label="Registered" />
+                    <KpiCard icon={GraduationCap} accent={BLUE} iconBg={BLUE_SOFT} value={charts.byGender?.length ?? 0} label="Gender groups" />
+                    <KpiCard icon={MapPin} accent={TEAL} iconBg={TEAL_PALE} value={charts.byCounty?.[0]?.total ?? 0} label="Largest county" hint={charts.byCounty?.[0]?.county || '—'} />
+                    <KpiCard icon={BookOpen} accent={PURPLE} iconBg={PURPLE_SOFT} value={charts.byEducation?.[0]?.total ?? 0} label="Top education" hint={charts.byEducation?.[0]?.education_level || '—'} />
+                    <KpiCard icon={Briefcase} accent={GOLD} iconBg={GOLD_SOFT} value={charts.byProfession?.[0]?.total ?? 0} label="Top profession" hint={charts.byProfession?.[0]?.name || '—'} />
                 </div>
 
                 <form onSubmit={onSearch} className="flex flex-wrap gap-2">
@@ -131,7 +131,7 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                 </AdminTable>
 
                 <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by payam</h2>
                         <div className="mt-4 h-56 min-w-0 sm:h-64">
                             <ResponsiveContainer width="100%" height="100%">
@@ -149,7 +149,7 @@ export default function YouthCensusIndex({ members, filters = {}, charts = {} })
                             </ResponsiveContainer>
                         </div>
                     </div>
-                    <div className="min-w-0 rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
+                    <div className="min-w-0 overflow-hidden rounded-2xl bg-white p-4 sm:p-5" style={{ border: `1px solid ${BORDER}` }}>
                         <h2 className="font-fraunces text-lg font-semibold text-brand-ink">Youth by profession</h2>
                         <div className="mt-4 h-56 min-w-0 sm:h-64">
                             {professions.length ? (
