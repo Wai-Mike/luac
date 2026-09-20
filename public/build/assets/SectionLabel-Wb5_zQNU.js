@@ -1,1 +1,0 @@
-import{j as e}from"./app-BzvnvjIO.js";function r({children:t,light:i=!1}){return e.jsx("div",{className:"mb-3",children:e.jsx("p",{className:`inline-flex items-center rounded-full bg-brand-dark px-3.5 py-1 text-[12px] font-semibold uppercase tracking-widest text-white ${i?"ring-1 ring-white/30":""}`,children:t})})}export{r as default};

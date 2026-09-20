@@ -4,7 +4,7 @@ export default function BrandLogo({ href = '/', light = true, showWordmark = tru
             <img
                 src="/images/logo.jpg"
                 alt=""
-                className="h-11 w-11 shrink-0 rounded-full bg-white object-contain ring-1 ring-white/30"
+                className={`h-11 w-11 shrink-0 rounded-full bg-white object-contain ring-1 ${light ? 'ring-white/30' : 'ring-brand-soft'}`}
             />
             {showWordmark ? (
                 <span className="min-w-0 leading-tight">

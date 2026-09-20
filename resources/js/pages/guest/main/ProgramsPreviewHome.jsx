@@ -2,23 +2,32 @@ import GuestButton from '@/components/GuestButton';
 import useSiteContent from '@/hooks/useSiteContent';
 import CensusSnapshotCard from '../components/CensusSnapshotCard';
 import ProgramCard from '../components/ProgramCard';
-import SectionLabel from '../components/SectionLabel';
+
+function programSlug(title) {
+    return String(title || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+}
 
 export default function ProgramsPreviewHome() {
     const { programs } = useSiteContent();
     return (
-        <section className="bg-white py-20 md:py-28">
+        <section className="bg-brand-soft py-20 md:py-28">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                    <div>
-                        <SectionLabel>Programs</SectionLabel>
+                <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+                    <div className="max-w-xl">
                         <h2 className="text-black">
                             Where youth
                             <br />
-                            lead the work
+                            <span className="font-fraunces italic text-amber-dark">lead the work</span>
                         </h2>
+                        <p className="mt-4 text-[16px] leading-relaxed text-brand-muted">
+                            Five pillars, one youth-led movement — leadership, gender equality, community service, digital skills,
+                            and reflection, each built and run by LAYYA members.
+                        </p>
                     </div>
-                    <GuestButton href={route('programs')} variant="outline">
+                    <GuestButton href={route('programs')} variant="outline" className="shrink-0">
                         View all programs →
                     </GuestButton>
                 </div>
@@ -29,8 +38,9 @@ export default function ProgramsPreviewHome() {
                             title={p.title}
                             summary={p.summary || p.body}
                             image={p.image || '/images/education.jpg'}
-                            href={route('programs')}
+                            href={`${route('programs')}#${programSlug(p.title)}`}
                             delay={i * 0.08}
+                            index={i + 1}
                         />
                     ))}
                 </div>

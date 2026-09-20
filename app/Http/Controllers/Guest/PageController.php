@@ -46,19 +46,34 @@ class PageController extends Controller
         }));
     }
 
+    /**
+     * Photos in public/images/hero/ used as full-bleed homepage slides and rotating page banners.
+     *
+     * @return list<string>
+     */
+    private function heroSlidePool(): array
+    {
+        $directory = public_path('images/hero');
+        if (! is_dir($directory)) {
+            return [];
+        }
+
+        $slides = [];
+        foreach (scandir($directory) ?: [] as $name) {
+            if (! preg_match('/\.(jpe?g|png|webp)$/i', $name)) {
+                continue;
+            }
+            $slides[] = '/images/hero/'.$name;
+        }
+
+        sort($slides);
+
+        return $slides;
+    }
+
     private function pickRandomHeroImage(): ?string
     {
-        $wide = array_values(array_filter($this->guestImagePool(), function (string $url): bool {
-            return in_array($url, [
-                '/images/cover.jpg',
-                '/images/cover1.jpg',
-                '/images/education.jpg',
-                '/images/education1.jpg',
-                '/images/football.jpg',
-            ], true);
-        }));
-
-        $pool = $wide !== [] ? $wide : $this->guestImagePool();
+        $pool = $this->heroSlidePool();
         if ($pool === []) {
             return null;
         }
@@ -67,10 +82,27 @@ class PageController extends Controller
         return $pool[0];
     }
 
+    /**
+     * @return list<string>
+     */
+    private function heroSlideshow(int $limit = 6): array
+    {
+        $pool = $this->heroSlidePool();
+        if ($pool === []) {
+            return [];
+        }
+        shuffle($pool);
+
+        return array_values(array_slice($pool, 0, min($limit, count($pool))));
+    }
+
     public function index()
     {
+        $heroImages = $this->heroSlideshow();
+
         return Inertia::render('guest/main/index', [
-            'heroImage' => $this->pickRandomHeroImage(),
+            'heroImage' => $heroImages[0] ?? null,
+            'heroImages' => $heroImages,
             'galleryItems' => SiteMediaRepository::gallery(),
             'videos' => SiteMediaRepository::videos(),
             'raisedByProgram' => ($raised = FundraisingPrograms::raisedTotals())['usd'],

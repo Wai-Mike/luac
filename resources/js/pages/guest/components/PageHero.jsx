@@ -1,21 +1,35 @@
-import SectionLabel from './SectionLabel';
+import { Link } from '@inertiajs/react';
 
-export default function PageHero({ label, title, italic, subtitle, image }) {
+const DEFAULT_IMAGE = '/images/hero/cover.jpg';
+
+export default function PageHero({ label, title, italic, subtitle, image = DEFAULT_IMAGE }) {
+    const crumb = label || title;
+
     return (
-        <section className="bg-brand-dark pt-16">
-            {image ? (
-                <div className="relative">
-                    <img src={image} alt="" className="mx-auto block h-[min(42svh,18rem)] w-full max-w-none object-contain object-center sm:h-[min(70svh,40rem)]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-brand-dark/15" />
+        <section className="relative isolate overflow-hidden bg-brand-dark pt-16 text-white">
+            <div className="relative">
+                {image ? (
+                    <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover object-center" />
+                ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand via-brand-dark to-[#061616]" aria-hidden="true" />
+                )}
+                <div className="absolute inset-0 bg-brand-ink/55" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-r from-brand-ink/90 via-brand-ink/60 to-brand-ink/25" aria-hidden="true" />
+
+                <div className="relative z-10 mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
+                    <nav className="mb-1.5 flex flex-wrap items-center gap-x-2 text-[11px] font-medium text-white/55" aria-label="Breadcrumb">
+                        <Link href={route('home')} className="transition hover:text-white">
+                            Home
+                        </Link>
+                        <span aria-hidden="true">/</span>
+                        <span className="text-amber">{crumb}</span>
+                    </nav>
+                    <h1 className="max-w-3xl text-[clamp(1.35rem,2.4vw,1.85rem)] font-semibold leading-tight text-white">
+                        {title}
+                        {italic ? <span className="italic text-amber"> {italic}</span> : null}
+                    </h1>
+                    {subtitle ? <p className="mt-1.5 max-w-2xl text-sm leading-snug text-white/70">{subtitle}</p> : null}
                 </div>
-            ) : null}
-            <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-6 sm:px-6 md:pb-24 md:pt-8 lg:px-8">
-                {label ? <SectionLabel light>{label}</SectionLabel> : null}
-                <h1 className="max-w-4xl font-semibold text-white">
-                    {title}
-                    {italic ? ` ${italic}` : ''}
-                </h1>
-                {subtitle ? <p className="mt-5 max-w-2xl text-base leading-[1.65] text-white/65 sm:text-[19px]">{subtitle}</p> : null}
             </div>
         </section>
     );

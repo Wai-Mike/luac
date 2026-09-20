@@ -1,6 +1,5 @@
 import useSiteContent, { splitLines } from '@/hooks/useSiteContent';
 import FadeIn from '../components/FadeIn';
-import SectionLabel from '../components/SectionLabel';
 
 export default function CommunityStory() {
     const { communityStory } = useSiteContent();
@@ -16,7 +15,6 @@ export default function CommunityStory() {
         <section className="bg-white py-20 md:py-28">
             <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-5 lg:px-8">
                 <FadeIn className="lg:col-span-3">
-                    <SectionLabel>Community story</SectionLabel>
                     <h2>
                         {titleLines.map((line, index) => (
                             <span key={line}>

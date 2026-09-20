@@ -2,6 +2,16 @@ import BrandLogo from '@/components/BrandLogo';
 import useSiteContent from '@/hooks/useSiteContent';
 import { Link } from '@inertiajs/react';
 
+function FooterLink({ href, children }) {
+    return (
+        <li>
+            <Link href={href} className="text-white/60 transition hover:text-white">
+                {children}
+            </Link>
+        </li>
+    );
+}
+
 export default function GuestFooter() {
     const { contact } = useSiteContent();
     return (
@@ -17,28 +27,28 @@ export default function GuestFooter() {
                     </p>
                 </div>
                 <div>
-                    <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Explore</h4>
-                    <ul className="space-y-2 text-sm text-white/55">
-                        <li><Link href={route('programs')} className="hover:text-white">Programs</Link></li>
-                        <li><Link href={route('youth-census.register')} className="hover:text-white">Youth census</Link></li>
-                        <li><Link href={route('gallery')} className="hover:text-white">Gallery</Link></li>
-                        <li><Link href={route('videos')} className="hover:text-white">Community videos</Link></li>
-                        <li><Link href={route('tawus-hub')} className="hover:text-white">Tawus Hub</Link></li>
-                        <li><Link href={route('fundraising')} className="hover:text-white">Fundraising</Link></li>
+                    <h4 className="mb-4 text-sm font-semibold text-white">Explore</h4>
+                    <ul className="space-y-2.5 text-sm">
+                        <FooterLink href={route('programs')}>Programs</FooterLink>
+                        <FooterLink href={route('youth-census.register')}>Youth census</FooterLink>
+                        <FooterLink href={route('gallery')}>Gallery</FooterLink>
+                        <FooterLink href={route('videos')}>Community videos</FooterLink>
+                        <FooterLink href={route('tawus-hub')}>Tawus Hub</FooterLink>
+                        <FooterLink href={route('fundraising')}>Fundraising</FooterLink>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Organisation</h4>
-                    <ul className="space-y-2 text-sm text-white/55">
-                        <li><Link href={route('about')} className="hover:text-white">About LAYYA</Link></li>
-                        <li><Link href={route('team')} className="hover:text-white">Leadership</Link></li>
-                        <li><Link href={route('news')} className="hover:text-white">News</Link></li>
-                        <li><Link href={route('contact')} className="hover:text-white">Contact</Link></li>
+                    <h4 className="mb-4 text-sm font-semibold text-white">Organisation</h4>
+                    <ul className="space-y-2.5 text-sm">
+                        <FooterLink href={route('about')}>About LAYYA</FooterLink>
+                        <FooterLink href={route('team')}>Leadership</FooterLink>
+                        <FooterLink href={route('news')}>News</FooterLink>
+                        <FooterLink href={route('contact')}>Contact</FooterLink>
                     </ul>
                 </div>
                 <div>
-                    <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-amber">Contact</h4>
-                    <ul className="space-y-2 break-words text-sm text-white/55">
+                    <h4 className="mb-4 text-sm font-semibold text-white">Contact</h4>
+                    <ul className="space-y-2.5 break-words text-sm text-white/60">
                         <li>
                             <a href="mailto:info@luac-akook-yieu.org" className="break-all hover:text-white">
                                 info@luac-akook-yieu.org

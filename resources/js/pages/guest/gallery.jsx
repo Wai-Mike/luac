@@ -4,7 +4,7 @@ import useCapabilities from '@/hooks/useCapabilities';
 import { router } from '@inertiajs/react';
 import { Check, Eye, Play } from 'lucide-react';
 import FeaturedCarousel from './components/FeaturedCarousel';
-import SectionLabel from './components/SectionLabel';
+import PageHero from './components/PageHero';
 import { galleryPhotos, galleryThemes } from './data/siteContent';
 
 const PHOTOS_PER_PAGE = 9;
@@ -330,13 +330,12 @@ export default function Gallery({ items: uploadedItems = [], videos = [] }) {
 
     return (
         <GuestLayout title="Gallery">
-            <section className="bg-brand-soft pt-28 pb-8 md:pt-32">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <SectionLabel>Gallery</SectionLabel>
-                    <h1 className="mt-2 text-[clamp(2rem,4vw,3.2rem)] text-brand-ink">Youth, girls and community</h1>
-                    <p className="mt-3 max-w-2xl text-brand-muted">Moments from programs, Tawus Hub, sport, and community life in Luac Akook Yieu.</p>
-                </div>
-            </section>
+            <PageHero
+                label="Gallery"
+                title="Youth, girls and community"
+                subtitle="Moments from programs, Tawus Hub, sport, and community life in Luac Akook Yieu."
+                image={photos[0]?.src}
+            />
 
             <section className="bg-white py-10 md:py-14">
                 <div className="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">

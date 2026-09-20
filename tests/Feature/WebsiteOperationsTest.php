@@ -48,6 +48,7 @@ class WebsiteOperationsTest extends TestCase
             ->assertInertia(fn ($page) => $page
                 ->component('guest/main/index')
                 ->has('heroImage')
+                ->has('heroImages')
                 ->has('galleryItems')
                 ->where('site.card_images.mission', '/images/youth.jpg')
                 ->where('site.card_images.vision', '/images/education.jpg')

@@ -2,7 +2,6 @@ import { Calendar, Heart, Shield, Sparkles, Users, Award } from 'lucide-react';
 import GuestButton from '@/components/GuestButton';
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from '../components/FadeIn';
-import SectionLabel from '../components/SectionLabel';
 
 const items = [
     { label: 'Safe space for girls', icon: Shield },
@@ -29,8 +28,7 @@ export default function TawusHubSpotlight() {
                     </div>
                 </FadeIn>
                 <FadeIn delay={0.1}>
-                    <SectionLabel>Tawus Hub</SectionLabel>
-                    <p className="mb-2 text-sm font-semibold text-amber-dark">Featured Program</p>
+                    <p className="mb-2 text-sm font-semibold text-brand">Featured program</p>
                     <h2 className="max-w-xl text-4xl xl:text-5xl">
                         A place for
                         <br />

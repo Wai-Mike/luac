@@ -179,6 +179,26 @@ body {
     animation: spin-slow 20s linear infinite;
 }
 
+@keyframes hero-kenburns {
+    from {
+        transform: scale(1.06) translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: scale(1.16) translate3d(-2.4%, -1.2%, 0);
+    }
+}
+
+.hero-slide-kenburns {
+    animation: hero-kenburns 7s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-slide-kenburns {
+        animation: none;
+    }
+}
+
 /* Smooth transitions for specific elements */
 .navbar-link,
 .interactive,
@@ -320,7 +340,10 @@ a {
 }
 
 .guest-site {
-    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-fraunces: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.65;
     color: #0c1f1f;
@@ -390,26 +413,30 @@ a {
 .guest-site h1,
 .guest-site h2,
 .guest-site h3,
-.font-display {
-    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    font-style: normal;
+.guest-site h4,
+.guest-site .font-display,
+.guest-site .font-fraunces,
+.guest-site .font-sans,
+.guest-site .btn {
+    font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 .guest-site h1 {
-    font-size: clamp(2rem, 8vw, 5.2rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    font-size: clamp(2.15rem, 7vw, 4.6rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
 }
 
 .guest-site h2 {
-    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    font-size: clamp(1.75rem, 3.2vw, 2.6rem);
     font-weight: 600;
     line-height: 1.2;
+    letter-spacing: -0.02em;
 }
 
 .guest-site h3 {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.35;
 }

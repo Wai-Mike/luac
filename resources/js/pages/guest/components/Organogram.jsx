@@ -1,7 +1,6 @@
 import useSiteContent from '@/hooks/useSiteContent';
 import FadeIn from './FadeIn';
 import LeaderCard from './LeaderCard';
-import SectionLabel from './SectionLabel';
 
 function Branch() {
     return (
@@ -23,7 +22,6 @@ export default function Organogram() {
         <div className="space-y-20">
             <div>
                 <div className="mb-10 text-center">
-                    <SectionLabel>Executive committee</SectionLabel>
                     <h2>17 members, including the Chairman</h2>
                     <p className="mx-auto mt-3 max-w-2xl text-brand-muted">
                         The executive leads LAYYA day to day and represents the youth of Luac community.
@@ -46,7 +44,6 @@ export default function Organogram() {
 
             <div>
                 <div className="mb-10 text-center">
-                    <SectionLabel>Youth council</SectionLabel>
                     <h2>Seven members, headed by the Speaker</h2>
                     <p className="mx-auto mt-3 max-w-2xl text-brand-muted">
                         The council supports the executive and speaks for Luac youth.

@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import FadeIn from './FadeIn';
 
-export default function ProgramCard({ title, summary, image, href, delay = 0 }) {
+export default function ProgramCard({ title, summary, image, href, delay = 0, index }) {
     const inner = (
         <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-dark bg-brand-dark shadow-[0_8px_24px_-16px_rgba(0,56,56,0.28)] transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_40px_-18px_rgba(0,56,56,0.45)]">
             <div className="relative h-[200px] overflow-hidden bg-brand-dark">
@@ -18,6 +18,11 @@ export default function ProgramCard({ title, summary, image, href, delay = 0 }) 
                     aria-hidden
                     className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-dark/45 via-brand/15 to-transparent"
                 />
+                {typeof index === 'number' ? (
+                    <span className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 font-fraunces text-sm font-semibold text-white ring-1 ring-white/25 backdrop-blur-sm">
+                        {String(index).padStart(2, '0')}
+                    </span>
+                ) : null}
             </div>
             <div className="flex flex-1 flex-col px-6 pt-6">
                 <h3 className="font-fraunces text-xl font-semibold text-[#f3ece0]">{title}</h3>

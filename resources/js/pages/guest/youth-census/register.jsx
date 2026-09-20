@@ -1,7 +1,7 @@
 import GuestButton from '@/components/GuestButton';
 import { LUAC_PAYAMS } from '@/data/luacPayams';
 import GuestLayout from '@/layouts/GuestLayout';
-import SectionLabel from '@/pages/guest/components/SectionLabel';
+import PageHero from '@/pages/guest/components/PageHero';
 import { useForm } from '@inertiajs/react';
 import { Check } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -247,17 +247,13 @@ export default function YouthCensusRegister() {
 
     return (
         <GuestLayout title="Youth Census">
-            <section className="bg-brand-soft pt-28 pb-16 md:pb-28">
+            <PageHero
+                label="Youth Census"
+                title="Register a youth"
+                subtitle="Five short steps. Your answers help LAYYA plan trainings and opportunities for Luac Akook Yieu."
+            />
+            <section className="bg-brand-soft py-12 pb-16 md:py-16 md:pb-28">
                 <div className="mx-auto max-w-2xl px-4 sm:px-6">
-                    <div className="mb-10 text-center">
-                        <div className="flex justify-center">
-                            <SectionLabel>Youth Census</SectionLabel>
-                        </div>
-                        <h1 className="mt-2 text-[clamp(2rem,4vw,3rem)]">Register a youth</h1>
-                        <p className="mt-3 text-brand-muted">
-                            Five short steps. Your answers help LAYYA plan trainings and opportunities for Luac Akook Yieu.
-                        </p>
-                    </div>
 
                     <div className="mb-8">
                         <div className="flex items-start justify-between">

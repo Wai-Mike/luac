@@ -11,10 +11,10 @@ import LeadershipPreview from './LeadershipPreview';
 import ProgramsPreviewHome from './ProgramsPreviewHome';
 import TawusHubSpotlight from './TawusHubSpotlight';
 
-export default function index({ heroImage, galleryItems = [], videos = [], raisedByProgram = {}, raisedSspByProgram = {} }) {
+export default function index({ heroImage, heroImages = [], galleryItems = [], videos = [], raisedByProgram = {}, raisedSspByProgram = {} }) {
     return (
         <GuestLayout title="LAYYA">
-            <LayyaHeroSection heroImage={heroImage} />
+            <LayyaHeroSection heroImage={heroImage} heroImages={heroImages} />
             <HomeGalleryPreview photos={galleryItems} />
             <AboutPreviewSection />
             <ProgramsPreviewHome />

@@ -3,7 +3,6 @@ import GuestButton from '@/components/GuestButton';
 import GuestLayout from '@/layouts/GuestLayout';
 import FadeIn from './components/FadeIn';
 import PageHero from './components/PageHero';
-import SectionLabel from './components/SectionLabel';
 import useSiteContent from '@/hooks/useSiteContent';
 
 export default function TawusHub({ heroImage }) {
@@ -33,8 +32,7 @@ export default function TawusHub({ heroImage }) {
                         </div>
                     </FadeIn>
                     <FadeIn delay={0.1}>
-                        <SectionLabel>Featured Program</SectionLabel>
-                        <p className="mb-2 text-sm font-semibold text-amber-dark">Tawus Hub</p>
+                        <p className="mb-2 text-sm font-semibold text-brand">Tawus Hub</p>
                         <h2>
                             Skills, sisterhood
                             <br />
