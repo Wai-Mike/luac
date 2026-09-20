@@ -1,0 +1,1 @@
+import{K as t}from"./app-B9U_Esff.js";function i(){var e;const a=((e=t().props.auth)==null?void 0:e.capabilities)??{};return{canManageUsers:!!a.manage_users,canEditContent:!!a.edit_content}}export{i as u};

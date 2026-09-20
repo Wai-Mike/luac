@@ -1,0 +1,1 @@
+import{j as e}from"./app-B9U_Esff.js";function x({title:a,subtitle:t}){return e.jsxs("div",{className:"mb-12 text-center sm:mb-14 lg:mb-[52px]",children:[e.jsx("h2",{className:"text-brand-ink",children:a}),t?e.jsx("p",{className:"mx-auto mt-5 max-w-2xl text-base leading-relaxed text-brand-muted sm:text-lg",children:t}):null]})}export{x as default};
